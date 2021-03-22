@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <form [formGroup]="profileForm">
+
+      <ion-row>
+        <ion-col>
+          <ion-text style="text-align: center;" (click)="add_photo()">
+            <ion-avatar style="height: 150px;width: 150px;margin: auto;">
+              <img [src]="image">
+            </ion-avatar>
+            <p>Update profile photo</p>
+          </ion-text>
+        </ion-col>
+        <ion-col>
+          <ion-input type="text" placeholder="Name" formControlName="names" >
+          </ion-input>
+          <ion-input type="text" placeholder="Surname" formControlName="surname" >
+          </ion-input>
+          <ion-item class="combo-box">
+            <ion-label style="text-align: left;">Gender:</ion-label>
+            <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="gender">
+              <ion-select-option value="male">male</ion-select-option>
+              <ion-select-option value="female">female</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-input type="text" placeholder="email address" formControlName="email">
+          </ion-input>
+
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-input type="text" placeholder="Street address" formControlName="address">
+          </ion-input>
+        </ion-col>
+
+        <ion-col>
+          <ion-input type="text" placeholder="Apartmet, unit etc. (Optional)">
+          </ion-input>
+        </ion-col>
+      </ion-row>
+
+      <ion-col>
+          <ion-item lines="full" (click)="updateProfile()">
+            <ion-label color="primary" style="text-align: center;">
+              Update Profile
+            </ion-label>
+          </ion-item>
+
+          <br>
+
+          <ion-item lines="full" (click)="openChangeCell()">
+            <ion-label color="primary" style="text-align: center;">
+              Change cellphone Number
+            </ion-label>
+          </ion-item>
+
+          <br>
+
+          <ion-item lines="full" (click)="openChangePass()">
+            <ion-label color="primary" style="text-align: center;">
+              Change password
+            </ion-label>
+          </ion-item>
+
+          <br>
+
+          <ion-item lines="full" (click)="openChangePass()">
+            <ion-label color="danger" style="text-align: center;">
+              Logout
+            </ion-label>
+          </ion-item>
+         
+        
+      </ion-col>
+
+    </form>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border" style="margin-bottom: 40px;">
+
+</ion-footer>

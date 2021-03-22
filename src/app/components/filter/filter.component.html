@@ -1,0 +1,9 @@
+<ion-list>
+  <ion-item *ngFor="let item of list" (click)="setFilter(item)">
+    <ion-label>
+      {{item}}
+    </ion-label>
+    <ion-icon name="chevron-forward">
+    </ion-icon>
+  </ion-item>
+</ion-list>

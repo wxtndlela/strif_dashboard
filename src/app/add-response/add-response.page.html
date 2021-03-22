@@ -1,0 +1,50 @@
+
+ <ion-header>
+  <ion-toolbar>
+    
+    <ion-row >
+      <ion-col>
+        <ion-item class="input" style="width: 33%;">
+          <ion-label >Reply query</ion-label>
+          <ion-icon (click)="cancel()" [class.cancel]="true" name='close'></ion-icon>
+          <ion-icon (click)="submit()" [class.save]="!isLoading" [class.rotating]="isLoading" slot="end" name='send'></ion-icon>
+        </ion-item>
+      </ion-col>
+          
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="addResponseForm" (ngSubmit)="submit()">
+   
+    <ion-grid>
+      <div style="position: relative;" class="add-moduleForm">
+  
+          <ion-col class="column">
+            <div>
+              <!-- TINYMCE EDITOR -->
+              <editor formControlName='response' apiKey="3pk5w7ysktp2k6kbdo0girxw2h42l4eeeyc3wew857xn9s50" [init]="{
+                height: 480,
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                    'undo redo | formatselect | bold italic underline | styleselect formatselect fontselect fontsizeselect | forecolor backcolor | media | link | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | table |'
+            }"></editor>
+            </div>
+          </ion-col>
+          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.response.errors?.required">
+            Response is required.
+          </span>
+      </div>
+  
+    </ion-grid>
+  </form>
+ 
+
+</ion-content>

@@ -1,0 +1,162 @@
+<ion-header>
+  <ion-toolbar>
+    <br>
+    <ion-row>
+      <ion-title>{{selection}}</ion-title>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-header *ngIf="!isSeleceted">
+  <br>
+  <ion-card>
+    <ion-searchbar [(ngModel)]="searchText" (ngModelChange)="get_Drivers()" showCancelButton="focus">
+    </ion-searchbar>
+    <ion-item lines="none">
+      <ion-item class="searchItem" lines="none" (click)="presentPopover($event, 'driverFilter')">
+        <ion-icon slot="start" name="filter-outline">
+        </ion-icon>
+        <ion-label>
+          {{filterBy}}
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'driverSort')">
+        <ion-icon slot="start" name="swap-vertical-outline">
+        </ion-icon>
+        <ion-label>
+          {{SortBy}}
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="searchItem">
+        <ion-label>Results: ({{results_count}})</ion-label>
+      </ion-item>
+
+    </ion-item>
+  </ion-card>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+
+
+    <ion-col *ngIf="!isSeleceted">
+      <ion-card>
+        <ion-card-content>
+          <table>
+            <tr class="header">
+              <th>Avater</th>
+              <th>Driver name</th>
+              <th>Make</th>
+              <th>Model</th>
+              <th>Type</th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let item of Driver;">
+              <td>
+                <ion-item lines="none">
+                  <ion-avatar>
+                    <img *ngIf="item.photourl" src="{{item.photourl}}">
+                    <img *ngIf="!item.photourl" src="{{avater_img}}">
+
+                  </ion-avatar>
+                </ion-item>
+              </td>
+              <td>{{item.names}}</td>
+              <td>{{item.make}}</td>
+              <td>{{item.model}}</td>
+              <td>{{item.description}}</td>
+              <td>
+                <ion-item lines="none">
+                  <ion-button (click)="make_selection(item.uuid)" shape="outline" color="success">Select</ion-button>
+                </ion-item>
+              </td>
+            </tr>
+          </table>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col>
+      <ion-card style="width: 50%;margin: auto;" *ngIf="isSeleceted">
+
+        <ion-row>
+
+          <ion-col>
+            <ion-card-header>
+              <ion-card-subtitle>Collection Address:</ion-card-subtitle>
+              <ion-card-title>{{Request.collection_address}}</ion-card-title>
+            </ion-card-header>
+          </ion-col>
+          
+          <ion-col>
+            <ion-card-header>
+              <ion-card-subtitle>Destination Address:</ion-card-subtitle>
+              <ion-card-title>{{Request.destination_address}}</ion-card-title>
+            </ion-card-header>
+          </ion-col>
+          
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col>
+            <ion-card-header>
+              <ion-card-subtitle>Distance:</ion-card-subtitle>
+              <ion-card-title>{{distance}}Km</ion-card-title>
+            </ion-card-header>
+          </ion-col>
+
+          <ion-col>
+            <ion-card-header>
+              <ion-card-subtitle>Weight:</ion-card-subtitle>
+              <ion-card-title>{{Request.weight}}Km</ion-card-title>
+            </ion-card-header>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-card-header>
+          <ion-card-subtitle>Description:</ion-card-subtitle>
+          <ion-card-title>{{Request.description}}</ion-card-title>
+        </ion-card-header>
+
+
+
+
+
+      </ion-card>
+
+      <br>
+
+      <form *ngIf="isSeleceted" [formGroup]="selectForm">
+        <ion-card style="width: 50%;margin: auto;">
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="floating">Enter estimate amount (R)</ion-label>
+              <ion-input formControlName="price" type="number"></ion-input>
+            </ion-item>
+            <span class="error ion-padding" *ngIf="isSubmitted && errorControl.price.errors?.required">
+              Amount is required.
+            </span>
+            <span class="error ion-padding" *ngIf="isSubmitted && errorControl.price.errors?.pattern">
+              Invalid amount entered.
+            </span>
+          </ion-card-content>
+        </ion-card>
+
+        <br>
+
+        <div style="width: 50%;margin: auto;">
+          <ion-button shape="outline" (click)="submit()">Submit</ion-button>
+          <ion-button shape="outline" (click)="cancel()">Cancel</ion-button>
+        </div>
+      </form>
+
+    </ion-col>
+
+
+  </ion-grid>
+</ion-content>

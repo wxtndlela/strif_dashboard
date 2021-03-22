@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Users</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header>
+  <br>
+  <ion-card>
+    <ion-searchbar [(ngModel)]="searchText" (ngModelChange)="get_users()" showCancelButton="focus"></ion-searchbar>
+    <ion-item lines="none">
+      <ion-item class="searchItem" lines="none" (click)="presentPopover($event, 'userFilter')">
+        <ion-icon slot="start" name="filter-outline">
+        </ion-icon>
+        <ion-label>
+          {{filterBy}}
+        </ion-label>
+      </ion-item>
+
+
+      <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'userSort')">
+        <ion-icon slot="start" name="swap-vertical-outline">
+        </ion-icon>
+        <ion-label>
+          {{SortBy}}
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="searchItem">
+        <ion-label>Results: ({{results_count}})</ion-label>
+      </ion-item>
+
+    </ion-item>
+  </ion-card>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+
+   
+
+    <ion-col>
+      <ion-card>
+        <ion-card-content>
+          <table>
+            <tr class="header">
+              <th>Names</th>
+              <th>Surname</th>
+              <th>Email</th>
+              <th>Cellphone</th>
+              <th>Date created</th>
+              <th>Role</th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let user of Users;">
+              <td>{{user.names}}</td>
+              <td>{{user.surname}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.contact}}</td>
+              <td>{{user.datecreated}}</td>
+              <td>{{user.user_role}}</td>
+              <td>
+                <ion-item lines="none">
+                  <ion-icon name="ellipsis-vertical-outline" color="medium">
+                  </ion-icon>
+                </ion-item>
+              </td>
+            </tr>
+          </table>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-grid>
+</ion-content>

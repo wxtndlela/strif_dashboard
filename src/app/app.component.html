@@ -1,29 +1,209 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
+  <ion-split-pane *ngIf="isLoggedIn" contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+          <ion-list-header>
+            Lebo.M Courier
+          </ion-list-header>
+          <br>
+
+          <ion-item lines="none" (click)="show_hide()">
+            <ion-avatar slot="start">
+              <img src="{{this.global.user_avater.value}}">
+            </ion-avatar>
+            <ion-label>{{this.global.user_name.value}}</ion-label>
+            <ion-icon [name]="show == false ? 'chevron-down' : 'chevron-up'"></ion-icon>
+          </ion-item>
+
+          <ion-col class="anime" *ngIf="show">
+            <ion-menu-toggle auto-hide="false">
+              <!-- <ion-item lines="none">
+                <ion-icon slot="start" name="moon"></ion-icon>
+                <ion-label>Toggle Dark Theme</ion-label>
+                <ion-toggle (click)="toggle_dark_mode($event)" id="themeToggle" slot="end">
+                </ion-toggle>
+              </ion-item> -->
+              <ion-item routerDirection="root" [routerLink]="this.userPages[0].url" (click)="this.userPages[0].url"
+                lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon slot="start" [ios]="this.userPages[0].icon + '-outline'"
+                  [md]="this.userPages[0].icon + '-sharp'"></ion-icon>
+                <ion-label>{{this.userPages[0].title}}</ion-label>
+              </ion-item>
+              <ion-item (click)="logout()" lines="none" detail="false" routerLinkActive="selected">
+                <ion-icon slot="start" [ios]="this.userPages[1].icon + '-outline'"
+                  [md]="this.userPages[1].icon + '-sharp'"></ion-icon>
+                <ion-label>{{this.userPages[1].title}}</ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-col>
+
+          <ion-item lines="full"></ion-item>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
+              routerLinkActive="selected">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-        </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          <ion-item *ngFor="let label of labels" lines="none">
-            <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-            <ion-label>{{ label }}</ion-label>
-          </ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
+
+  <ion-header *ngIf="isLogginIn">
+    <ion-toolbar>
+      <img (click)="go_home()" src="../assets/icon/lebom-logo.png" style="height: 60px;padding-left: 30px;" />
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid class="container" *ngIf="isLogginIn">
+
+    <ion-card class="center">
+      <br>
+      <ion-item lines="none">
+        <ion-label>Sign in</ion-label>
+      </ion-item>
+      <form [formGroup]="loginForm">
+        <ion-card-content>
+          <ion-item class="input-valid">
+            <ion-input type="email" placeholder="Email Address" formControlName="email"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+            cellphone/email is required.
+          </span>
+          <br>
+          <ion-item class="input-valid">
+            <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.required">
+            Password is required.
+          </span>
+          <br>
+          <ion-button (click)="login()" style="width: 100%;" shape="outline">Sign in</ion-button>
+        </ion-card-content>
+      </form>
+
+    </ion-card>
+
+  </ion-grid>
+
+  <ion-content *ngIf="!isLoggedIn && !isLogginIn">
+    <ion-grid style="width: 100%;">
+      <ion-header>
+        <ion-toolbar>
+          <img src="../assets/icon/lebom-logo.png" style="height: 60px;padding-left: 30px;" />
+        </ion-toolbar>
+      </ion-header>
+
+      <!-- body -->
+      <ion-row>
+        <ion-col class="body">
+          <ion-text>
+            <h1>
+              <strong>
+                Start sending parcels
+              </strong>
+            </h1>
+            <p>
+              Start using the Lebo .M Courier app on your phone to start sending your parcel with care from us
+            </p>
+          </ion-text>
+        </ion-col>
+        <ion-col style="padding: 30px;">
+          <ion-row>
+            <ion-col>
+              <img src="../assets/LMC - Wireframe high fidelity - Client's prespective.png" style="height: 400px;" />
+            </ion-col>
+            <ion-col>
+              <img src="../assets/icon/app-store-apple-f1f919205b.svg" style=" width: 200px;padding-top: 30px;" />
+              <br>
+              <img src="../assets/icon/app-store-google-4d63c31a3e.svg" style="width: 200px;padding-top: 30px;" />
+
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <br>
+
+      <ion-row>
+
+        <ion-col style="padding: 30px;">
+          <ion-row>
+            <ion-col>
+              <img src="../assets/icon/section-800x800-001-1-ol2vaabhzo7iakltwcsk08yb7hxbv4fyfa73gbs5s0.jpg"
+                style="width: 100%;" />
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+        <ion-col class="body">
+          <ion-text>
+            <h1>
+              <strong>
+                HOW IT WORKS:
+              </strong>
+            </h1>
+            <p>
+              Upon receiving your request for a collection we will dispatch directly to pick up your parcel.
+              Your parcel will be driven directly to its location. A ‘safe hands’ service is available for those
+              extremely fragile and sensitive shipments. We ensure that we handle all parcels with care, is
+              kept to a minimum with the benefit of reducing the possibility of damage, theft and/or
+              miss routing which can lead to lengthy delays. </p>
+          </ion-text>
+        </ion-col>
+
+
+      </ion-row>
+
+      <!-- footer -->
+      <ion-header>
+        <ion-toolbar>
+          <ion-row>
+            <br>
+          </ion-row>
+          <ion-row>
+            <ion-col class="social">
+              <ion-icon name="logo-facebook"></ion-icon>
+              <ion-icon name="logo-instagram"></ion-icon>
+              <ion-icon name="logo-twitter"></ion-icon>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <br>
+          </ion-row>
+
+          <ion-row style="padding: 60px;text-align: center;">
+            <ion-col class="col">
+              <ion-icon name="mail-outline"></ion-icon>
+              <br>
+              <a href="mailto:info@lebomcourier.co.za">info@lebomcourier.co.za</a>
+            </ion-col>
+
+            <ion-col class="col">
+              <ion-icon name="location-outline"></ion-icon>
+              <br>
+              <a href="geo:38.62464092991612,-90.18476128578186">5 Mallard street
+                Terenure X6
+                Kempton Park
+                1619
+              </a>
+            </ion-col>
+
+            <ion-col class="col">
+              <ion-icon name="call-outline"></ion-icon>
+              <br>
+              <a href="tel:123-456-7890">+27 (79) 284 7093</a>
+            </ion-col>
+          </ion-row>
+
+        </ion-toolbar>
+      </ion-header>
+    </ion-grid>
+  </ion-content>
+
 </ion-app>

@@ -1,0 +1,73 @@
+
+
+<ion-content>
+  <form [formGroup]="addDocForm" (ngSubmit)="submit()">
+    <ion-header>
+      <ion-toolbar>
+        
+        <ion-row class="row">
+          <ion-col>
+            <ion-item class="input">
+              <ion-label >Add/Edit Document</ion-label>
+              <ion-icon (click)="cancel()" [class.cancel]="true" name='close'></ion-icon>
+              <ion-icon (click)="submit()" [class.save]="!isLoading" [class.rotating]="isLoading" slot="end" name='save'></ion-icon>
+            </ion-item>
+          </ion-col>
+          
+    
+          <ion-col >
+            <ion-item ion-item class="input">
+              <ion-input formControlName="title" type="text" required placeholder="Document Title"></ion-input>
+            </ion-item>
+            <span class="error ion-padding" *ngIf="isSubmitted && errorControl.title.errors?.required">
+              Title is required.
+            </span>
+          </ion-col>
+    
+          <ion-col >
+            <ion-item class="input">
+              <ion-label>Document Type:</ion-label>
+              <ion-select formControlName="type" value="select" okText="Okay" cancelText="Dismiss">
+                <ion-select-option *ngFor='let type of Types; index as i' value='{{type}}'>{{type}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <span class="error ion-padding" *ngIf="isSubmitted && errorControl.type.errors?.required">
+              Title is required.
+            </span>
+          </ion-col>
+    
+        </ion-row>
+      </ion-toolbar>
+    </ion-header>
+    <ion-grid>
+      <div style="position: relative;" class="add-moduleForm">
+  
+          <ion-col class="column">
+            <div>
+              <!-- TINYMCE EDITOR -->
+              <editor formControlName='body' apiKey="3pk5w7ysktp2k6kbdo0girxw2h42l4eeeyc3wew857xn9s50" [init]="{
+                height: 480,
+                menubar: false,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table paste code help wordcount'
+                ],
+                toolbar:
+                    'undo redo | formatselect | bold italic underline | styleselect formatselect fontselect fontsizeselect | forecolor backcolor | media | link | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | table |'
+            }"></editor>
+            </div>
+          </ion-col>
+          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.body.errors?.required">
+            Content is required.
+          </span>
+      </div>
+  
+    </ion-grid>
+  </form>
+ 
+
+</ion-content>
