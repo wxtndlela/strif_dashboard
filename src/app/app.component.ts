@@ -32,7 +32,7 @@ export class AppComponent {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private global: GlobalSettings,
+    public global: GlobalSettings,
     private auth: AuthService,
     private fb: FormBuilder,
     private alert: AlertService,

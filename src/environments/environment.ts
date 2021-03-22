@@ -2,10 +2,8 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import tinymce from "tinymce";
-
 export const environment = {
-  production: false,
+  production: true,
   firebaseConfig: {
     //https://firebase.google.com/docs/web/setup
     apiKey: "AIzaSyBOQAUC-7FuXIzCwxlsAzGIMNaPVtWD2ms",
