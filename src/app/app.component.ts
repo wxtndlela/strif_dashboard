@@ -19,10 +19,9 @@ import { Location } from '@angular/common';
 export class AppComponent {
   public appPages = [
     { title: 'Users', url: '/users', icon: 'people' },
-    { title: 'Documents', url: '/documents', icon: 'documents' },
-    { title: 'Parcels', url: '/parcels', icon: 'gift' },
-    { title: 'Special Requests', url: '/special-request', icon: 'star-half' },
-    { title: 'Queries', url: '/queries', icon: 'help-circle' },
+    { title: 'Routes', url: '/routes', icon: 'walk' },
+    { title: 'Assets', url: '/parcels', icon: 'receipt' },
+    { title: 'Surveys', url: '/special-request', icon: 'documents' },
   ];
 
   public userPages = [

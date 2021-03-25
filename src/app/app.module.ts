@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps'
 
 //Services
 import { ToasterService } from '../services/toaster.service';
@@ -37,13 +38,14 @@ import { environment } from '../environments/environment';
   entryComponents: [],
   imports: [
     BrowserModule, 
+    GoogleMapsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     IonicModule.forRoot(), 
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    EditorModule
+    EditorModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

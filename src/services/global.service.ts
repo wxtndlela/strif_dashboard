@@ -29,6 +29,7 @@ export class GlobalSettings {
 
         this.user_name = new BehaviorSubject<String>('');
         this.user_avater = new BehaviorSubject<String>('../../assets/avater-default.png');
+        
     }
 
     public user_avater: BehaviorSubject<String>;

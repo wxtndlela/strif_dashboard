@@ -54,6 +54,18 @@ const routes: Routes = [
   {
     path: '7093',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'routes',
+    loadChildren: () => import('./routes/routes.module').then( m => m.RoutesPageModule)
+  },
+  {
+    path: 'assets',
+    loadChildren: () => import('./assets/assets.module').then( m => m.AssetsPageModule)
+  },
+  {
+    path: 'surveys',
+    loadChildren: () => import('./surveys/surveys.module').then( m => m.SurveysPageModule)
   }
 ];
 
