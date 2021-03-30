@@ -17,11 +17,13 @@ import { Location } from '@angular/common';
 })
 
 export class AppComponent {
+  
   public appPages = [
+    { title: 'Assesments', url: '/assesments', icon: 'map' },
+    { title: 'Reports', url: '/routes', icon: 'walk' },
+    { title: 'Surveys', url: '/surveys', icon: 'documents' },
     { title: 'Users', url: '/users', icon: 'people' },
-    { title: 'Routes', url: '/routes', icon: 'walk' },
-    { title: 'Assets', url: '/parcels', icon: 'receipt' },
-    { title: 'Surveys', url: '/special-request', icon: 'documents' },
+
   ];
 
   public userPages = [

@@ -39,6 +39,13 @@ export class FilterComponent implements OnInit {
   public driverFilter = ['names', 'description', 'model', 'make'];
   public driverSort = ['DESC', 'ASC'];
 
+  public assesMunicipality = ['all', 'Mbeki', 'model', 'make'];
+  public assesFilter = ['all', 'Traffic', 'Potholes', 'Routes'];
+  public assesReport = ['NV2021-03', 'description', 'model', 'make'];
+  public MunicipalCoords = [
+    { lat: -26.453575, lng: 29.196015 },
+    { lat: -26.453575, lng: 29.196015 }
+  ];
   public list = [];
 
   ngOnInit() {
@@ -50,45 +57,22 @@ export class FilterComponent implements OnInit {
    */
   public setFilter(filter) {
     switch (this.event) {
-      case 'userFilter':
-        this.global.set_user_filter_by(filter);
+      case 'assesMunicipality':
+        this.global.set_asses_municipality(filter);
+        for(let x = 0;x <this.assesMunicipality.length;x++){
+          if(this.assesMunicipality == filter){
+            this.global.set_asses_MunicipalCoords(this.MunicipalCoords[x]);
+          }
+        }
         break;
-      case 'userSort':
-        this.global.set_user_sort_by(filter);
+      case 'assesFilter':
+        this.global.set_asses_filter(filter);
         break;
-      case 'docFilter':
-        this.global.set_doc_filter_by(filter);
+      case 'assesReport':
+        this.global.set_asses_report(filter);
         break;
-      case 'docSort':
-        this.global.set_docs_sort_by(filter);
         break;
-      case 'funnelBy':
-        this.global.set_docs_funnel_by(filter);
-        break;
-      case 'parcelFilter':
-        this.global.set_parcel_filter_by(filter);
-        break;
-      case 'parcelSort':
-        this.global.set_parcel_sort_by(filter);
-        break;
-      case 'specialReqFilter':
-        this.global.set_special_filter_by(filter);
-        break;
-      case 'specialReqSort':
-        this.global.set_special_sort_by(filter);
-        break;
-      case 'queryFilter':
-        this.global.set_query_filter_by(filter);
-        break;
-      case 'querySort':
-        this.global.set_query_sort_by(filter);
-        break;
-      case 'driverFilter':
-        this.global.set_driver_filter_by(filter);
-        break;
-      case 'driverSort':
-        this.global.set_driver_sort_by(filter);
-        break;
+
       default:
         break;
     }
@@ -101,48 +85,16 @@ export class FilterComponent implements OnInit {
    */
   public init() {
     switch (this.event) {
-      case 'userFilter':
-        this.list = this.userFilter;
+      case 'assesMunicipality':
+        this.list = this.assesMunicipality;
         break;
-      case 'userSort':
-        this.list = this.userSort;
+      case 'assesFilter':
+        this.list = this.assesFilter;
         break;
-      case 'docFilter':
-        this.list = this.docFilter;
+      case 'assesReport':
+        this.list = this.assesReport;
         break;
-      case 'docSort':
-        this.list = this.docSort;
-        break;
-      case 'docSort':
-        this.list = this.docSort;
-        break;
-      case 'funnelBy':
-        this.list = this.funnelBy;
-        break;
-      case 'parcelSort':
-        this.list = this.parcelSort;
-        break;
-      case 'parcelFilter':
-        this.list = this.parcelFilter;
-        break;
-      case 'specialReqFilter':
-        this.list = this.specialReqFilter;
-        break;
-      case 'specialReqSort':
-        this.list = this.specialReqSort;
-        break;
-      case 'queryFilter':
-        this.list = this.queryFilter;
-        break;
-      case 'querySort':
-        this.list = this.querySort;
-        break;
-      case 'driverFilter':
-        this.list = this.queryFilter;
-        break;
-      case 'driverSort':
-        this.list = this.driverSort;
-        break;
+
 
       default:
         break;

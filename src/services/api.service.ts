@@ -21,25 +21,18 @@ export class ApiService {
 
   //api server URL
   _Url = "https://lmcapi.onrender.com";
-  key = "AIzaSyDEXh7Kl0XjVFs8LfBRbAwTDq63vpyvXCY";
+  key = "AIzaSyAPmHje9E98H-ut1Ol-S8XE7h3ucKTF2PQ";
   _carURL = "https://private-anon-939979d007-carsapi1.apiary-mock.com";
 
   //Google Places
-  //api to get autocomplete address by text
-  get_places(input) {
-    return this.http.post<any>(`${this._Url}/get_places`, { input });
+  //api to get text file from assets
+  get_nearest_roads(points) {
+    return this.http.get(`https://roads.googleapis.com/v1/nearestRoads?points=${points}&key=${this.key}`, { responseType: 'text' });
   }
-  //api to get address by coordinates
-  get_reverse_geocode(latlng) {
-    return this.http.post<any>(`${this._Url}/get_reverse_geocode`, { latlng });
-  }
-  //api to get coordinates by address
-  get_Forward_geocode(address) {
-    return this.http.post<any>(`${this._Url}/get_Forward_geocode`, { address });
-  }
-  //api to get directions from a to b by coordinates
-  get_directions(origin, destination) {
-    return this.http.post<any>(`${this._Url}/get_directions`, { origin, destination });
+
+  //api to get text file from assets
+  get_file(file) {
+    return this.http.get(`assets/${file}`, { responseType: 'text' });
   }
 
   //NOTIFICATIONS

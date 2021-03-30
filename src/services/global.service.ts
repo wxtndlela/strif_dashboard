@@ -30,6 +30,44 @@ export class GlobalSettings {
         this.user_name = new BehaviorSubject<String>('');
         this.user_avater = new BehaviorSubject<String>('../../assets/avater-default.png');
         
+        this.asses_municipality = new BehaviorSubject<String>('all municipalities');
+        this.asses_filter = new BehaviorSubject<String>('Trafic');
+        this.asses_report = new BehaviorSubject<String>('');
+
+        this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat: -26.453575, lng: 29.196015 });
+
+    }
+
+    public asses_MunicipalCoords: BehaviorSubject<Object>;
+    set_asses_MunicipalCoords(newValue): void {
+        this.asses_MunicipalCoords.next(newValue);
+    }
+    get_asses_MunicipalCoords(): Observable<Object> {
+        return this.asses_MunicipalCoords.asObservable();
+    }
+
+    public asses_report: BehaviorSubject<String>;
+    set_asses_report(newValue): void {
+        this.asses_report.next(newValue);
+    }
+    get_asses_report(): Observable<String> {
+        return this.asses_report.asObservable();
+    }
+
+    public asses_filter: BehaviorSubject<String>;
+    set_asses_filter(newValue): void {
+        this.asses_filter.next(newValue);
+    }
+    get_asses_filter(): Observable<String> {
+        return this.asses_filter.asObservable();
+    }
+
+    public asses_municipality: BehaviorSubject<String>;
+    set_asses_municipality(newValue): void {
+        this.asses_municipality.next(newValue);
+    }
+    get_asses_municipality(): Observable<String> {
+        return this.asses_municipality.asObservable();
     }
 
     public user_avater: BehaviorSubject<String>;

@@ -66,6 +66,10 @@ const routes: Routes = [
   {
     path: 'surveys',
     loadChildren: () => import('./surveys/surveys.module').then( m => m.SurveysPageModule)
+  },
+  {
+    path: 'assesments',
+    loadChildren: () => import('./assesments/assesments.module').then( m => m.AssesmentsPageModule)
   }
 ];
 

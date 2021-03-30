@@ -11,6 +11,7 @@ import { GlobalSettings } from '../../services/global.service';
   templateUrl: './parcels.page.html',
   styleUrls: ['./parcels.page.scss'],
 })
+
 export class ParcelsPage implements OnInit {
 
   constructor(
