@@ -5,25 +5,27 @@ import { GlobalSettings } from '../services/global.service';
 import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
+import { ForgotPassPage } from './forgot-pass/forgot-pass.page';
 import { NavController, LoadingController, ModalController } from "@ionic/angular";
+import { ToasterService } from '../services/toaster.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   template: 'The href is: {{href}}',
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
+  styleUrls: ['app.component.scss']
 })
 
 export class AppComponent {
-  
+
   public appPages = [
     { title: 'Assesments', url: '/assesments', icon: 'map' },
-    { title: 'Reports', url: '/routes', icon: 'walk' },
-    { title: 'Surveys', url: '/surveys', icon: 'documents' },
+    { title: 'Segments', url: '/routes', icon: 'walk' },
+    { title: 'Documents', url: '/documents', icon: 'documents' },
     { title: 'Users', url: '/users', icon: 'people' },
-
   ];
 
   public userPages = [
@@ -40,28 +42,55 @@ export class AppComponent {
     public loadingCtrl: LoadingController,
     private location: Location,
     private router: Router,
-    private nav: NavController
+    private nav: NavController,
+    private api: ApiService,
+    private modal: ModalController,
+    private toaster: ToasterService,
   ) {
     //check if user is logged in
     this.isLoggedIn = this.auth.isLoggedin();
-    if (location.path() == '/7093' && this.isLoggedIn == false) {
+    if (location.path() == '/login' && this.isLoggedIn == false) {
       this.route = location.path();
       this.isLogginIn = true;
-      this.loginForm = this.fb.group({
-        email: ['', Validators.required],
-        password: ['', Validators.required]
-      });
+
+    } else if (location.path() == '/register' && this.isLoggedIn == false) {
+      this.route = location.path();
+      this.isRegistering = true;
+
     } else {
       this.global.set_user_settings();
-    } 
+    }
+
+    this.loginForm = this.fb.group({
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
+    this.registerForm = this.fb.group({
+      email: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      password: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")]],
+      names: ['', [Validators.required, Validators.pattern("^[a-zA-Z- ]*$")]],
+      surname: ['', [Validators.required, Validators.pattern("^[a-zA-Z- ]*$")]],
+    });
+
   }
 
   public show = false;
   public isLoggedIn: Boolean;
   public isLogginIn: Boolean = false;
+  public isRegistering: Boolean = false;
   public loginForm: FormGroup;
+  public registerForm: FormGroup;
   isSubmitted = false;
   route: string;
+  public day = moment().add(0, 'd').format().toString();
+  slideOpts = {
+    initialSlide: 1,
+    speed: 400,
+    autoplay: {
+      delay: 5000,
+    }
+  };
 
   public show_hide() {
     this.show = !this.show;
@@ -80,14 +109,30 @@ export class AppComponent {
    */
   public go_home() {
     this.isLogginIn = false;
+    this.isRegistering = false;
     this.nav.navigateRoot('/')
   }
 
+  /**
+   * goto_login
+   */
+  public goto_login() {
+    this.isLogginIn = true;
+    this.isRegistering = false;
+    this.nav.navigateRoot('/login')
+  }
 
+  /**
+   * goto_register
+   */
+  public goto_register() {
+    this.isLogginIn = false;
+    this.isRegistering = true;
+    this.nav.navigateRoot('/register')
+  }
 
   public async login() {
-    let email = this.loginForm.get('email').value;
-    let password = this.loginForm.get('password').value;
+
     const loading = await this.loadingCtrl.create({
       cssClass: 'my-custom-class',
       message: 'Please wait...',
@@ -97,6 +142,9 @@ export class AppComponent {
     if (this.loginForm.invalid) {
       return;
     }
+
+    let email = this.loginForm.get('email').value;
+    let password = this.loginForm.get('password').value;
 
     //check if user entered contact number or email
     if (!isNaN(Number(email))) {
@@ -108,19 +156,77 @@ export class AppComponent {
     this.auth.login(email, password).subscribe(
       data => {
         if (data.status == 0) {
-          this.auth.auth(data.data[0].uuid, data.data[0].user_role);
-          this.isLoggedIn = true;
-          this.isLogginIn = false;
-          this.global.set_user_settings();
+
+          if (data.data[0].user_role != '') {
+            this.auth.auth(data.data[0].uuid, data.data[0].user_role);
+            this.isLoggedIn = true;
+            this.isLogginIn = false;
+            this.global.set_user_settings();
+          } else {
+            this.toaster.warnToast('This Account is not yet verified, contact admin!')
+          }
+
+
           console.log(data);
           loading.dismiss();
+        } else {
+          loading.dismiss();
+          console.log(data);
+          this.alert.presentWarnAlert(data.msg);
+        }
+      }, error => {
+        loading.dismiss();
+        console.log(error);
+        this.alert.presentWarnAlert("Could not connect to server 🖥️, check your internet connection!");
+      }
+    )
+  }
+
+  public async register() {
+
+
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...',
+    });
+
+    this.isSubmitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    let user_role = 'admin';
+    let password = this.registerForm.get('password').value;
+    let date_created = this.day.substr(0, 10) + ' ' + this.day.substr(11, 11);
+    let date_modified = this.day.substr(0, 10) + ' ' + this.day.substr(11, 11);
+    let email = this.registerForm.get('email').value;
+    let contact = '';
+    let country = 'South Africa';
+    let province = 'Mpumalanga Province';
+    let names = this.registerForm.get('names').value;
+    let surname = this.registerForm.get('surname').value;
+    let username = String(this.registerForm.get('names').value).split(' ')[0] + this.registerForm.get('surname').value;
+    let photo_url = "";
+    let gender = 'rather not say';
+    let dateofbirth = '';
+    let last_login = 'last_login';
+
+    console.log(date_created)
+
+
+    await loading.present();
+    this.api.add_user(user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login).subscribe(
+      data => {
+        if (data.status == 0) {
+          console.log(data);
+          loading.dismiss();
+          this.toaster.successToast(data.msg);
         } else {
           loading.dismiss();
           this.alert.presentWarnAlert(data.msg);
         }
       }, error => {
         loading.dismiss();
-        //this.navCtrl.navigateForward(["client"]);
         console.log(error);
         this.alert.presentWarnAlert("Could not connect to server 🖥️, check your internet connection!");
       }
@@ -128,11 +234,31 @@ export class AppComponent {
   }
 
   /**
+   * forgot_pass
+   */
+  public async forgot_pass() {
+    const modal = await this.modal.create({
+      component: ForgotPassPage,
+      cssClass: 'smallmodalClass',
+      componentProps: {
+        'email': this.loginForm.get('email').value
+      }
+    })
+
+    return modal.present();
+  }
+
+  /**
    * errorControl
    * 
    * get errors from form control
    */
-  get errorControl() {
+  get loginErrorControl() {
     return this.loginForm.controls;
   }
+  get registerErrorControl() {
+    return this.registerForm.controls;
+  }
+
+
 }

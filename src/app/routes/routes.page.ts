@@ -31,6 +31,8 @@ export class RoutesPage implements OnInit {
       this.SortBy = await value;
     });
 
+    this.get_segments();
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
@@ -38,8 +40,6 @@ export class RoutesPage implements OnInit {
         
       }
       console.log(position);
-      
-
     })
   }
 
@@ -47,11 +47,12 @@ export class RoutesPage implements OnInit {
   center;
   options;
 
-  public Parcels: any  = [];
+  public Segments: any  = [];
   public results_count = 0;
   public searchText = '';
   public SortBy : String = '';
   public filterBy : String = '';
+  public funnelBy : String = '';
 
   async presentPopover(ev: any, event) {
     String(event).substr
@@ -65,6 +66,23 @@ export class RoutesPage implements OnInit {
       },
     });
     return await popover.present();
+  }
+
+  /**
+   * get_segments
+   */
+  public get_segments() {
+
+    let search = this.searchText; 
+    let SortBy = this.SortBy;
+    let filterBy = this.filterBy;
+    let funnelBy = this.funnelBy;
+
+    this.api.get_all_segments(search, SortBy, filterBy, funnelBy).subscribe(res => {
+      this.results_count = res.rows;
+      this.Segments = res.data;
+      // console.log(res);
+    })
   }
 
 }

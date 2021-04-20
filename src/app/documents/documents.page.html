@@ -61,19 +61,23 @@
         <ion-card-content>
           <table>
             <tr class="header">
-              <th>Document Title</th>
-              <th>Type</th>
+              <th>Title</th>
+              <th>Description</th>
               <th>Modified on datetime</th>
-              <th>Actions</th>
+              <th>Type</th>
+              <th>Size</th>
             </tr>
             <tr *ngFor="let doc of Docs;" >
-              <td>{{doc.doc_title}}</td>
+              <td>{{doc.title}}</td>
+              <td>{{doc.description}}</td>
+              <td>{{doc.date_modified}}</td>
               <td>{{doc.doc_type}}</td>
-              <td>{{doc.modifiedondatetime}}</td>
+              <td>{{doc.size}}</td>
+
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="danger" (click)="del_document(doc.id, doc.doc_title)" shape="outline">Delete</ion-button>
-                  <ion-button color="success" (click)="edit_doc(doc.id, doc.doc_title, doc.doc_url, doc.doc_type)" shape="outline">Edit</ion-button>
+                  <ion-button color="success" (click)="edit_doc(doc.id, doc.doc_title, doc.doc_url, doc.doc_type)" shape="outline">Update</ion-button>
                 </ion-item>
               </td>
             </tr>

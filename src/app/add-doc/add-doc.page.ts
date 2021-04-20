@@ -86,26 +86,26 @@ export class AddDocPage implements OnInit {
 
     if (this.doc_id) {
       console.log('edit mode');
-      this.apis.update_document(this.doc_id, doc_title, doc_type, doc_url, modifiedondatetime)
-        .subscribe(res => {
-          this.isLoading = false;
-          if (res.status == 0) {
-            this.toaster.successToast(res.msg);
-          } else {
-            this.alerter.presentDangerAlert(res.msg);
-          }
-        })
+      // this.apis.update_document(this.doc_id, doc_title, doc_type, doc_url, modifiedondatetime)
+      //   .subscribe(res => {
+      //     this.isLoading = false;
+      //     if (res.status == 0) {
+      //       this.toaster.successToast(res.msg);
+      //     } else {
+      //       this.alerter.presentDangerAlert(res.msg);
+      //     }
+      //   })
     } else {
       console.log('add mode');
-      this.apis.add_new_document(doc_title, doc_type, modifiedondatetime, doc_url, doc_body, sys_user_id, addedondatetime)
-        .subscribe(res => {
-          this.isLoading = false;
-          if (res.status == 0) {
-            this.toaster.successToast(res.msg);
-          } else {
-            this.alerter.presentDangerAlert(res.msg);
-          }
-        })
+      // this.apis.add_new_document(doc_title, doc_type, modifiedondatetime, doc_url, doc_body, sys_user_id, addedondatetime)
+      //   .subscribe(res => {
+      //     this.isLoading = false;
+      //     if (res.status == 0) {
+      //       this.toaster.successToast(res.msg);
+      //     } else {
+      //       this.alerter.presentDangerAlert(res.msg);
+      //     }
+      //   })
     }
 
   }

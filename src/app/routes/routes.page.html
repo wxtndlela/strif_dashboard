@@ -1,44 +1,76 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>routes</ion-title>
+    <ion-title>Segments</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<ion-header>
+  <br>
+  <ion-card>
+    <ion-searchbar [(ngModel)]="searchText" (ngModelChange)="get_segments()" showCancelButton="focus"></ion-searchbar>
+    <ion-item lines="none">
+      <ion-item class="searchItem" lines="none" (click)="presentPopover($event, 'segmentFilter')">
+        <ion-icon slot="start" name="filter-outline">
+        </ion-icon>
+        <ion-label>
+          {{filterBy}}
+        </ion-label>
+      </ion-item>
+
+
+      <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'segmentSort')">
+        <ion-icon slot="start" name="swap-vertical-outline">
+        </ion-icon>
+        <ion-label>
+          {{SortBy}}
+        </ion-label>
+      </ion-item>
+
+      <ion-item class="searchItem">
+        <ion-label>Results: ({{results_count}})</ion-label>
+      </ion-item>
+
+    </ion-item>
+  </ion-card>
+</ion-header>
+
 <ion-content>
-
   <ion-grid>
-
-    <ion-card>
-      <ion-card-content>
-        <ion-item lines="none">
-
-          <ion-item class="searchItem" lines="none" (click)="presentPopover($event, 'parcelFilter')">
-            <ion-icon slot="start" name="filter-outline">
-            </ion-icon>
-            <ion-label>
-              {{filterBy}}
-            </ion-label>
-          </ion-item>
-    
-    
-          <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'parcelSort')">
-            <ion-icon slot="start" name="swap-vertical-outline">
-            </ion-icon>
-            <ion-label>
-              {{SortBy}}
-            </ion-label>
-          </ion-item>
-  
-    
-        </ion-item>
-      </ion-card-content>
-    </ion-card>
 
    
 
-    <ion-card>
-      <google-map height="500px" width="100%" ></google-map>
-    </ion-card>
+    <ion-col>
+      <ion-card>
+        <ion-card-content>
+          <table>
+            <tr class="header">
+              <th>ID</th>
+              <th>District</th>
+              <th>Municipality</th>
+              <th>Start coords</th>
+              <th>End coords</th>
+              <th>Distance</th>
+              <th>Start date</th>
+              <th></th>
+            </tr>
+            <tr *ngFor="let segment of Segments;">
+              <td>{{segment.id}}</td>
+              <td>{{segment.district}}</td>
+              <td>{{segment.municipality}}</td>
+              <td>{{segment.start_coords}}</td>
+              <td>{{segment.end_coords}}</td>
+              <td>{{segment.distance}}</td>
+              <td>{{segment.start_date}}</td>
+              <td>
+                <ion-item lines="none">
+                  <ion-icon name="ellipsis-vertical-outline" color="medium">
+                  </ion-icon>
+                </ion-item>
+              </td>
+            </tr>
+          </table>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
   </ion-grid>
-
 </ion-content>

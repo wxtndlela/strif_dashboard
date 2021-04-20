@@ -197,7 +197,7 @@ export class GlobalSettings {
         if (user_id != null) {
             this.api.get_user().subscribe(res => {
                 this.set_user_name(res.data[0].names + ' ' + res.data[0].surname);
-                if (res.data[0].photourl != '') {
+                if (res.data[0].photourl == '') {
                     this.set_user_avater(res.data[0].photourl);
                 }
             })

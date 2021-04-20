@@ -19,8 +19,7 @@ export class AuthService {
 
     //login
     login(email, password) {
-        let cell = email;
-        return this.http.post<any>(this.api._Url + '/auth/login', { email, cell, password });
+        return this.http.post<any>(this.api._Url + '/auth/login', { email, password });
     }
 
     auth(uuid, user_role): void {

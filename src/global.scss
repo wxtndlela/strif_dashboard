@@ -80,6 +80,13 @@ table {
   --border-radius: 15px 15px 0px 0px!important;
 }
 
+.smallmodalClass .modal-wrapper {
+  --height: 80%;
+  --width: 400px;
+  align-items: flex-end;
+  --border-radius: 15px 15px 15px 15px!important;
+}
+
 ion-avatar{
   border: 1px var(--ion-color-primary);
 }
@@ -161,4 +168,9 @@ ion-avatar{
     font-size: large;
     margin: auto;
   }
+}
+
+.link{
+  margin-right: 10px;
+  cursor:pointer
 }

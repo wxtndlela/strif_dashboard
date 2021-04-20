@@ -45,7 +45,6 @@ export class UsersPage implements OnInit {
    */
   public get_users() {
     this.api.get_all_user(this.searchText,this.SortBy,this.filterBy).subscribe(async res =>{
-      console.log(await res);
       this.results_count = res.rows;
       this.Users = res.data;
     })

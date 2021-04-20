@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController, ModalController, LoadingController } from "@ionic/angular";
 import { ChangePassPage } from '../change-pass/change-pass.page';
-import { ChangeCellPage } from '../change-cell/change-cell.page'
 import { AlertService } from '../../services/alert.service';
 import { ApiService } from '../../services/api.service';
 import { GlobalSettings } from '../../services/global.service';
 import { ToasterService } from '../../services/toaster.service';
 import { FirebaseService } from '../../services/firebase.service';
-// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import * as moment from 'moment';
 
 @Component({
@@ -35,14 +33,14 @@ export class ProfilePage implements OnInit {
       names: ['', Validators.required],
       surname: ['', Validators.required],
       gender: ['', Validators.required],
-      address: ['', Validators.required]
+      contact: ['', Validators.required]
     });
   }
 
   public profileForm: FormGroup;
   isKeyboardHide = true;
   public day = moment().add(0, 'd').format().toString();
-  public image: any = "../../../assets/avater-default.png"
+  public image: any = "../../../assets/avater-default.png";
 
   ngOnInit() {
     this.getProfile();
@@ -85,17 +83,19 @@ export class ProfilePage implements OnInit {
     });
     await loading.present();
 
-    //get user details from database
+    // get user details from database
     this.api.get_user().subscribe(
       data => {
         if (data.status == 0) {
-          this.image = data.data[0].photourl;
+          if(data.data[0].photourl){
+            this.image = data.data[0].photourl;
+          }
           this.profileForm.setValue({
             'email': data.data[0].email,
             'names': data.data[0].names,
             'surname': data.data[0].surname,
             'gender': data.data[0].gender,
-            'address': data.data[0].address,
+            'contact': data.data[0].contact,
           });
           loading.dismiss();
         } else {
@@ -125,16 +125,16 @@ export class ProfilePage implements OnInit {
 
   //open chacge cellphone modal
   public async openChangeCell() {
-    const modal = await this.modalController.create({
-      component: ChangeCellPage,
-      cssClass: 'modal-class'
-    });
-    return await modal.present();
+    // const modal = await this.modalController.create({
+    //   component: ChangeCellPage,
+    //   cssClass: 'modal-class'
+    // });
+    // return await modal.present();
   }
 
   //update profile
   public async updateProfile() {
-    let address = this.profileForm.get('address').value;
+    let contact = this.profileForm.get('contact').value;
     let country = 'South Africa';
     let modifiedondatetime = this.day.substr(0, 10) + ' ' + this.day.substr(11, 8);
     let email = this.profileForm.get('email').value;
@@ -149,7 +149,7 @@ export class ProfilePage implements OnInit {
 
     await loading.present();
 
-    this.api.update_user(address, country, modifiedondatetime, email, gender[0], names, surname, dateofbirth)
+    this.api.update_user(contact, country, modifiedondatetime, email, gender[0], names, surname, dateofbirth)
       .subscribe(data => {
         loading.dismiss();
         if (data.status == 0) {

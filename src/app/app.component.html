@@ -4,7 +4,9 @@
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>
-            Dashborad
+
+            <img src="../assets/icon/vlearn-logo.png" />
+
           </ion-list-header>
           <br>
 
@@ -30,7 +32,7 @@
                   [md]="this.userPages[0].icon + '-sharp'"></ion-icon>
                 <ion-label>{{this.userPages[0].title}}</ion-label>
               </ion-item>
-              <ion-item (click)="logout()" lines="none" detail="false" routerLinkActive="selected">
+              <ion-item class="link" (click)="logout()" lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon slot="start" [ios]="this.userPages[1].icon + '-outline'"
                   [md]="this.userPages[1].icon + '-sharp'"></ion-icon>
                 <ion-label>{{this.userPages[1].title}}</ion-label>
@@ -57,10 +59,29 @@
 
   <ion-header *ngIf="isLogginIn">
     <ion-toolbar>
-      <img (click)="go_home()" src="../assets/icon/lebom-logo.png" style="height: 60px;padding-left: 30px;" />
+      <ion-title>
+        <ion-row>
+          <img (click)="go_home()" src="../assets/icon/vlearn-logo.png" style="height: 60px;padding-left: 30px;" />
+          <!-- <p class="link" (click)="go_home()">Home</p> -->
+          <p class="link" (click)="goto_register()">Register</p>
+        </ion-row>
+      </ion-title>
     </ion-toolbar>
   </ion-header>
 
+  <ion-header *ngIf="isRegistering">
+    <ion-toolbar>
+      <ion-title>
+        <ion-row>
+          <img (click)="go_home()" src="../assets/icon/vlearn-logo.png" style="height: 60px;padding-left: 30px;" />
+          <!-- <p class="link" (click)="go_home()">Home</p> -->
+          <p class="link" (click)="goto_login()">Login</p>
+        </ion-row>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- login form -->
   <ion-grid class="container" *ngIf="isLogginIn">
 
     <ion-card class="center">
@@ -73,18 +94,22 @@
           <ion-item class="input-valid">
             <ion-input type="email" placeholder="Email Address" formControlName="email"></ion-input>
           </ion-item>
-          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+          <span class="error ion-padding" *ngIf="isSubmitted && loginErrorControl.email.errors?.required">
             cellphone/email is required.
           </span>
           <br>
           <ion-item class="input-valid">
             <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
           </ion-item>
-          <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.required">
+          <span class="error ion-padding" *ngIf="isSubmitted && loginErrorControl.password.errors?.required">
             Password is required.
           </span>
           <br>
-          <ion-button (click)="login()" style="width: 100%;" shape="outline">Sign in</ion-button>
+          <ion-button (click)="login()" style="width: 100%;" shape="outline">Login</ion-button>
+          <br>
+          <span class="ion-padding" style="text-align: center;">
+            <p (click)="forgot_pass()" class="link">Forgot Password ? Reset password</p>
+          </span>
         </ion-card-content>
       </form>
 
@@ -92,119 +117,158 @@
 
   </ion-grid>
 
-  <ion-content *ngIf="!isLoggedIn && !isLogginIn">
-    <ion-grid style="width: 100%;">
-      <ion-header>
-        <ion-toolbar>
-          <img src="../assets/icon/lebom-logo.png" style="height: 60px;padding-left: 30px;" />
-        </ion-toolbar>
-      </ion-header>
+  <!-- register form -->
+  <ion-grid class="container" *ngIf="isRegistering">
 
-      <!-- body -->
-      <ion-row>
-        <ion-col class="body">
-          <ion-text>
-            <h1>
-              <strong>
-                Start sending parcels
-              </strong>
-            </h1>
-            <p>
-              Start using the Lebo .M Courier app on your phone to start sending your parcel with care from us
-            </p>
-          </ion-text>
-        </ion-col>
-        <ion-col style="padding: 30px;">
-          <ion-row>
-            <ion-col>
-              <img src="../assets/LMC - Wireframe high fidelity - Client's prespective.png" style="height: 400px;" />
-            </ion-col>
-            <ion-col>
-              <img src="../assets/icon/app-store-apple-f1f919205b.svg" style=" width: 200px;padding-top: 30px;" />
-              <br>
-              <img src="../assets/icon/app-store-google-4d63c31a3e.svg" style="width: 200px;padding-top: 30px;" />
-
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-
+    <ion-card class="center">
       <br>
+      <ion-item lines="none">
+        <ion-label>Sign Up</ion-label>
+      </ion-item>
+      <form [formGroup]="registerForm">
+        <ion-card-content>
 
-      <ion-row>
+          <ion-item class="input-valid">
+            <ion-input type="text" placeholder="Names" formControlName="names"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.names.errors?.required">
+            Name is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.names.errors?.pattern">
+            <p>invalid names entered</p>
+          </span>
+          <br>
 
-        <ion-col style="padding: 30px;">
+          <ion-item class="input-valid">
+            <ion-input type="text" placeholder="surname" formControlName="surname"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.surname.errors?.required">
+            surname is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.surname.errors?.pattern">
+            <p>invalid surname entered</p>
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-input type="email" placeholder="Email Address" formControlName="email"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.email.errors?.required">
+            email is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.email.errors?.pattern">
+            invalid email entered
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.password.errors?.required">
+            Password is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.password.errors?.pattern">
+            Minimum eight characters, at least one letter, one number and one special character:
+          </span>
+          <br>
+
+
+          <ion-button (click)="register()" style="width: 100%;" shape="outline">Register</ion-button>
+          <br>
+          <span class="ion-padding" style="text-align: center;">
+            <p (click)="goto_login()" class="link">Already have an account ? Login</p>
+          </span>
+        </ion-card-content>
+      </form>
+
+    </ion-card>
+
+  </ion-grid>
+
+  <ion-content *ngIf="!isLoggedIn && !isLogginIn && !isRegistering">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>
           <ion-row>
-            <ion-col>
-              <img src="../assets/icon/section-800x800-001-1-ol2vaabhzo7iakltwcsk08yb7hxbv4fyfa73gbs5s0.jpg"
-                style="width: 100%;" />
-            </ion-col>
+            <img (click)="go_home()" src="../assets/icon/vlearn-logo.png" style="height: 60px;padding-left: 30px;" />
+            <!-- <p class="link" (click)="go_home()">Home</p> -->
+            <p class="link" (click)="goto_login()">Login</p>
           </ion-row>
-        </ion-col>
+        </ion-title>
+      </ion-toolbar>
+    </ion-header>
 
-        <ion-col class="body">
-          <ion-text>
-            <h1>
-              <strong>
-                HOW IT WORKS:
-              </strong>
-            </h1>
-            <p>
-              Upon receiving your request for a collection we will dispatch directly to pick up your parcel.
-              Your parcel will be driven directly to its location. A ‘safe hands’ service is available for those
-              extremely fragile and sensitive shipments. We ensure that we handle all parcels with care, is
-              kept to a minimum with the benefit of reducing the possibility of damage, theft and/or
-              miss routing which can lead to lengthy delays. </p>
-          </ion-text>
-        </ion-col>
+    <!-- body -->
+    <ion-row>
+      <ion-col class="body">
+        <ion-text>
+          <h1>
+            <strong>
+              About
+            </strong>
+          </h1>
+          <p>
+            Road segments analysis platform. The main aim is to detect and record artifacts (cracks , potholes and
+            patches ) on the road and where they are located .Thus also giving visual representation of the data
+            collected. Inspection analysis will be done automatically with the platforms algorithms and artificial
+            intelligence (AI)
+          </p>
+        </ion-text>
+      </ion-col>
+
+      <!-- <ion-col style="padding: 30px;"> -->
+        <ion-slides [options]="slideOpts" style="height: 500px;width: 50%;padding: 30px;">
+          <ion-slide>
+            <img src="../assets/cracks.jfif"  />
+          </ion-slide>
+
+          <ion-slide>
+            <img src="../assets/pothole detection.png"  />
+          </ion-slide>
+
+        </ion-slides>
+      <!-- </ion-col> -->
+    </ion-row>
+
+    <br>
 
 
+
+    <!-- footer -->
+    <ion-footer>
+      <ion-row>
+        <br>
       </ion-row>
 
-      <!-- footer -->
-      <ion-header>
-        <ion-toolbar>
-          <ion-row>
-            <br>
-          </ion-row>
-          <ion-row>
-            <ion-col class="social">
-              <ion-icon name="logo-facebook"></ion-icon>
-              <ion-icon name="logo-instagram"></ion-icon>
-              <ion-icon name="logo-twitter"></ion-icon>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <br>
-          </ion-row>
+      <ion-row>
+        <br>
+      </ion-row>
 
-          <ion-row style="padding: 60px;text-align: center;">
-            <ion-col class="col">
-              <ion-icon name="mail-outline"></ion-icon>
-              <br>
-              <a href="mailto:info@lebomcourier.co.za">info@lebomcourier.co.za</a>
-            </ion-col>
+      <ion-row style="padding: 60px;text-align: center;">
+        <ion-col class="col">
+          <ion-icon name="mail-outline"></ion-icon>
+          <br>
+          <a href="mailto:info@novosense.co.za">info@novosense.co.za</a>
+        </ion-col>
 
-            <ion-col class="col">
-              <ion-icon name="location-outline"></ion-icon>
-              <br>
-              <a href="geo:38.62464092991612,-90.18476128578186">5 Mallard street
-                Terenure X6
-                Kempton Park
-                1619
-              </a>
-            </ion-col>
+        <ion-col class="col">
+          <ion-icon name="location-outline"></ion-icon>
+          <br>
+          <a href="geo:38.62464092991612,-90.18476128578186">5 Mallard street
+            Terenure X6
+            Kempton Park
+            1619
+          </a>
+        </ion-col>
 
-            <ion-col class="col">
-              <ion-icon name="call-outline"></ion-icon>
-              <br>
-              <a href="tel:123-456-7890">+27 (79) 284 7093</a>
-            </ion-col>
-          </ion-row>
+        <ion-col class="col">
+          <ion-icon name="call-outline"></ion-icon>
+          <br>
+          <a href="tel:123-456-7890">+27 123-456-7890</a>
+        </ion-col>
+      </ion-row>
 
-        </ion-toolbar>
-      </ion-header>
-    </ion-grid>
+    </ion-footer>
   </ion-content>
 
 </ion-app>

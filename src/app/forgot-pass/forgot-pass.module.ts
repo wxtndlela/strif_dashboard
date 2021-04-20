@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DriversPageRoutingModule } from './drivers-routing.module';
+import { ForgotPassPageRoutingModule } from './forgot-pass-routing.module';
 
-import { DriversPage } from './drivers.page';
+import { ForgotPassPage } from './forgot-pass.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { DriversPage } from './drivers.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    DriversPageRoutingModule
+    ForgotPassPageRoutingModule
   ],
-  declarations: [DriversPage]
+  declarations: [ForgotPassPage]
 })
-export class DriversPageModule {}
+export class ForgotPassPageModule {}

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Reset password</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <form [formGroup]="resetPassForm">
+      <ion-card-content>
+
+        <ion-item class="input-valid">
+          <ion-input type="email" placeholder="Enter Email Address" formControlName="email"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+          email is required.
+        </span>
+        <br>
+        
+        <ion-button (click)="submit()" style="width: 100%;" shape="outline">Reset password</ion-button>
+        <br>
+        <span class="ion-padding" style="text-align: center;">
+        </span>
+      </ion-card-content>
+    </form>
+  </ion-grid>
+</ion-content>
