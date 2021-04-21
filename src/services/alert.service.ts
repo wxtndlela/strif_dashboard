@@ -15,7 +15,6 @@ export class AlertService {
   async presentWarnAlert(msg) {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
-      header: 'Lebo.M Courier',
       subHeader: 'Warning ⚠️',
       message: msg,
       buttons: ['OK']
@@ -27,7 +26,6 @@ export class AlertService {
   async presentDangerAlert(msg) {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
-      header: 'Lebo M. Curriers',
       subHeader: 'Danger ❌',
       message: msg,
       buttons: ['OK']
@@ -38,7 +36,6 @@ export class AlertService {
   async presentOtpAlert(msg) {
     const alert = await this.alertCtrl.create({
       cssClass: 'my-custom-class',
-      header: 'Lebo M. Curriers',
       subHeader: 'Danger ❌',
       message: msg,
       buttons: [
