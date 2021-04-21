@@ -20,7 +20,7 @@ export class ApiService {
   // _Url = "http://127.0.0.1:5000";
 
   //api server URL
-  _Url = "https://strif-backend.herokuapp.com/";
+  _Url = "https://strif-backend.herokuapp.com";
 
   key = "AIzaSyAPmHje9E98H-ut1Ol-S8XE7h3ucKTF2PQ";
 
