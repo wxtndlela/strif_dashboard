@@ -1,13 +1,8 @@
 <ion-header>
   <ion-toolbar>
+    <br>
     <ion-title>routes</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-  <ion-grid>
-
+    <br>
     <ion-card>
       <ion-card-content>
         <ion-item lines="none">
@@ -33,16 +28,24 @@
         </ion-item>
       </ion-card-content>
     </ion-card>
+  </ion-toolbar>
+</ion-header>
 
-    <ion-card>
+<ion-content>
+
+  <ion-grid>
+
+  
+
+    <!-- <ion-card>
       <ion-card-content>
         legend here
       </ion-card-content>
-    </ion-card>
+    </ion-card> -->
    
 
     <ion-card>
-      <ion-row id="map_canvas" [style.height.vh]=mapHeight ></ion-row>
+      <ion-row id="map_canvas" [style.height.vh]=mapHeight [options]=options [zoom]=zoom ></ion-row>
     </ion-card>
   </ion-grid>
 

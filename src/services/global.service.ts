@@ -34,7 +34,7 @@ export class GlobalSettings {
         this.asses_filter = new BehaviorSubject<String>('Trafic');
         this.asses_report = new BehaviorSubject<String>('');
 
-        this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat: -26.453575, lng: 29.196015 });
+        this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-25.998782, lng:28.127535 });
 
     }
 

@@ -17,10 +17,11 @@ export class ApiService {
   }
 
   //api tesing server URL
-  _Url = "http://127.0.0.1:3000";
+  // _Url = "http://127.0.0.1:5000";
 
   //api server URL
-  //_Url = "https://lmcapi.onrender.com";
+  _Url = "https://strif-backend.herokuapp.com/";
+
   key = "AIzaSyAPmHje9E98H-ut1Ol-S8XE7h3ucKTF2PQ";
 
   //ADD
@@ -75,6 +76,12 @@ export class ApiService {
   */
   get_all_segments(search, SortBy, filterBy, funnelBy) {
     return this.http.post<any>(`${this._Url}/get_all_segments`, { search, SortBy, filterBy, funnelBy });
+  }
+  /*
+  * api to get all segment by search from the database
+  */
+  get_segment(segment_id) {
+    return this.http.post<any>(`${this._Url}/get_segment`, {  segment_id });
   }
 
 

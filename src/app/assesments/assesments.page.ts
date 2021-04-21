@@ -36,8 +36,7 @@ export class AssesmentsPage implements OnInit {
       this.center = value;
     });
 
-    this.get_routes();
-
+    this.load_map();
 
   }
 
@@ -45,15 +44,15 @@ export class AssesmentsPage implements OnInit {
   public mapHeight = 70;
   private map;
 
-  zoom: 8;
+  zoom: 18;
   center: any;
   options: google.maps.MapOptions = {
     mapTypeId: 'hybrid',
     zoomControl: true,
     scrollwheel: true,
     disableDoubleClickZoom: true,
-    // maxZoom: 15,
-    // minZoom: 8,
+    maxZoom: 10,
+    minZoom: 8,
   }
 
   public Parcels: any = [];
@@ -61,7 +60,7 @@ export class AssesmentsPage implements OnInit {
   public searchText = '';
   public filterBy: String = '';
   public municipalities: String = '';
-  atrifact_image = "../../../assets/avater-default.png";
+  atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
 
   async presentPopover(ev: any, event) {
     String(event).substr
@@ -86,83 +85,86 @@ export class AssesmentsPage implements OnInit {
       zoom: 15
     });
 
-    const contentString =
-    '<div id="content">' +
-    '<div id="siteNotice">' +
-    "</div>" +
-    
-    '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
-    '<div id="bodyContent">' +
-    "<img style='height:200px;' src='"+this.atrifact_image+"' />" +
-
-    "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
-    "sandstone rock formation in the southern part of the " +
-    "Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) " +
-    "south west of the nearest large town, Alice Springs; 450&#160;km " +
-    "(280&#160;mi) by road. Kata Tjuta and Uluru are the two major " +
-    "features of the Uluru - Kata Tjuta National Park. Uluru is " +
-    "sacred to the Pitjantjatjara and Yankunytjatjara, the " +
-    "Aboriginal people of the area. It has many springs, waterholes, " +
-    "rock caves and ancient paintings. Uluru is listed as a World " +
-    "Heritage Site.</p>" +
-    '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
-    "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
-    "(last visited June 22, 2009).</p>" +
-    "</div>" +
-    "</div>";
+    var atrifact_image = '';
 
 
-    let marker = new google.maps.Marker({
-      position: this.center,
-      map: this.map,
-			title: 'Golden Gate Bridge',
-      icon: {
-        url : './assets/markercluster/small.png',
-        size: new google.maps.Size(20, 32),
-      },
+
+    let marker1 = new google.maps.Marker({
+      position: { lat: -25.999168, lng: 28.128191 },
+      map: this.map
     });
-
-    const infowindow = new google.maps.InfoWindow({
-      content: contentString,
-    });
-    marker.addListener("click", () => {
-      infowindow.open(this.map, marker);
+    let marker2 = new google.maps.Marker({
+      position: { lat: -25.998546, lng: 28.127063 },
+      map: this.map
+    }); let marker3 = new google.maps.Marker({
+      position: { lat: -25.998628, lng: 28.127229 },
+      map: this.map
+    }); let marker4 = new google.maps.Marker({
+      position: { lat: -25.998729, lng: 28.127417 },
+      map: this.map
+    }); let marker5 = new google.maps.Marker({
+      position: { lat: -25.998864, lng: 28.127680 },
+      map: this.map
+    }); let marker6 = new google.maps.Marker({
+      position: { lat: -25.999028, lng: 28.127975 },
+      map: this.map
+    }); let marker7 = new google.maps.Marker({
+      position: { lat: -25.999158, lng: 28.128200 },
+      map: this.map
     });
 
 
-    // for (let i = 0; i < this.routes.length; i++) {
-    //   let DISTRICT = 'Gert Sibande';
-    //   let path = [];
 
-    //   path.push(
-    //     {
-    //       lat: Number(this.routes[i].START_LATITUDE),
-    //       lng: Number(this.routes[i].START_LONGITUDE)
-    //     }
-    //   );
+    marker1.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+      this.open_info_windows(atrifact_image, marker1)
+    });
+    marker2.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0944.JPG";
+      this.open_info_windows(atrifact_image, marker2)
+    });
+    marker3.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0943.JPG";
+      this.open_info_windows(atrifact_image, marker3)
+    });
+    marker4.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
+      this.open_info_windows(atrifact_image, marker4)
+    });
+    marker5.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0942.JPG";
+      this.open_info_windows(atrifact_image, marker5)
+    });
+    marker6.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0941.JPG";
+      this.open_info_windows(atrifact_image, marker6)
+    });
+    marker7.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
+      this.open_info_windows(atrifact_image, marker7)
+    });
 
-    //   path.push(
-    //     {
-    //       lat: Number(this.routes[i].END_LATITUDE),
-    //       lng: Number(this.routes[i].END_LONGITUDE)
-    //     }
-    //   )
+    var path = [
+      { lat: -25.999168, lng: 28.128191 },
+      { lat: -25.999158, lng: 28.128200 }
+    ]
 
-    //   // console.log('DISTRICT:', this.routes[i].DISTRICT)
+    const polyline = new google.maps.Polyline({
+      path: [
+        { lat: -25.998444, lng: 28.126918 },
+        { lat: -25.998782, lng: 28.127535 },
+        { lat: -25.999163, lng: 28.128189 }
+      ],
+      geodesic: true,
+      strokeColor: "#2dd36f",
+      strokeOpacity: 1.0,
+      strokeWeight: 4,
+      map: this.map
+    });
 
 
-    //   // const polyline = new google.maps.Polyline({
-    //   //   path: path,
-    //   //   geodesic: true,
-    //   //   strokeColor: "#FF0000",
-    //   //   strokeOpacity: 1.0,
-    //   //   strokeWeight: 2,
-    //   //   map:map
-    //   // });
+    polyline.setMap(this.map);
 
-    //   // polyline.setMap(map);
-
-    // }
 
   }
 
@@ -178,7 +180,6 @@ export class AssesmentsPage implements OnInit {
         this.routes
       );
 
-      this.load_map();
       this.get_roads();
 
     })
@@ -188,18 +189,17 @@ export class AssesmentsPage implements OnInit {
    * get_roads
    */
   public get_roads() {
-    this.api.get_nearest_roads('60.170880,24.942795|60.170879,24.942796|60.170877,24.942796').subscribe(data => {
+    this.api.get_segment(2).subscribe(data => {
 
-      var path = (JSON.parse(data)).snappedPoints;
-      var coords = [];
-      console.log(path)
+      var path = [
+        { lat: -25.999168, lng: 28.128191 },
+        { lat: -25.999158, lng: 28.128200 }
+      ]
 
-      for (let x = 0; x < path.length; x++) {
-        coords.push({ lat: path[x].location.latitude, lng: path[x].location.longitude });
-      }
+
 
       const polyline = new google.maps.Polyline({
-        path: coords,
+        path: path,
         geodesic: true,
         strokeColor: "#FF0000",
         strokeOpacity: 1.0,
@@ -210,6 +210,53 @@ export class AssesmentsPage implements OnInit {
 
 
     })
+  }
+
+  /**
+   * get_polyline
+   */
+  public get_polyline(points): any {
+    this.api.get_nearest_roads(points).subscribe(res => {
+      console.log(res);
+      return res;
+    })
+  }
+
+  /**
+   * open_info_windows
+   */
+  public open_info_windows(atrifact_image, marker) {
+    if (infowindow) {
+      infowindow.close();
+    }
+
+    const contentString =
+      '<div id="content">' +
+      '<div id="siteNotice">' +
+      "</div>" +
+
+      '<h1 id="firstHeading" class="firstHeading">Artifact</h1>' +
+      '<div id="bodyContent">' +
+      "<img style='height:200px;' src='" + atrifact_image + "' />" +
+
+      "<p><b>block_crack :</b>, {count: 33,sqm:2.3 }<br>" +
+      "<p><b>longitudinal_crack :</b>, {count: 32,sqm:3.2}<br>" +
+      "<p><b>transverse_crack :</b>, {count: 43,sqm:4.5}<br>" +
+      "<p><b>crocodile_crack :</b>, {count: 33,sqm:2.3 }<br>" +
+      "<p><b>patches :</b>, {count: 0,sqm:0}<br>" +
+      "<p><b>pothole :</b>, {count: 0,sqm:0}<br>" +
+
+      "</p>" +
+
+      "</div>" +
+      "</div>";
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    infowindow.open(this.map, marker);
+
   }
 
 

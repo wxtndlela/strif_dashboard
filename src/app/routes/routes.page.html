@@ -1,37 +1,39 @@
 <ion-header>
   <ion-toolbar>
+    <br>
     <ion-title>Segments</ion-title>
+    <br>
+    <ion-card>
+      <ion-searchbar [(ngModel)]="searchText" (ngModelChange)="get_segments()" showCancelButton="focus"></ion-searchbar>
+      <ion-item lines="none">
+        <ion-item class="searchItem" lines="none" (click)="presentPopover($event, 'segmentFilter')">
+          <ion-icon slot="start" name="filter-outline">
+          </ion-icon>
+          <ion-label>
+            {{filterBy}}
+          </ion-label>
+        </ion-item>
+  
+  
+        <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'segmentSort')">
+          <ion-icon slot="start" name="swap-vertical-outline">
+          </ion-icon>
+          <ion-label>
+            {{SortBy}}
+          </ion-label>
+        </ion-item>
+  
+        <ion-item class="searchItem">
+          <ion-label>Results: ({{results_count}})</ion-label>
+        </ion-item>
+  
+      </ion-item>
+    </ion-card>
   </ion-toolbar>
 </ion-header>
 
 <ion-header>
-  <br>
-  <ion-card>
-    <ion-searchbar [(ngModel)]="searchText" (ngModelChange)="get_segments()" showCancelButton="focus"></ion-searchbar>
-    <ion-item lines="none">
-      <ion-item class="searchItem" lines="none" (click)="presentPopover($event, 'segmentFilter')">
-        <ion-icon slot="start" name="filter-outline">
-        </ion-icon>
-        <ion-label>
-          {{filterBy}}
-        </ion-label>
-      </ion-item>
-
-
-      <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'segmentSort')">
-        <ion-icon slot="start" name="swap-vertical-outline">
-        </ion-icon>
-        <ion-label>
-          {{SortBy}}
-        </ion-label>
-      </ion-item>
-
-      <ion-item class="searchItem">
-        <ion-label>Results: ({{results_count}})</ion-label>
-      </ion-item>
-
-    </ion-item>
-  </ion-card>
+ 
 </ion-header>
 
 <ion-content>
