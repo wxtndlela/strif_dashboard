@@ -22,7 +22,7 @@ import * as moment from 'moment';
 export class AppComponent {
 
   public appPages = [
-    { title: 'Assesments', url: '/assesments', icon: 'map' },
+    { title: 'Assessment', url: '/assesments', icon: 'map' },
     { title: 'Segments', url: '/routes', icon: 'walk' },
     { title: 'Documents', url: '/documents', icon: 'documents' },
     { title: 'Users', url: '/users', icon: 'people' },
