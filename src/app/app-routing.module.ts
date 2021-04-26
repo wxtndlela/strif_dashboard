@@ -54,6 +54,10 @@ const routes: Routes = [
   },  {
     path: 'forgot-pass',
     loadChildren: () => import('./forgot-pass/forgot-pass.module').then( m => m.ForgotPassPageModule)
+  },
+  {
+    path: 'add-segment',
+    loadChildren: () => import('./add-segment/add-segment.module').then( m => m.AddSegmentPageModule)
   }
 
 

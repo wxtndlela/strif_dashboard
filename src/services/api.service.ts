@@ -17,7 +17,7 @@ export class ApiService {
   }
 
   //api tesing server URL
-  // _Url = "http://127.0.0.1:5000";
+  // _Url = "http://127.0.0.1:8080";
 
   //api server URL
   _Url = "https://strif-backend.herokuapp.com";
@@ -28,7 +28,14 @@ export class ApiService {
   /*
   * api to add new user to the database
   */
-  add_user(user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login) {
+  add_segment(seg_id ,snap_points ,sys_user_id ,municipality ,DISTRICT ,start_date ,end_date  ,distance  ,start_coords  ,end_coords   ,surface_type  ,TERR_CLASS  ,RCAM_CLASS ,STATUS) {
+    return this.http.post<any>(`${this._Url}/add_segment`, { seg_id ,snap_points ,sys_user_id ,municipality ,DISTRICT ,start_date ,end_date  ,distance  ,start_coords  ,end_coords   ,surface_type  ,TERR_CLASS  ,RCAM_CLASS ,STATUS });
+  }
+
+   /*
+  * api to add new segment to the database
+  */
+   add_user(user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login) {
     return this.http.post<any>(`${this._Url}/add_user`, { user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login });
   }
 
@@ -58,10 +65,10 @@ export class ApiService {
   }
 
   /*
-  * api to get nearest roads from googleapis
+  * api to get snapped points on roads from googleapis
   */
-  get_nearest_roads(points) {
-    return this.http.get(`https://roads.googleapis.com/v1/nearestRoads?points=${points}&key=${this.key}`, { responseType: 'text' });
+  get_nearest_roads(path) {
+    return this.http.get<any>(`https://roads.googleapis.com/v1/snapToRoads?path=${path}&interpolate=true&key=${this.key}`, {});
   }
 
   /*

@@ -40,7 +40,7 @@ export class FilterComponent implements OnInit {
   public driverSort = ['DESC', 'ASC'];
 
   public assesMunicipality = ['all', 'Mbeki', 'model', 'make'];
-  public assesFilter = ['all', 'Traffic', 'Potholes', 'Routes'];
+  public assesFilter = ['pothole', 'block_crack ', 'crocodile_crack ', 'patches', 'transverse_crack', 'longitudinal_crack'];
   public assesReport = ['NV2021-03', 'description', 'model', 'make'];
   public MunicipalCoords = [
     { lat: -26.453575, lng: 29.196015 },

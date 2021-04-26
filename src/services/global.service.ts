@@ -31,7 +31,7 @@ export class GlobalSettings {
         this.user_avater = new BehaviorSubject<String>('../../assets/avater-default.png');
         
         this.asses_municipality = new BehaviorSubject<String>('all municipalities');
-        this.asses_filter = new BehaviorSubject<String>('Trafic');
+        this.asses_filter = new BehaviorSubject<String>('pothole');
         this.asses_report = new BehaviorSubject<String>('');
 
         this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-25.998782, lng:28.127535 });
