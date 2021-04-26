@@ -32,7 +32,7 @@ export class AddSegmentPage implements OnInit {
   @Input('end_coords') end_coords;
 
   public day = moment().add(0, 'd').format().toString();
-
+  public isSubmitted = false;
 
 
   ngOnInit() {
