@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { AlertService } from '../../services/alert.service';
 import { ToasterService } from '../../services/toaster.service';
-import { PopoverController, ModalController, ToastController } from '@ionic/angular';
+import { PopoverController, ModalController, ToastController, LoadingController } from '@ionic/angular';
 import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
 import { AddSegmentPage } from '../add-segment/add-segment.page';
@@ -23,7 +23,8 @@ export class AssesmentsPage implements OnInit {
     public popoverController: PopoverController,
     private global: GlobalSettings,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private loadingCtrl : LoadingController
   ) {
   }
 
@@ -33,6 +34,20 @@ export class AssesmentsPage implements OnInit {
     });
     this.global.get_asses_filter().subscribe(async (value) => {
       this.filterBy = await value;
+      if (value != 'pothole') {
+        // this.marker = [];
+        // this.marker[0] = new google.maps.Marker({
+        //   position: { lat: -25.999168, lng: 28.128191 },
+        //   map: this.map
+        // });
+        // this.marker[0].addListener("click", () => {
+        //   let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+        //   this.open_info_windows(atrifact_image, this.marker)
+        // });
+
+        this.marker[0].setMap(null);
+      }
+
     });
 
     this.global.get_asses_MunicipalCoords().subscribe(async (value) => {
@@ -46,7 +61,7 @@ export class AssesmentsPage implements OnInit {
   routes: any[];
   public mapHeight = 70;
   private map;
-  private marker: any;
+  private marker: any[] = [];
 
   zoom: 18;
   center: any;
@@ -68,6 +83,7 @@ export class AssesmentsPage implements OnInit {
   atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
 
   private distance = 0;
+  private road_name = '';
   private snapped_points: any[] = [];
   private polyline: any;
 
@@ -94,73 +110,74 @@ export class AssesmentsPage implements OnInit {
       zoom: 15
     });
 
-
     var atrifact_image = '';
 
-    this.marker = new google.maps.Marker({
+    this.marker[0] = new google.maps.Marker({
       position: { lat: -25.999168, lng: 28.128191 },
       map: this.map
     });
-
-    // let marker1 = new google.maps.Marker({
-    //   position: { lat: -25.999168, lng: 28.128191 },
-    //   map: this.map
-    // });
-    // let marker2 = new google.maps.Marker({
-    //   position: { lat: -25.998546, lng: 28.127063 },
-    //   map: this.map
-    // }); let marker3 = new google.maps.Marker({
-    //   position: { lat: -25.998628, lng: 28.127229 },
-    //   map: this.map
-    // }); let marker4 = new google.maps.Marker({
-    //   position: { lat: -25.998729, lng: 28.127417 },
-    //   map: this.map
-    // }); let marker5 = new google.maps.Marker({
-    //   position: { lat: -25.998864, lng: 28.127680 },
-    //   map: this.map
-    // }); let marker6 = new google.maps.Marker({
-    //   position: { lat: -25.999028, lng: 28.127975 },
-    //   map: this.map
-    // }); let marker7 = new google.maps.Marker({
-    //   position: { lat: -25.999158, lng: 28.128200 },
-    //   map: this.map
-    // });
-
-
-    this.marker.addListener("click", () => {
+    this.marker[0].addListener("click", () => {
       atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
       this.open_info_windows(atrifact_image, this.marker)
     });
 
+    this.marker[0].setMap(this.map);
 
-    // marker1.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
-    //   this.open_info_windows(atrifact_image, marker1)
-    // });
-    // marker2.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0944.JPG";
-    //   this.open_info_windows(atrifact_image, marker2)
-    // });
-    // marker3.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0943.JPG";
-    //   this.open_info_windows(atrifact_image, marker3)
-    // });
-    // marker4.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
-    //   this.open_info_windows(atrifact_image, marker4)
-    // });
-    // marker5.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0942.JPG";
-    //   this.open_info_windows(atrifact_image, marker5)
-    // });
-    // marker6.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0941.JPG";
-    //   this.open_info_windows(atrifact_image, marker6)
-    // });
-    // marker7.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
-    //   this.open_info_windows(atrifact_image, marker7)
-    // });
+    this.addMarker({ lat: -25.999168, lng: 28.128191 });
+
+    let marker1 = new google.maps.Marker({
+      position: { lat: -25.999168, lng: 28.128191 },
+      map: this.map
+    });
+    let marker2 = new google.maps.Marker({
+      position: { lat: -25.998546, lng: 28.127063 },
+      map: this.map
+    }); let marker3 = new google.maps.Marker({
+      position: { lat: -25.998628, lng: 28.127229 },
+      map: this.map
+    }); let marker4 = new google.maps.Marker({
+      position: { lat: -25.998729, lng: 28.127417 },
+      map: this.map
+    }); let marker5 = new google.maps.Marker({
+      position: { lat: -25.998864, lng: 28.127680 },
+      map: this.map
+    }); let marker6 = new google.maps.Marker({
+      position: { lat: -25.999028, lng: 28.127975 },
+      map: this.map
+    }); let marker7 = new google.maps.Marker({
+      position: { lat: -25.999158, lng: 28.128200 },
+      map: this.map
+    });
+
+
+    marker1.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+      this.open_info_windows(atrifact_image, marker1)
+    });
+    marker2.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0944.JPG";
+      this.open_info_windows(atrifact_image, marker2)
+    });
+    marker3.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0943.JPG";
+      this.open_info_windows(atrifact_image, marker3)
+    });
+    marker4.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
+      this.open_info_windows(atrifact_image, marker4)
+    });
+    marker5.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0942.JPG";
+      this.open_info_windows(atrifact_image, marker5)
+    });
+    marker6.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0941.JPG";
+      this.open_info_windows(atrifact_image, marker6)
+    });
+    marker7.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
+      this.open_info_windows(atrifact_image, marker7)
+    });
 
     var path = [
       { lat: -25.999168, lng: 28.128191 },
@@ -180,9 +197,6 @@ export class AssesmentsPage implements OnInit {
       map: this.map
     });
 
-
-
-
     polyline.setMap(this.map);
 
     this.get_segments();
@@ -194,8 +208,9 @@ export class AssesmentsPage implements OnInit {
   /**
    * get_routes
    */
-  public get_routes() {
+  public async get_routes() {
     this.api.get_file('TMH18/TMH18.rcl').subscribe(data => {
+
 
       this.routes = JSON.parse(data);
 
@@ -210,16 +225,23 @@ export class AssesmentsPage implements OnInit {
   /**
    * get_segment
    */
-  public get_segments() {
+  public async get_segments() {
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading segments ....'
+    })
+
+    loading.present();
 
     this.api.get_all_segments('search', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
       // console.log('Segment data:', JSON.parse(data.data[4].snap_points));
       this.Segments = data.data;
-
+      loading.dismiss();
 
       for (let index = 0; index < this.Segments.length; index++) {
         var points = JSON.parse(this.Segments[index].snap_points);
         var path: any[] = [];
+        // console.log('snap_points:', points)
 
         if (points) {
           for (let i = 0; i < points.length; i++) {
@@ -241,7 +263,7 @@ export class AssesmentsPage implements OnInit {
    * get_polyline
    */
   public get_polyline(points): any {
-    this.api.get_nearest_roads(points).subscribe(res => {
+    this.api.get_snap_points(points).subscribe(res => {
       console.log(res);
       return res;
     })
@@ -332,8 +354,15 @@ export class AssesmentsPage implements OnInit {
       }
     }
 
-    this.api.get_nearest_roads(path).subscribe(async res => {
+    this.api.get_nearest_roads(path).subscribe(response => {
+      console.log('Nearest road:', response)
+    })
 
+
+
+    this.api.get_snap_points(path).subscribe(async res => {
+
+      console.log('res:',res)
       var path = res.snappedPoints;
       var points: any[] = [];
 
@@ -444,7 +473,19 @@ export class AssesmentsPage implements OnInit {
     return modal.present()
   }
 
+  setMapOnAll(map: google.maps.Map | null) {
+    // for (let i = 0; i < markers.length; i++) {
+    //   markers[i].setMap(map);
+    // }
+  }
 
+  addMarker(location) {
+    const marker = new google.maps.Marker({
+      position: location,
+      map: this.map,
+    });
+    this.marker.push(marker);
+  }
 
 
 

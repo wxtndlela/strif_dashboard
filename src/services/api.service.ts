@@ -65,9 +65,16 @@ export class ApiService {
   }
 
   /*
+  * api to get nearest roads name from googleapis
+  */
+  get_nearest_roads(points) {
+    return this.http.get<any>(`https://roads.googleapis.com/v1/nearestRoads?points=${points}&key=${this.key}`, {});
+  }
+
+  /*
   * api to get snapped points on roads from googleapis
   */
-  get_nearest_roads(path) {
+  get_snap_points(path) {
     return this.http.get<any>(`https://roads.googleapis.com/v1/snapToRoads?path=${path}&interpolate=true&key=${this.key}`, {});
   }
 

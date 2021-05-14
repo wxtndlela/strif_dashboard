@@ -9,16 +9,30 @@
     <form [formGroup]="addSegmentForm">
       <ion-card-content>
 
-        <ion-item class="input-valid">
-          <ion-input type="text" placeholder="Enter municipality Address" formControlName="municipality"></ion-input>
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">municipality:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="municipality">
+            <ion-select-option value="Gert sibande">Gert sibande</ion-select-option>
+            <ion-select-option value="Pixley Ka Seme Local Municipality">Pixley Ka Seme Local Municipality</ion-select-option>
+            <ion-select-option value="Dipaleseng Local Municipality">Dipaleseng Local Municipality</ion-select-option>
+            <ion-select-option value="Goven Mbeki Local Municipality">Goven Mbeki Local Municipality</ion-select-option>
+            <ion-select-option value="Mkhondo Local Municipality Map">Mkhondo Local Municipality Map</ion-select-option>
+            <ion-select-option value="Msukaligwa Local Municipality Map">Msukaligwa Local Municipality Map</ion-select-option>
+          </ion-select>
         </ion-item>
         <span class="error ion-padding" *ngIf="isSubmitted && errorControl.municipality.errors?.required">
           municipality is required.
         </span>
         <br>
         
-        <ion-item class="input-valid">
-          <ion-input type="text" placeholder="Enter surface_type Address" formControlName="surface_type"></ion-input>
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">surface_type:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="surface_type">
+            <ion-select-option value="Paved">Paved</ion-select-option>
+            <ion-select-option value="Gravel">Gravel</ion-select-option>
+            <ion-select-option value="Earth">Earth</ion-select-option>
+            <ion-select-option value="Track">Track</ion-select-option>
+          </ion-select>
         </ion-item>
         <span class="error ion-padding" *ngIf="isSubmitted && errorControl.surface_type.errors?.required">
           surface_type is required.
@@ -26,7 +40,7 @@
         <br>
 
         <ion-item class="input-valid">
-          <ion-input type="text" placeholder="Enter TERR_CLASS Address" formControlName="TERR_CLASS"></ion-input>
+          <ion-input type="text" placeholder="Enter TERR_CLASS " formControlName="TERR_CLASS"></ion-input>
         </ion-item>
         <span class="error ion-padding" *ngIf="isSubmitted && errorControl.TERR_CLASS.errors?.required">
           TERR_CLASS is required.
@@ -34,12 +48,97 @@
         <br>
 
         <ion-item class="input-valid">
-          <ion-input type="text" placeholder="Enter RCAM_CLASS Address" formControlName="RCAM_CLASS"></ion-input>
+          <ion-input type="text" placeholder="Enter Road_Width " formControlName="Road_Width"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.Road_Width.errors?.required">
+          Road_Width is required.
+        </span>
+        <br>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">RCAM_CLASS:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="RCAM_CLASS">
+            <ion-select-option value="F">F</ion-select-option>
+            <ion-select-option value="R">F</ion-select-option>
+            <ion-select-option value="M">M</ion-select-option>
+          </ion-select>
         </ion-item>
         <span class="error ion-padding" *ngIf="isSubmitted && errorControl.RCAM_CLASS.errors?.required">
           RCAM_CLASS is required.
         </span>
         <br>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">Gradient:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="Gradient">
+            <ion-select-option value="F">Flat</ion-select-option>
+            <ion-select-option value="M">Medium</ion-select-option>
+            <ion-select-option value="S">Steep</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.Gradient.errors?.required">
+          Gradient is required.
+        </span>
+        <br>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">Auth_RD_Dir:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="Auth_RD_Dir">
+            <ion-select-option value="N">North</ion-select-option>
+            <ion-select-option value="S">South</ion-select-option>
+            <ion-select-option value="E">East</ion-select-option>
+            <ion-select-option value="W">West</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.Auth_RD_Dir.errors?.required">
+          Auth_RD_Dir is required.
+        </span>
+        <br>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">Node_Type:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="Node_Type">
+            <ion-select-option value="F">Flat</ion-select-option>
+            <ion-select-option value="M">Medium</ion-select-option>
+            <ion-select-option value="S">Steep</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.Node_Type.errors?.required">
+          Node_Type is required.
+        </span>
+        <br>
+
+
+        <ion-item class="input-valid">
+          <ion-input type="text" placeholder="Enter Road Name" formControlName="Road_Name"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.Road_Name.errors?.required">
+          Road_Name is required.
+        </span>
+        <br>
+
+        
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">Lane_Code:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="Lane_Code">
+            <ion-select-option value="P1">P1</ion-select-option>
+            <ion-select-option value="P2">P2</ion-select-option>
+            <ion-select-option value="S1">S1</ion-select-option>
+            <ion-select-option value="S2">S2</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.Lane_Code.errors?.required">
+          Lane_Code is required.
+        </span>
+        <br>
+
+
+
+
+
+
+
+
 
         <ion-item class="input-valid">
           <ion-label>Distance:</ion-label>
