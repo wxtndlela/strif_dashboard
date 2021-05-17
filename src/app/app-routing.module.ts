@@ -58,6 +58,10 @@ const routes: Routes = [
   {
     path: 'add-segment',
     loadChildren: () => import('./add-segment/add-segment.module').then( m => m.AddSegmentPageModule)
+  },
+  {
+    path: 'traffic',
+    loadChildren: () => import('./traffic/traffic.module').then( m => m.TrafficPageModule)
   }
 
 

@@ -28,14 +28,14 @@ export class ApiService {
   /*
   * api to add new user to the database
   */
-  add_segment(seg_id ,snap_points ,sys_user_id ,municipality ,DISTRICT ,start_date ,end_date  ,distance  ,start_coords  ,end_coords   ,surface_type  ,TERR_CLASS  ,RCAM_CLASS ,STATUS) {
-    return this.http.post<any>(`${this._Url}/add_segment`, { seg_id ,snap_points ,sys_user_id ,municipality ,DISTRICT ,start_date ,end_date  ,distance  ,start_coords  ,end_coords   ,surface_type  ,TERR_CLASS  ,RCAM_CLASS ,STATUS });
+  add_segment(seg_id, snap_points, sys_user_id, municipality, DISTRICT, start_date, end_date, distance, start_coords, end_coords, surface_type, TERR_CLASS, RCAM_CLASS, STATUS) {
+    return this.http.post<any>(`${this._Url}/add_segment`, { seg_id, snap_points, sys_user_id, municipality, DISTRICT, start_date, end_date, distance, start_coords, end_coords, surface_type, TERR_CLASS, RCAM_CLASS, STATUS });
   }
 
-   /*
-  * api to add new segment to the database
-  */
-   add_user(user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login) {
+  /*
+ * api to add new segment to the database
+ */
+  add_user(user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login) {
     return this.http.post<any>(`${this._Url}/add_user`, { user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login });
   }
 
@@ -95,7 +95,13 @@ export class ApiService {
   * api to get all segment by search from the database
   */
   get_segment(segment_id) {
-    return this.http.post<any>(`${this._Url}/get_segment`, {  segment_id });
+    return this.http.post<any>(`${this._Url}/get_segment`, { segment_id });
+  }
+  /*
+  * api to get all traffic by search from the database
+  */
+  get_all_traffic(search, SortBy, filterBy, funnelBy) {
+    return this.http.post<any>(`${this._Url}/get_all_traffic`, { search, SortBy, filterBy, funnelBy });
   }
 
 
@@ -122,8 +128,8 @@ export class ApiService {
   * @params user_id
   * 
   * user_id can be uuid or email
-  */  
- resetPassword(email) {
+  */
+  resetPassword(email) {
     return this.http.post<any>(`${this._Url}/resetPassword`, { email });
   }
 

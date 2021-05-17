@@ -24,12 +24,12 @@ export class RoutesPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.global.get_parcel_filter_by().subscribe(async (value) => {
-      this.filterBy = await value;
-    });
-    this.global.get_parcel_sort_by().subscribe(async (value) => {
-      this.SortBy = await value;
-    });
+    // this.global.get_parcel_filter_by().subscribe(async (value) => {
+    //   this.filterBy = await value;
+    // });
+    // this.global.get_parcel_sort_by().subscribe(async (value) => {
+    //   this.SortBy = await value;
+    // });
 
     this.get_segments();
 

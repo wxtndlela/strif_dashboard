@@ -8,6 +8,7 @@ export class GlobalSettings {
     constructor(
         private api: ApiService,
     ) {
+
         this.user_filter_by = new BehaviorSubject<String>('names');
         this.user_sort_by = new BehaviorSubject<String>('ASC');
 
@@ -15,17 +16,8 @@ export class GlobalSettings {
         this.docs_sort_by = new BehaviorSubject<String>('ASC');
         this.docs_funnel_by = new BehaviorSubject<String>('all');
 
-        this.parcel_sort_by = new BehaviorSubject<String>('ASC');
-        this.parcel_filter_by = new BehaviorSubject<String>('addedondatetime');
-
-        this.special_sort_by = new BehaviorSubject<String>('ASC');
-        this.special_filter_by = new BehaviorSubject<String>('addedondatetime');
-
-        this.query_sort_by = new BehaviorSubject<String>('ASC');
-        this.query_filter_by = new BehaviorSubject<String>('addedondatetime');
-
-        this.driver_sort_by = new BehaviorSubject<String>('ASC');
-        this.driver_filter_by = new BehaviorSubject<String>('names');
+        this.traffic_sort_by = new BehaviorSubject<String>('ASC');
+        this.traffic_filter_by = new BehaviorSubject<String>('vehicle_type');
 
         this.user_name = new BehaviorSubject<String>('');
         this.user_avater = new BehaviorSubject<String>('../../assets/avater-default.png');
@@ -36,6 +28,22 @@ export class GlobalSettings {
 
         this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-25.998782, lng:28.127535 });
 
+    }
+
+    public traffic_sort_by: BehaviorSubject<Object>;
+    set_traffic_sort_by(newValue): void {
+        this.traffic_sort_by.next(newValue);
+    }
+    get_traffic_sort_by(): Observable<Object> {
+        return this.traffic_sort_by.asObservable();
+    }
+
+    public traffic_filter_by: BehaviorSubject<Object>;
+    set_traffic_filter_by(newValue): void {
+        this.traffic_filter_by.next(newValue);
+    }
+    get_traffic_filter_by(): Observable<Object> {
+        return this.traffic_filter_by.asObservable();
     }
 
     public asses_MunicipalCoords: BehaviorSubject<Object>;
@@ -144,21 +152,6 @@ export class GlobalSettings {
         return this.user_sort_by.asObservable();
     }
 
-    public parcel_sort_by: BehaviorSubject<String>;
-    set_parcel_sort_by(newValue): void {
-        this.parcel_sort_by.next(newValue);
-    }
-    get_parcel_sort_by(): Observable<String> {
-        return this.parcel_sort_by.asObservable();
-    }
-
-    public parcel_filter_by: BehaviorSubject<String>;
-    set_parcel_filter_by(newValue): void {
-        this.parcel_filter_by.next(newValue);
-    }
-    get_parcel_filter_by(): Observable<String> {
-        return this.parcel_filter_by.asObservable();
-    }
 
     public special_sort_by: BehaviorSubject<String>;
     set_special_sort_by(newValue): void {

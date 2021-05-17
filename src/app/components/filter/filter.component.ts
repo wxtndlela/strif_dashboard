@@ -20,24 +20,12 @@ export class FilterComponent implements OnInit {
   public userFilter = ['names', 'datecreated', 'email', 'contact', 'surname'];
   public userSort = ['DESC', 'ASC'];
 
+  public trafficFilter = ['vehicle_type', 'direction'];
+  public trafficSort = ['DESC', 'ASC'];
+
   public docFilter = ['doc_title', 'modifiedondatetime', 'doc_type'];
   public docSort = ['DESC', 'ASC'];
   public funnelBy = ['all', 'help', 'safety', 'about'];
-
-  public parcelSort = ['DESC', 'ASC'];
-  public parcelFilter = ['addedondatetime', 'description', 'weight', 'destination_address'];
-
-  public specialSort = ['DESC', 'ASC'];
-  public specialFilter = ['addedondatetime', 'description', 'weight', 'destination_address'];
-
-  public specialReqFilter = ['addedondatetime', 'description', 'weight', 'destination_address'];
-  public specialReqSort = ['DESC', 'ASC'];
-
-  public queryFilter = ['query', 'status', 'event_type'];
-  public querySort = ['DESC', 'ASC'];
-
-  public driverFilter = ['names', 'description', 'model', 'make'];
-  public driverSort = ['DESC', 'ASC'];
 
   public assesMunicipality = ['all', 'Mbeki', 'model', 'make'];
   public assesFilter = ['pothole', 'block_crack ', 'crocodile_crack ', 'patches', 'transverse_crack', 'longitudinal_crack'];
@@ -59,8 +47,8 @@ export class FilterComponent implements OnInit {
     switch (this.event) {
       case 'assesMunicipality':
         this.global.set_asses_municipality(filter);
-        for(let x = 0;x <this.assesMunicipality.length;x++){
-          if(this.assesMunicipality == filter){
+        for (let x = 0; x < this.assesMunicipality.length; x++) {
+          if (this.assesMunicipality == filter) {
             this.global.set_asses_MunicipalCoords(this.MunicipalCoords[x]);
           }
         }
@@ -71,6 +59,11 @@ export class FilterComponent implements OnInit {
       case 'assesReport':
         this.global.set_asses_report(filter);
         break;
+      case 'trafficFilter':
+        this.global.set_traffic_filter_by(filter);
+        break;
+      case 'trafficSort':
+        this.global.set_traffic_sort_by(filter);
         break;
 
       default:
@@ -93,6 +86,12 @@ export class FilterComponent implements OnInit {
         break;
       case 'assesReport':
         this.list = this.assesReport;
+        break;
+      case 'trafficFilter':
+        this.list = this.trafficFilter;
+        break;
+      case 'trafficSort':
+        this.list = this.trafficSort;
         break;
 
 

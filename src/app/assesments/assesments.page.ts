@@ -24,8 +24,9 @@ export class AssesmentsPage implements OnInit {
     private global: GlobalSettings,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private loadingCtrl : LoadingController
+    private loadingCtrl: LoadingController
   ) {
+    
   }
 
   ngOnInit() {
@@ -116,10 +117,10 @@ export class AssesmentsPage implements OnInit {
       position: { lat: -25.999168, lng: 28.128191 },
       map: this.map
     });
-    this.marker[0].addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
-      this.open_info_windows(atrifact_image, this.marker)
-    });
+    // this.marker[0].addListener("click", () => {
+    //   atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+    //   this.open_info_windows(atrifact_image, this.marker)
+    // });
 
     this.marker[0].setMap(this.map);
 
@@ -198,6 +199,12 @@ export class AssesmentsPage implements OnInit {
     });
 
     polyline.setMap(this.map);
+
+    polyline.addListener("click", () => {
+      // let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+      // this.open_info_windows(atrifact_image, this.marker)
+      console.log('clicked on a polyline');
+    });
 
     this.get_segments();
 
@@ -362,7 +369,7 @@ export class AssesmentsPage implements OnInit {
 
     this.api.get_snap_points(path).subscribe(async res => {
 
-      console.log('res:',res)
+      console.log('res:', res)
       var path = res.snappedPoints;
       var points: any[] = [];
 
@@ -484,7 +491,15 @@ export class AssesmentsPage implements OnInit {
       position: location,
       map: this.map,
     });
+
+    var atrifact_image = '';
+
     this.marker.push(marker);
+
+    marker.addListener("click", () => {
+      atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+      this.open_info_windows(atrifact_image, this.marker)
+    });
   }
 
 

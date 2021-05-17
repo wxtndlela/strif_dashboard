@@ -24,6 +24,7 @@ export class AppComponent {
   public appPages = [
     { title: 'Assessment', url: '/assesments', icon: 'map' },
     { title: 'Segments', url: '/routes', icon: 'walk' },
+    { title: 'Traffic', url: '/traffic', icon: 'car' },
     { title: 'Documents', url: '/documents', icon: 'documents' },
     { title: 'Users', url: '/users', icon: 'people' },
   ];
