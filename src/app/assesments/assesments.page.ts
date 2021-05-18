@@ -145,40 +145,34 @@ export class AssesmentsPage implements OnInit {
     }); let marker6 = new google.maps.Marker({
       position: { lat: -25.999028, lng: 28.127975 },
       map: this.map
-    }); let marker7 = new google.maps.Marker({
-      position: { lat: -25.999158, lng: 28.128200 },
-      map: this.map
-    });
+    }); 
 
 
     marker1.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+      atrifact_image = "../../../assets/artifacts/meetingR5.PNG";
       this.open_info_windows(atrifact_image, marker1)
     });
     marker2.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0944.JPG";
+      atrifact_image = "../../../assets/artifacts/meeting4.PNG";
       this.open_info_windows(atrifact_image, marker2)
     });
     marker3.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0943.JPG";
+      atrifact_image = "../../../assets/artifacts/meetingR3.PNG";
       this.open_info_windows(atrifact_image, marker3)
     });
     marker4.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
+      atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
       this.open_info_windows(atrifact_image, marker4)
     });
     marker5.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0942.JPG";
+      atrifact_image = "../../../assets/artifacts/meetingR1.PNG";
       this.open_info_windows(atrifact_image, marker5)
     });
     marker6.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0941.JPG";
+      atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
       this.open_info_windows(atrifact_image, marker6)
     });
-    marker7.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
-      this.open_info_windows(atrifact_image, marker7)
-    });
+
 
     var path = [
       { lat: -25.999168, lng: 28.128191 },
@@ -497,7 +491,7 @@ export class AssesmentsPage implements OnInit {
     this.marker.push(marker);
 
     marker.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+      atrifact_image = "../../../assets/artifacts/meetingR3.PNG";
       this.open_info_windows(atrifact_image, this.marker)
     });
   }
