@@ -6,7 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../services/alert.service';
 import { ForgotPassPage } from './forgot-pass/forgot-pass.page';
-import { NavController, LoadingController, ModalController } from "@ionic/angular";
+import { NavController, LoadingController, ModalController, MenuController, Platform } from "@ionic/angular";
 import { ToasterService } from '../services/toaster.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -29,10 +29,14 @@ export class AppComponent {
     { title: 'Users', url: '/users', icon: 'people' },
   ];
 
+  public selected_appPage = 'Users';
+
   public userPages = [
     { title: 'Profile', url: '/profile', icon: 'id-card' },
     { title: 'Logout', url: '', icon: 'log-out' },
   ];
+
+  public isMobile : any = false;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -47,6 +51,8 @@ export class AppComponent {
     private api: ApiService,
     private modal: ModalController,
     private toaster: ToasterService,
+    private menu: MenuController,
+    private platform: Platform
   ) {
     //check if user is logged in
     this.isLoggedIn = this.auth.isLoggedin();
@@ -61,6 +67,18 @@ export class AppComponent {
     } else {
       this.global.set_user_settings();
     }
+
+    this.platform.ready().then(() => {
+      this.set_layout(platform.width());
+      platform.resize.subscribe(() => {
+        console.log('size:', platform.width())
+        this.set_layout(platform.width());
+      })
+    });
+
+    this.global.get_isMobile().subscribe(async (value) =>{
+      this.isMobile = value;
+    })
 
     this.loginForm = this.fb.group({
       email: ['', Validators.required],
@@ -259,6 +277,34 @@ export class AppComponent {
   }
   get registerErrorControl() {
     return this.registerForm.controls;
+  }
+
+  /**
+   * open_menu
+   */
+  public async open_menu() {
+    this.menu.enable(true, 'menu');
+    this.menu.open('menu');
+  }
+
+  /**
+   * select_page
+   */
+  public select_page(page) {
+    this.selected_appPage = page;
+  }
+
+  /**
+   * set_layout
+   */
+  public set_layout(width : any) {
+
+    if(width <= 992){
+      this.global.set_isMobile(true);
+    }else{
+      this.global.set_isMobile(false);
+    }
+
   }
 
 

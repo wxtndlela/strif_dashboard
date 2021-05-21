@@ -1,6 +1,15 @@
 <ion-app>
+
+  <ion-toolbar *ngIf="isMobile">
+    <ion-item lines="none">
+      <ion-icon name="menu-outline" (click)="open_menu();"></ion-icon>
+      <ion-title>{{selected_appPage}}</ion-title>
+      <ion-icon name="bulb-outline" (click)='open_hint();'></ion-icon>
+    </ion-item>
+  </ion-toolbar>
+
   <ion-split-pane *ngIf="isLoggedIn" contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+    <ion-menu style="margin-top: 2vh;" contentId="main-content" menuId="menu" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>
@@ -20,13 +29,7 @@
 
           <ion-col class="anime" *ngIf="show">
             <ion-menu-toggle auto-hide="false">
-              <!-- <ion-item lines="none">
-                <ion-icon slot="start" name="moon"></ion-icon>
-                <ion-label>Toggle Dark Theme</ion-label>
-                <ion-toggle (click)="toggle_dark_mode($event)" id="themeToggle" slot="end">
-                </ion-toggle>
-              </ion-item> -->
-              <ion-item routerDirection="root" [routerLink]="this.userPages[0].url" (click)="this.userPages[0].url"
+              <ion-item routerDirection="root" [routerLink]="userPages[0].url" 
                 lines="none" detail="false" routerLinkActive="selected">
                 <ion-icon slot="start" [ios]="this.userPages[0].icon + '-outline'"
                   [md]="this.userPages[0].icon + '-sharp'"></ion-icon>
@@ -44,12 +47,12 @@
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
-              routerLinkActive="selected">
+              routerLinkActive="selected" (click)="select_page(appPages[i].title)">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-          
+
 
         </ion-list>
 
@@ -220,16 +223,16 @@
       </ion-col>
 
       <!-- <ion-col style="padding: 30px;"> -->
-        <ion-slides [options]="slideOpts" style="height: 500px;width: 50%;padding: 30px;">
-          <ion-slide>
-            <img src="../assets/cracks.jfif"  />
-          </ion-slide>
+      <ion-slides [options]="slideOpts" style="height: 500px;width: 50%;padding: 30px;">
+        <ion-slide>
+          <img src="../assets/cracks.jfif" />
+        </ion-slide>
 
-          <ion-slide>
-            <img src="../assets/pothole detection.png"  />
-          </ion-slide>
+        <ion-slide>
+          <img src="../assets/pothole detection.png" />
+        </ion-slide>
 
-        </ion-slides>
+      </ion-slides>
       <!-- </ion-col> -->
     </ion-row>
 

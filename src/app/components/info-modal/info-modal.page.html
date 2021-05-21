@@ -1,0 +1,218 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>info-modal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-col>
+
+
+      <!-- segment info -->
+      <ion-list>
+
+        <ion-list-header lines="insert" style="font-size: large;">
+          <strong>Segment</strong>
+        </ion-list-header>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            District
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Segment.district}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Surface Type :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Segment.surface_type}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Road width :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Segment.road_width}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            # lanes :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Segment.no_lanes}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Distance :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Segment.distance}} KM
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Added by :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Segment.sys_user_id}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Added on :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{(Segment.start_date).substr(0,16)}}
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+      <!-- assesment info -->
+      <ion-list>
+
+        <ion-list-header lines="insert" style="font-size: large;">
+          <strong>Defects</strong>
+        </ion-list-header>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            block_crack
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Assesment.block_crack}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            longitudinal_crack:
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Assesment.longitudinal_crack}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            transverse_crack :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Assesment.transverse_crack}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            crocodile_crack :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Assesment.crocodile_crack}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            patches :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Assesment.patches}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            pothole :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Assesment.pothole}}
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+      <!-- artifacts slides -->
+      <ion-list>
+        <ion-list-header lines="insert" style="font-size: large;">
+          <strong>Atrifacts</strong>
+        </ion-list-header>
+      </ion-list>
+
+      <ion-slides pager="true" [options]="slideOpts">
+        <ion-slide *ngFor="let artifact of Artifact">
+          <ion-img src="{{artifact.photo_url}}"></ion-img>
+        </ion-slide>
+      
+      </ion-slides>
+
+
+    </ion-col>
+  </ion-grid>
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <ion-button fill='outline' expand="block" color='danger' (click)="delete_segment();">Remove</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill='outline' expand="block" color='primary' (click)="start_new_analysis();">Analyse</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill='outline' expand="block" color='primary' (click)="dismiss();">Dismiss</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

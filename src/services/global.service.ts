@@ -27,7 +27,16 @@ export class GlobalSettings {
         this.asses_report = new BehaviorSubject<String>('');
 
         this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-25.998782, lng:28.127535 });
+        this.isMobile = new BehaviorSubject<Boolean>(false);
 
+    }
+
+    public isMobile: BehaviorSubject<Object>;
+    set_isMobile(newValue): void {
+        this.isMobile.next(newValue);
+    }
+    get_isMobile(): Observable<Object> {
+        return this.isMobile.asObservable();
     }
 
     public traffic_sort_by: BehaviorSubject<Object>;

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AssetsPageRoutingModule } from './assets-routing.module';
+import { InfoModalPageRoutingModule } from './info-modal-routing.module';
 
-import { AssetsPage } from './assets.page';
+import { InfoModalPage } from './info-modal.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AssetsPageRoutingModule
+    InfoModalPageRoutingModule
   ],
-  declarations: [AssetsPage]
+  declarations: [InfoModalPage]
 })
-export class AssetsPageModule {}
+export class InfoModalPageModule {}

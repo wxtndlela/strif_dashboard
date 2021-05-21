@@ -28,6 +28,7 @@
     "@tinymce/tinymce-angular": "^4.2.1",
     "@types/googlemaps": "^3.43.3",
     "connect": "^3.7.0",
+    "cordova-android": "9.1.0",
     "express": "^4.17.1",
     "firebase": "^8.2.9",
     "fs": "0.0.1-security",
@@ -82,13 +83,16 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
-      "cordova-plugin-ionic-webview": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
       "cordova-plugin-ionic-keyboard": {},
       "com-badrit-base64": {},
       "cordova-plugin-googlemaps": {}
     },
     "platforms": [
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

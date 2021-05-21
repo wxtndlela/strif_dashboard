@@ -7,6 +7,7 @@ import { PopoverController, ModalController, ToastController, LoadingController 
 import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
 import { AddSegmentPage } from '../add-segment/add-segment.page';
+import { InfoModalPage } from '../components/info-modal/info-modal.page';
 
 @Component({
   selector: 'app-assesments',
@@ -26,7 +27,7 @@ export class AssesmentsPage implements OnInit {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
   ) {
-    
+
   }
 
   ngOnInit() {
@@ -145,7 +146,7 @@ export class AssesmentsPage implements OnInit {
     }); let marker6 = new google.maps.Marker({
       position: { lat: -25.999028, lng: 28.127975 },
       map: this.map
-    }); 
+    });
 
 
     marker1.addListener("click", () => {
@@ -192,13 +193,15 @@ export class AssesmentsPage implements OnInit {
       map: this.map
     });
 
-    polyline.setMap(this.map);
-
     polyline.addListener("click", () => {
-      // let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
-      // this.open_info_windows(atrifact_image, this.marker)
+      let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+      this.open_info_windows(atrifact_image, polyline)
       console.log('clicked on a polyline');
     });
+
+    polyline.setMap(this.map);
+
+
 
     this.get_segments();
 
@@ -242,12 +245,13 @@ export class AssesmentsPage implements OnInit {
       for (let index = 0; index < this.Segments.length; index++) {
         var points = JSON.parse(this.Segments[index].snap_points);
         var path: any[] = [];
+        var id: any = this.Segments[index].id
         // console.log('snap_points:', points)
 
         if (points) {
           for (let i = 0; i < points.length; i++) {
             path.push(points[i])
-            this.draw_polyline(path)
+            this.draw_polyline(path, id)
           }
         }
       }
@@ -377,7 +381,7 @@ export class AssesmentsPage implements OnInit {
 
       set_snapped_points();
 
-      this.draw_polyline(points);
+      this.draw_polyline(points, '');
       // drawingManager.setDrawingMode(null);
       let origin = await path[0].location.latitude + ',' + path[0].location.longitude;
       let destination = await path[path.length - 1].location.latitude + ',' + path[path.length - 1].location.longitude
@@ -386,7 +390,7 @@ export class AssesmentsPage implements OnInit {
     })
   }
 
-  public async draw_polyline(path) {
+  public async draw_polyline(path, id) {
 
     this.polyline = new google.maps.Polyline({
       path: path,
@@ -395,6 +399,18 @@ export class AssesmentsPage implements OnInit {
       strokeOpacity: 1.0,
       strokeWeight: 4,
       map: this.map
+    });
+
+    this.polyline.addListener("click", async () => {
+      const modal = await this.modalCtrl.create({
+        component: InfoModalPage,
+        componentProps :{ 
+          'segment_id': id
+        }
+      })
+
+      await modal.present();
+
     });
 
     this.polyline.setMap(this.map);

@@ -20,7 +20,7 @@ export class ApiService {
   // _Url = "http://127.0.0.1:8080";
 
   //api server URL
-  _Url = "https://strif-backend.herokuapp.com";
+  _Url = "https://strif-backend.herokuapp.com" ;
 
   key = "AIzaSyAPmHje9E98H-ut1Ol-S8XE7h3ucKTF2PQ";
 
@@ -98,11 +98,24 @@ export class ApiService {
     return this.http.post<any>(`${this._Url}/get_segment`, { segment_id });
   }
   /*
+ * api to get all segment by search from the database
+ */
+  get_artifacts_by_segment(segment_id) {
+    return this.http.post<any>(`${this._Url}/get_artifacts_by_segment`, { segment_id });
+  }
+  /*
+ * api to get segement defects by segemnt id from the database
+ */
+  get_segment_defects(segment_id) {
+    return this.http.post<any>(`${this._Url}/get_segment_defects`, { segment_id });
+  }
+  /*
   * api to get all traffic by search from the database
   */
   get_all_traffic(search, SortBy, filterBy, funnelBy) {
     return this.http.post<any>(`${this._Url}/get_all_traffic`, { search, SortBy, filterBy, funnelBy });
   }
+
 
 
 
@@ -146,6 +159,10 @@ export class ApiService {
   //api to delete document on the database and server
   remove_document(doc_id) {
     return this.http.post<any>(`${this._Url}/remove_document`, { doc_id });
+  }
+  //api to delete segment on the database and server
+  remove_segment(segment_id) {
+    return this.http.post<any>(`${this._Url}/remove_segment`, { segment_id });
   }
 
 

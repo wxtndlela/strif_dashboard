@@ -81,7 +81,7 @@ export class RoutesPage implements OnInit {
     this.api.get_all_segments(search, SortBy, filterBy, funnelBy).subscribe(res => {
       this.results_count = res.rows;
       this.Segments = res.data;
-      // console.log(res);
+      console.log(res);
     })
   }
 
