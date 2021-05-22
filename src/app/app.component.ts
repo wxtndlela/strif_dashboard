@@ -312,5 +312,12 @@ export class AppComponent {
 
   }
 
+  /**
+   * open_hint
+   */
+  public open_hint() {
+    
+  }
+
 
 }
