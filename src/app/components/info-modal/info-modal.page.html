@@ -13,7 +13,7 @@
     <ion-col>
 
 
-      <!-- segment info -->
+      <!-- Segment[0] info -->
       <ion-list>
 
         <ion-list-header lines="insert" style="font-size: large;">
@@ -28,7 +28,7 @@
 
           </ion-label>
           <ion-label style="text-align: right;font-size: small;" slot="end">
-            {{Segment.district}}
+            {{Segment[0].district}}
           </ion-label>
         </ion-item>
 
@@ -40,7 +40,7 @@
 
           </ion-label>
           <ion-label style="text-align: right;font-size: small;" slot="end">
-            {{Segment.surface_type}}
+            {{Segment[0].surface_type}}
           </ion-label>
         </ion-item>
 
@@ -52,7 +52,7 @@
 
           </ion-label>
           <ion-label style="text-align: right;font-size: small;" slot="end">
-            {{Segment.road_width}}
+            {{Segment[0].road_width}}
           </ion-label>
         </ion-item>
 
@@ -64,7 +64,7 @@
 
           </ion-label>
           <ion-label style="text-align: right;font-size: small;" slot="end">
-            {{Segment.no_lanes}}
+            {{Segment[0].no_lanes}}
           </ion-label>
         </ion-item>
 
@@ -76,7 +76,7 @@
 
           </ion-label>
           <ion-label style="text-align: right;font-size: small;" slot="end">
-            {{Segment.distance}} KM
+            {{Segment[0].distance}} KM
           </ion-label>
         </ion-item>
 
@@ -88,7 +88,7 @@
 
           </ion-label>
           <ion-label style="text-align: right;font-size: small;" slot="end">
-            {{Segment.sys_user_id}}
+            {{Segment[0].sys_user_id}}
           </ion-label>
         </ion-item>
 
@@ -98,7 +98,7 @@
           </ion-label>
 
           <ion-label style="text-align: right;font-size: small;" slot="end">
-            {{(Segment.start_date).substr(0,16)}}
+            {{(Segment[0].start_date).substr(0,16)}}
           </ion-label>
         </ion-item>
 
@@ -209,10 +209,13 @@
   <ion-toolbar>
     <ion-row>
       <ion-col>
-        <ion-button fill='outline' expand="block" color='danger' (click)="delete_segment();">Remove</ion-button>
+        <ion-button fill='outline' expand="block" color='danger' (click)="delete_Segment[0]();">Remove</ion-button>
       </ion-col>
       <ion-col>
         <ion-button fill='outline' expand="block" color='primary' (click)="start_new_analysis();">Analyse</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill='outline' expand="block" color='primary' (click)="export_as();">Export</ion-button>
       </ion-col>
       <ion-col>
         <ion-button fill='outline' expand="block" color='primary' (click)="dismiss();">Dismiss</ion-button>

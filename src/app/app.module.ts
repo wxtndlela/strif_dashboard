@@ -15,6 +15,7 @@ import { AuthService } from '../services/auth.service';
 import { ApiService } from '../services/api.service';
 import { FirebaseService } from '../services/firebase.service';
 import { GlobalSettings } from '../services/global.service';
+import { FileService } from '../services/file.service';
 
 // Firebase
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -41,10 +42,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   ],
   entryComponents: [],
   imports: [
-    BrowserModule, 
+    BrowserModule,
     GoogleMapsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    IonicModule.forRoot(), 
+    IonicModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -59,8 +60,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
     ApiService,
     AlertService,
     ToasterService,
-    StatusBar
+    StatusBar,
+    FileService
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

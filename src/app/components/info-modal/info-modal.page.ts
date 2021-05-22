@@ -4,6 +4,7 @@ import { AlertService } from '../../../services/alert.service';
 import { ToasterService } from '../../../services/toaster.service';
 import { PopoverController, ModalController, ToastController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { GlobalSettings } from '../../../services/global.service';
+import { FileService } from '../../../services/file.service';
 
 @Component({
   selector: 'app-info-modal',
@@ -36,6 +37,7 @@ export class InfoModalPage implements OnInit {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private navCtrl: NavController,
+    private file: FileService
   ) {
 
   }
@@ -58,8 +60,8 @@ export class InfoModalPage implements OnInit {
 
     this.api.get_segment(this.segment_id).subscribe(response => {
       loading.dismiss();
-      console.log('segemnt:', response);
-      this.Segment = response.data[0];
+      // console.log('segemnt:', response);
+      this.Segment = response.data;
     })
   }
 
@@ -130,7 +132,7 @@ export class InfoModalPage implements OnInit {
   public async get_artifacts() {
 
     this.api.get_artifacts_by_segment(1).subscribe(response => {
-      console.log('artifacts:',response);
+      // console.log('artifacts:', response);
       this.Artifact = response.data;
     })
   }
@@ -139,11 +141,41 @@ export class InfoModalPage implements OnInit {
    * get_segment_defects
    */
   public async get_segment_defects() {
-    
+
     this.api.get_artifacts_by_segment(1).subscribe(response => {
-      console.log('defects:', response);
+      // console.log('defects:', response);
       this.Assesment = response.data[0];
     })
 
+  }
+
+  /**
+   * export_as
+   */
+  public async export_as() {
+    // this.file.exportAsCsvFile(response.data, 'Segment - ' + this.segment_id)
+    const alert = await this.alertCtrl.create({
+      header: 'Export',
+      message: 'Export file as ?',
+      buttons: [
+        {
+          text: 'CSV',
+          role: 'danger',
+          handler: () => {
+            let data = this.Segment;
+            this.file.exportAsCsvFile(data, 'Segment - ' + this.segment_id);
+          }
+        },
+        {
+          text: 'EXCEL',
+          role: 'danger',
+          handler: () => {
+            this.file.exportAsExcelFile(this.Segment, 'Segment - ' + this.segment_id);
+          }
+        }
+      ]
+    })
+
+    await alert.present();
   }
 }
