@@ -16,7 +16,7 @@
 @import "~@ionic/angular/css/normalize.css";
 @import "~@ionic/angular/css/structure.css";
 @import "~@ionic/angular/css/typography.css";
-@import '~@ionic/angular/css/display.css';
+@import "~@ionic/angular/css/display.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -25,44 +25,43 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-
 table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-  td, th {
-    border-bottom: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
 
-  tr:hover{
-    color: var(--ion-color-secondary);
-    
-  }
+td,
+th {
+  border-bottom: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
 
-  .header{
-    color: var(--ion-color-primary);
-  }
+tr:hover {
+  color: var(--ion-color-secondary);
+}
 
-.anime{
+.header {
+  color: var(--ion-color-primary);
+}
+
+.anime {
   opacity: 1;
   transition: opacity 1s ease-in;
 }
 
-.add-button{
-  ion-icon{
+.add-button {
+  ion-icon {
     color: var(--ion-color-light);
   }
 }
 
-.searchItem{
-  ion-icon{
+.searchItem {
+  ion-icon {
     color: var(--ion-color-primary);
   }
-  ion-label:hover{
+  ion-label:hover {
     cursor: pointer;
   }
 }
@@ -70,45 +69,67 @@ table {
 .my-custom-class::after {
   content: " ";
   position: absolute;
-  --border-radius: 15px 15px 0px 0px!important;
+  --border-radius: 15px 15px 0px 0px !important;
 }
 
 .modalClass .modal-wrapper {
   --height: 80%;
   --width: 90%;
   align-items: flex-end;
-  --border-radius: 15px 15px 0px 0px!important;
+  --border-radius: 15px 15px 0px 0px !important;
 }
 
 .smallmodalClass .modal-wrapper {
   --height: 80%;
   --width: 400px;
   align-items: flex-end;
-  --border-radius: 15px 15px 15px 15px!important;
+  --border-radius: 15px 15px 15px 15px !important;
 }
 
-ion-avatar{
+@media only screen and (max-width: 600px) {
+  ion-header {
+    ion-toolbar {
+      --background: var(--ion-color-secondary);
+    }
+  }
+  .infoModalClass {
+    
+    ion-header{
+      ion-toolbar {
+      --background: var(--ion-color-secondary);
+    }
+      ion-item{
+        --background: var(--ion-color-secondary-tint);
+      }
+    }
+    
+    --height: 100%;
+    --width: 100%;
+  }
+}
+
+ion-avatar {
   border: 1px var(--ion-color-primary);
 }
 
-.input{
+.input {
   text-align: left;
   border: 1px solid var(--ion-color-medium);
   border-radius: 10px;
   width: 90%;
   height: 42;
   margin-top: 10px;
-  margin-left:20px;
-  margin-right:20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
-.cancel:hover{
+.cancel:hover {
   color: var(--ion-color-danger);
   transform: scale(1.2);
 }
 
-.error{
-  color:  var(--ion-color-danger);
+.error {
+  color: var(--ion-color-danger);
   margin: auto;
 }
 
@@ -149,28 +170,28 @@ ion-avatar{
   color: var(--ion-color-success);
 }
 
-.save:hover{
+.save:hover {
   color: var(--ion-color-success);
   transform: scale(1.2);
 }
 
-.popoverclass{
+.popoverclass {
   border: 1px var(--ion-color-primary) !important;
 }
 
-.card-total{
-  ion-card{
+.card-total {
+  ion-card {
     height: 100px;
-    background-color:var(--ion-color-primary);
+    background-color: var(--ion-color-primary);
   }
-  ion-car-header{
+  ion-car-header {
     color: var(--ion-color-light);
     font-size: large;
     margin: auto;
   }
 }
 
-.link{
+.link {
   margin-right: 10px;
-  cursor:pointer
+  cursor: pointer;
 }

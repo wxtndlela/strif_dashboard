@@ -24,6 +24,7 @@
     "@angular/router": "~11.2.0",
     "@ionic-native/core": "^5.22.0-beta-1",
     "@ionic-native/google-maps": "^5.27.0-beta-20200630",
+    "@ionic-native/status-bar": "^5.33.0",
     "@ionic/angular": "^5.5.2",
     "@tinymce/tinymce-angular": "^4.2.1",
     "@types/googlemaps": "^3.43.3",

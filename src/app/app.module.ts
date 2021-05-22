@@ -30,6 +30,10 @@ import { EditorModule } from "@tinymce/tinymce-angular";
 //Environment secrets
 import { environment } from '../environments/environment';
 
+//cordova plugins
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +58,8 @@ import { environment } from '../environments/environment';
     AuthService,
     ApiService,
     AlertService,
-    ToasterService
+    ToasterService,
+    StatusBar
   ],
   bootstrap: [AppComponent],
 })

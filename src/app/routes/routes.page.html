@@ -23,7 +23,7 @@
           </ion-label>
         </ion-item>
   
-        <ion-item class="searchItem">
+        <ion-item class="searchItem" lines="none">
           <ion-label>Results: ({{results_count}})</ion-label>
         </ion-item>
   
@@ -49,18 +49,15 @@
               <th>ID</th>
               <th>District</th>
               <th>Municipality</th>
-              <th>Start coords</th>
-              <th>End coords</th>
+ 
               <th>Distance</th>
               <th>Start date</th>
               <th></th>
             </tr>
-            <tr *ngFor="let segment of Segments;">
+            <tr (click)="open_segment(segment.id)" *ngFor="let segment of Segments;">
               <td>{{segment.id}}</td>
-              <td>{{segment.district}}</td>
+              <td>{{segment.district}} KM</td>
               <td>{{segment.municipality}}</td>
-              <td>{{segment.start_coords}}</td>
-              <td>{{segment.end_coords}}</td>
               <td>{{segment.distance}}</td>
               <td>{{segment.start_date}}</td>
               <td>

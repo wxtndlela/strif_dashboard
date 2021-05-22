@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from '../services/api.service';
+import {NavController} from '@ionic/angular';
 
 @Injectable()
 export class GlobalSettings {
 
     constructor(
         private api: ApiService,
+        private navCtrl: NavController,
     ) {
 
         this.user_filter_by = new BehaviorSubject<String>('names');
@@ -199,6 +201,7 @@ export class GlobalSettings {
         if (user_id != null) {
             this.api.get_user().subscribe(res => {
                 this.set_user_name(res.data[0].names + ' ' + res.data[0].surname);
+                this.navCtrl.navigateRoot('assesments')
                 if (res.data[0].photourl == '') {
                     this.set_user_avater(res.data[0].photourl);
                 }

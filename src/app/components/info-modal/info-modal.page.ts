@@ -19,7 +19,10 @@ export class InfoModalPage implements OnInit {
   public Assesment: any;
   slideOpts = {
     initialSlide: 1,
-    speed: 100
+    speed: 400,
+    autoplay: {
+      delay: 1000,
+    }
   };
 
   constructor(
@@ -97,6 +100,8 @@ export class InfoModalPage implements OnInit {
         }
       ]
     })
+
+    await alert.present();
   }
 
   /**

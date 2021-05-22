@@ -406,7 +406,8 @@ export class AssesmentsPage implements OnInit {
         component: InfoModalPage,
         componentProps :{ 
           'segment_id': id
-        }
+        },
+        cssClass: 'infoModalClass'
       })
 
       await modal.present();

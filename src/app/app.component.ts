@@ -11,6 +11,7 @@ import { ToasterService } from '../services/toaster.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   template: 'The href is: {{href}}',
@@ -29,14 +30,14 @@ export class AppComponent {
     { title: 'Users', url: '/users', icon: 'people' },
   ];
 
-  public selected_appPage = 'Users';
+  public selected_appPage = 'Assessment';
 
   public userPages = [
     { title: 'Profile', url: '/profile', icon: 'id-card' },
     { title: 'Logout', url: '', icon: 'log-out' },
   ];
 
-  public isMobile : any = false;
+  public isMobile: any = false;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -52,7 +53,8 @@ export class AppComponent {
     private modal: ModalController,
     private toaster: ToasterService,
     private menu: MenuController,
-    private platform: Platform
+    private platform: Platform,
+    private statusBar: StatusBar
   ) {
     //check if user is logged in
     this.isLoggedIn = this.auth.isLoggedin();
@@ -74,9 +76,12 @@ export class AppComponent {
         console.log('size:', platform.width())
         this.set_layout(platform.width());
       })
+
+      // set status bar to white
+      this.statusBar.backgroundColorByHexString('#F27405');
     });
 
-    this.global.get_isMobile().subscribe(async (value) =>{
+    this.global.get_isMobile().subscribe(async (value) => {
       this.isMobile = value;
     })
 
@@ -297,11 +302,11 @@ export class AppComponent {
   /**
    * set_layout
    */
-  public set_layout(width : any) {
+  public set_layout(width: any) {
 
-    if(width <= 992){
+    if (width <= 992) {
       this.global.set_isMobile(true);
-    }else{
+    } else {
       this.global.set_isMobile(false);
     }
 
