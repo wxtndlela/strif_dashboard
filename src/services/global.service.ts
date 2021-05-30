@@ -30,8 +30,17 @@ export class GlobalSettings {
 
         this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-25.998782, lng:28.127535 });
         this.isMobile = new BehaviorSubject<Boolean>(false);
-
+        this.Municipality = new BehaviorSubject<Object>(null);
     }
+
+    public Municipality: BehaviorSubject<Object>;
+    set_Municipality(newValue): void {
+        this.Municipality.next(newValue);
+    }
+    get_Municipality(): Observable<Object> {
+        return this.Municipality.asObservable();
+    }
+
 
     public isMobile: BehaviorSubject<Object>;
     set_isMobile(newValue): void {

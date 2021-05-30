@@ -234,12 +234,13 @@ export class AppComponent {
     let gender = 'rather not say';
     let dateofbirth = '';
     let last_login = 'last_login';
-
-    console.log(date_created)
+    let municipality = ''; 
+    let local_municipality = '';
+    console.log(date_created);
 
 
     await loading.present();
-    this.api.add_user(user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login).subscribe(
+    this.api.add_user(user_role, password, date_created, date_modified, email, contact, country, province, municipality, local_municipality, names, surname, username, photo_url, gender, dateofbirth, last_login).subscribe(
       data => {
         if (data.status == 0) {
           console.log(data);

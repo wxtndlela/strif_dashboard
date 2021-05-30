@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { AlertService } from '../../services/alert.service';
-import { ToasterService} from '../../services/toaster.service';
-import { PopoverController } from '@ionic/angular';
+import { ToasterService } from '../../services/toaster.service';
+import { PopoverController, ModalController } from '@ionic/angular';
 import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
+import { AddUserPage } from '../add-user/add-user.page';
 
 @Component({
   selector: 'app-users',
@@ -18,7 +19,8 @@ export class UsersPage implements OnInit {
     private toaster: ToasterService,
     private Alerter: AlertService,
     public popoverController: PopoverController,
-    private global:GlobalSettings,
+    private global: GlobalSettings,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -30,23 +32,25 @@ export class UsersPage implements OnInit {
       this.SortBy = await value;
       this.get_users();
     });
+
   }
 
 
 
-  public Users: any  = [];
+  public Users: any = [];
   public results_count = 0;
   public searchText = '';
-  public SortBy : String = '';
-  public filterBy : String = '';
+  public SortBy: String = '';
+  public filterBy: String = '';
 
   /**
    * get_users
    */
   public get_users() {
-    this.api.get_all_user(this.searchText,this.SortBy,this.filterBy).subscribe(async res =>{
+    this.api.get_all_user(this.searchText, this.SortBy, this.filterBy).subscribe(async res => {
       this.results_count = res.rows;
       this.Users = res.data;
+      console.log(res)
     })
   }
 
@@ -63,5 +67,22 @@ export class UsersPage implements OnInit {
     });
     return await popover.present();
   }
+
+  /**
+   * add_user
+   */
+  public async add_user() {
+    const modal = await this.modalCtrl.create({
+      component: AddUserPage,
+    })
+
+    modal.present();
+
+    modal.onWillDismiss().then(()=>{
+      this.get_users();
+    })
+  }
+
+
 
 }

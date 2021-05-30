@@ -35,8 +35,8 @@ export class ApiService {
   /*
  * api to add new segment to the database
  */
-  add_user(user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login) {
-    return this.http.post<any>(`${this._Url}/add_user`, { user_role, password, date_created, date_modified, email, contact, country, province, names, surname, username, photo_url, gender, dateofbirth, last_login });
+  add_user(user_role, password, date_created, date_modified, email, contact, country, province, municipality, local_municipality, names, surname, username, photo_url, gender, dateofbirth, last_login) {
+    return this.http.post<any>(`${this._Url}/add_user`, { user_role, password, date_created, date_modified, email, contact, country, province, municipality, local_municipality, names, surname, username, photo_url, gender, dateofbirth, last_login });
   }
 
   //GET
@@ -114,6 +114,19 @@ export class ApiService {
   */
   get_all_traffic(search, SortBy, filterBy, funnelBy) {
     return this.http.post<any>(`${this._Url}/get_all_traffic`, { search, SortBy, filterBy, funnelBy });
+  }
+
+  /*
+  * api to get all municipality from the database
+  */
+  get_all_municipality_by_province(province) {
+    return this.http.post<any>(`${this._Url}/get_all_municipality_by_province`, { province });
+  }
+  /*
+  * api to get all local_municipality from the database
+  */
+  get_all_local_municipality(municipality_id) {
+    return this.http.post<any>(`${this._Url}/get_all_local_municipality`, { municipality_id });
   }
 
 

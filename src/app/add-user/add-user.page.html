@@ -1,0 +1,174 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Add user
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- register form -->
+  <ion-grid class="container">
+
+    <form [formGroup]="registerForm">
+
+      <ion-card class="center">
+        <br>
+        <ion-item lines="none">
+          <ion-label>User details</ion-label>
+        </ion-item>
+        <ion-card-content>
+
+          <ion-item class="input-valid">
+            <ion-input type="text" placeholder="Names" formControlName="names"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.names.errors?.required">
+            Name is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.names.errors?.pattern">
+            <p>invalid names entered</p>
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-input type="text" placeholder="surname" formControlName="surname"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.surname.errors?.required">
+            surname is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.surname.errors?.pattern">
+            <p>invalid surname entered</p>
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-input type="text" inputmode="numeric" maxlength="10" placeholder="contact" formControlName="contact"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.contact.errors?.required">
+            contact is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.contact.errors?.pattern">
+            <p>invalid contact entered</p>
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">Gender:</ion-label>
+            <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="gender">
+              <ion-select-option value="male">male</ion-select-option>
+              <ion-select-option value="female">female</ion-select-option>
+              <ion-select-option value="rather not say">rather not say</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.gender.errors?.required">
+            Gender is required.
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">Province:</ion-label>
+            <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="province">
+              <ion-select-option value="Eastern Cape">Eastern Cape</ion-select-option>
+              <ion-select-option value="Free State">Free State</ion-select-option>
+              <ion-select-option value="Gauteng">Gauteng</ion-select-option>
+              <ion-select-option value="KwaZulu-Natal">KwaZulu-Natal</ion-select-option>
+              <ion-select-option value="Limpopo">Limpopo</ion-select-option>
+              <ion-select-option value="Mpumalanga">Mpumalanga</ion-select-option>
+              <ion-select-option value="North West">North West</ion-select-option>
+              <ion-select-option value="Northern Cape">Northern Cape</ion-select-option>
+              <ion-select-option value="Western Cape">Western Cape</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.province.errors?.required">
+            Province is required.
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">District Municipality:</ion-label>
+            <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="municipality">
+              <ion-select-option *ngFor="let municipality of Municipality" value="{{municipality.id}}">
+                {{municipality.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.municipality.errors?.required">
+            Municipality is required.
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">Local municipality:</ion-label>
+            <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="local_municipality">
+              <ion-select-option *ngFor="let local_municipality of Local_Municipality"
+                value="{{local_municipality.id}}">
+                {{local_municipality.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding"
+            *ngIf="isSubmitted && registerErrorControl.local_municipality.errors?.required">
+            Local municipality is required.
+          </span>
+          <br>
+
+        </ion-card-content>
+
+      </ion-card>
+
+      <ion-card class="center">
+        <br>
+        <ion-item lines="none">
+          <ion-label>User Credentials</ion-label>
+        </ion-item>
+        <ion-card-content>
+
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">User role:</ion-label>
+            <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="user_role">
+              <ion-select-option value="super_user">super_user</ion-select-option>
+              <ion-select-option value="admin">admin</ion-select-option>
+              <ion-select-option value="sub_admin">sub_admin</ion-select-option>
+              <ion-select-option value="user">user</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.user_role.errors?.required">
+            User role is required.
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-input type="email" placeholder="Email Address" formControlName="email"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.email.errors?.required">
+            email is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.email.errors?.pattern">
+            invalid email entered
+          </span>
+          <br>
+
+          <ion-item class="input-valid">
+            <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.password.errors?.required">
+            Password is required.
+          </span>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.password.errors?.pattern">
+            Minimum eight characters, at least one letter, one number and one special character:
+          </span>
+          <br>
+
+        </ion-card-content>
+      </ion-card>
+    </form>
+
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-card class="center">
+    <ion-button (click)="do_add_user()" style="width: 99%;" shape="outline">Register</ion-button>
+    <br>
+  </ion-card>
+</ion-footer>

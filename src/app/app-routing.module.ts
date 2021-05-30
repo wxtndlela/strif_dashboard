@@ -45,10 +45,6 @@ const routes: Routes = [
     loadChildren: () => import('./assesments/assesments.module').then( m => m.AssesmentsPageModule)
   },
   {
-    path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
-  },
-  {
     path: 'forgot-pass',
     loadChildren: () => import('./forgot-pass/forgot-pass.module').then( m => m.ForgotPassPageModule)
   },
@@ -67,7 +63,12 @@ const routes: Routes = [
   {
     path: 'analyse',
     loadChildren: () => import('./analyse/analyse.module').then( m => m.AnalysePageModule)
+  },
+  {
+    path: 'add-user',
+    loadChildren: () => import('./add-user/add-user.module').then( m => m.AddUserPageModule)
   }
+
 
 
 

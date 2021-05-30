@@ -13,20 +13,27 @@
             {{filterBy}}
           </ion-label>
         </ion-item>
-  
-  
-        <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'userSort')">
+
+
+        <ion-item lines="none" class="searchItem" lines="none" (click)="presentPopover($event,'userSort')">
           <ion-icon slot="start" name="swap-vertical-outline">
           </ion-icon>
           <ion-label>
             {{SortBy}}
           </ion-label>
         </ion-item>
-  
-        <ion-item class="searchItem">
+
+        <ion-item class="searchItem" lines="none">
           <ion-label>Results: ({{results_count}})</ion-label>
         </ion-item>
-  
+
+        <ion-item lines="none">
+          <ion-button (click)="add_user()">
+            <ion-icon name='add-outline'></ion-icon>
+            Add user
+          </ion-button>
+        </ion-item>
+
       </ion-item>
     </ion-card>
   </ion-toolbar>
@@ -34,8 +41,6 @@
 
 <ion-content>
   <ion-grid>
-
-   
 
     <ion-col>
       <ion-card>
