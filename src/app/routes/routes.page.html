@@ -65,10 +65,10 @@
             </tr>
             <tr (click)="open_segment(segment.id)" *ngFor="let segment of Segments;">
               <td>{{segment.id}}</td>
-              <td>{{segment.district}} KM</td>
-              <td>{{segment.municipality}}</td>
-              <td>{{segment.distance}}</td>
-              <td>{{segment.start_date}}</td>
+              <td>{{segment.DISTRICT}} KM</td>
+              <td>{{segment.MUNIC}}</td>
+              <td>{{segment.END_KM}}</td>
+              <td>{{segment.START_DATE}}</td>
               <td>
                 <ion-item lines="none">
                   <ion-icon name="ellipsis-vertical-outline" color="medium">
