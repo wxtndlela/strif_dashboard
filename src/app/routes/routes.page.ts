@@ -6,7 +6,8 @@ import { ToasterService } from '../../services/toaster.service';
 import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
 import { InfoModalPage } from '../components/info-modal/info-modal.page';
-import { PopoverController, ModalController, ToastController, LoadingController } from '@ionic/angular';
+import { PopoverController, ModalController, ToastController, AlertController } from '@ionic/angular';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-routes',
@@ -23,6 +24,8 @@ export class RoutesPage implements OnInit {
     public popoverController: PopoverController,
     private global: GlobalSettings,
     private modalCtrl: ModalController,
+    private file: FileService,
+    private alertCtrl: AlertController,
 
   ) { }
 
@@ -101,6 +104,37 @@ export class RoutesPage implements OnInit {
     })
 
     await modal.present();
+  }
+
+  
+  /**
+  * export_as
+  */
+   public async export_as() {
+    // this.file.exportAsCsvFile(response.data, 'Segment - ' + this.segment_id)
+    const alert = await this.alertCtrl.create({
+      header: 'Export',
+      message: 'Export file as ?',
+      buttons: [
+        {
+          text: 'CSV',
+          role: 'danger',
+          handler: () => {
+            let data = this.Segments;
+            this.file.exportAsCsvFile(data, 'Segments - ' );
+          }
+        },
+        {
+          text: 'EXCEL',
+          role: 'danger',
+          handler: () => {
+            this.file.exportAsExcelFile(this.Segments, 'Segments - ' );
+          }
+        }
+      ]
+    })
+
+    await alert.present();
   }
 
 }
