@@ -3,9 +3,10 @@ import { GoogleMapsModule } from '@angular/google-maps'
 import { ApiService } from '../../services/api.service';
 import { AlertService } from '../../services/alert.service';
 import { ToasterService } from '../../services/toaster.service';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, AlertController } from '@ionic/angular';
 import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-traffic',
@@ -14,7 +15,7 @@ import { GlobalSettings } from '../../services/global.service';
 })
 export class TrafficPage implements OnInit {
 
-  public Tarffic: any = [];
+  public Traffic: any = [];
   public results_count = 0;
   public searchText = '';
   public SortBy: any = '';
@@ -28,6 +29,10 @@ export class TrafficPage implements OnInit {
     private Alerter: AlertService,
     public popoverController: PopoverController,
     private global: GlobalSettings,
+    private file: FileService,
+    private alertCtrl: AlertController,
+
+
   ) { }
 
   ngOnInit() {
@@ -82,10 +87,40 @@ export class TrafficPage implements OnInit {
 
     this.api.get_all_traffic(search, SortBy, filterBy, funnelBy).subscribe(response => {
       this.results_count = response.rows;
-      this.Tarffic = response.data;
+      this.Traffic = response.data;
       console.log(response.data);
     })
 
+  }
+
+  /**
+  * export_as
+  */
+  public async export_as() {
+    // this.file.exportAsCsvFile(response.data, 'Segment - ' + this.segment_id)
+    const alert = await this.alertCtrl.create({
+      header: 'Export',
+      message: 'Export file as ?',
+      buttons: [
+        {
+          text: 'CSV',
+          role: 'danger',
+          handler: () => {
+            let data = this.Traffic;
+            this.file.exportAsCsvFile(data, 'Traffic - ' );
+          }
+        },
+        {
+          text: 'EXCEL',
+          role: 'danger',
+          handler: () => {
+            this.file.exportAsExcelFile(this.Traffic, 'Traffic - ' );
+          }
+        }
+      ]
+    })
+
+    await alert.present();
   }
 
 }

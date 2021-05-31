@@ -67,7 +67,7 @@ export class AppComponent {
       this.isRegistering = true;
 
     } else {
-      this.global.set_user_settings();
+      // this.global.set_user_settings();
     }
 
     this.platform.ready().then(() => {
@@ -234,7 +234,7 @@ export class AppComponent {
     let gender = 'rather not say';
     let dateofbirth = '';
     let last_login = 'last_login';
-    let municipality = ''; 
+    let municipality = '';
     let local_municipality = '';
     console.log(date_created);
 
@@ -317,7 +317,7 @@ export class AppComponent {
    * open_hint
    */
   public open_hint() {
-    
+
   }
 
 

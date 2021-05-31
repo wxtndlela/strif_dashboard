@@ -14,6 +14,7 @@ export class ApiService {
     public loadingCtrl: LoadingController,
     private alert: AlertService,
   ) {
+
   }
 
   //api tesing server URL

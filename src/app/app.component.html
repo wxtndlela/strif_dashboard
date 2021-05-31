@@ -53,6 +53,12 @@
             </ion-item>
           </ion-menu-toggle>
 
+          <div style="border-top: 2px solid #0583F2;"></div>
+          <br>
+
+          <ion-item lines="none" *ngIf="selected_appPage == 'Traffic'">
+            <img src="../assets/icon/Dir.png" style="height: 30vh;margin: auto;"/>
+          </ion-item>
 
         </ion-list>
 
@@ -69,7 +75,7 @@
         <ion-row>
           <img (click)="go_home()" src="../assets/icon/favicon.png" style="height: 60px;padding-left: 30px;" />
           <!-- <p class="link" (click)="go_home()">Home</p> -->
-          <p class="link" (click)="goto_register()">Register</p>
+          <!-- <p class="link" (click)="goto_register()">Register</p> -->
         </ion-row>
       </ion-title>
     </ion-toolbar>
@@ -260,10 +266,7 @@
         <ion-col class="col">
           <ion-icon name="location-outline"></ion-icon>
           <br>
-          <a href="geo:38.62464092991612,-90.18476128578186">5 Mallard street
-            Terenure X6
-            Kempton Park
-            1619
+          <a href="geo:-26.0029553,28.127162">Gallagher Business Exchange, 688 Gallagher Ave, Halfway House, Midrand, 1685
           </a>
         </ion-col>
 
