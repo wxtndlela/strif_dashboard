@@ -28,7 +28,7 @@ export class FilterComponent implements OnInit {
   public funnelBy = ['all', 'help', 'safety', 'about'];
 
   public assesMunicipality = ['all', 'Mbeki', 'model', 'make'];
-  public assesFilter = ['pothole', 'block_crack ', 'crocodile_crack ', 'patches', 'transverse_crack', 'longitudinal_crack'];
+  public assesFilter = ['Segments', 'Traffic', 'Bridges'];
   public assesReport = ['NV2021-03', 'description', 'model', 'make'];
   public MunicipalCoords = [
     { lat: -26.453575, lng: 29.196015 },

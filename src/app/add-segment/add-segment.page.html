@@ -10,21 +10,27 @@
       <ion-card-content>
 
         <ion-item class="combo-box">
+          <ion-label style="text-align: left;">DISTRICT:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="DISTRICT">
+            <ion-select-option *ngFor="let item of Municipality" value="{{item.id}}">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.DISTRICT.errors?.required">
+          DISTRICT is required.
+        </span>
+        <br>
+
+        <ion-item class="combo-box">
           <ion-label style="text-align: left;">municipality:</ion-label>
           <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="municipality">
-            <ion-select-option value="Gert sibande">Gert sibande</ion-select-option>
-            <ion-select-option value="Pixley Ka Seme Local Municipality">Pixley Ka Seme Local Municipality</ion-select-option>
-            <ion-select-option value="Dipaleseng Local Municipality">Dipaleseng Local Municipality</ion-select-option>
-            <ion-select-option value="Goven Mbeki Local Municipality">Goven Mbeki Local Municipality</ion-select-option>
-            <ion-select-option value="Mkhondo Local Municipality Map">Mkhondo Local Municipality Map</ion-select-option>
-            <ion-select-option value="Msukaligwa Local Municipality Map">Msukaligwa Local Municipality Map</ion-select-option>
+            <ion-select-option *ngFor="let item of Local_Municipality" value="{{item.name}}">{{item.name}}</ion-select-option>
           </ion-select>
         </ion-item>
         <span class="error ion-padding" *ngIf="isSubmitted && errorControl.municipality.errors?.required">
           municipality is required.
         </span>
         <br>
-        
+
         <ion-item class="combo-box">
           <ion-label style="text-align: left;">surface_type:</ion-label>
           <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="surface_type">
@@ -117,7 +123,7 @@
         </span>
         <br>
 
-        
+
         <ion-item class="combo-box">
           <ion-label style="text-align: left;">Lane_Code:</ion-label>
           <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="Lane_Code">
@@ -154,7 +160,7 @@
           <ion-label>End coords:</ion-label>
           <ion-input disabled type="text" [value]="end_coords.lat +',' +end_coords.lng"></ion-input>
         </ion-item>
-        
+
         <ion-button (click)="submit()" style="width: 100%;" shape="outline">Add segment</ion-button>
         <br>
         <span class="ion-padding" style="text-align: center;">

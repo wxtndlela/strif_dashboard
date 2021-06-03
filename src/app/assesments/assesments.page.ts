@@ -251,7 +251,7 @@ export class AssesmentsPage implements OnInit {
         if (points) {
           for (let i = 0; i < points.length; i++) {
             path.push(points[i])
-            this.draw_polyline(path, id)
+            this.draw_polyline(path, id, this.Segments[index].SEGMENT_STATUS)
           }
         }
       }
@@ -381,7 +381,7 @@ export class AssesmentsPage implements OnInit {
 
       set_snapped_points();
 
-      this.draw_polyline(points, '');
+      this.draw_polyline(points, '','');
       // drawingManager.setDrawingMode(null);
       let origin = await path[0].location.latitude + ',' + path[0].location.longitude;
       let destination = await path[path.length - 1].location.latitude + ',' + path[path.length - 1].location.longitude
@@ -390,12 +390,20 @@ export class AssesmentsPage implements OnInit {
     })
   }
 
-  public async draw_polyline(path, id) {
+  public async draw_polyline(path, id, status) {
+    var color ;
+    if(status == '1'){
+      color = "#2dd36f";
+    }else if(status = '8'){
+      color = "#AE60A6";
+    }else {
+      color = "#F2C849"
+    }
 
     this.polyline = new google.maps.Polyline({
       path: path,
       geodesic: true,
-      strokeColor: "#AE60A6",
+      strokeColor: color,
       strokeOpacity: 1.0,
       strokeWeight: 4,
       map: this.map

@@ -2,19 +2,22 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-segment',
   templateUrl: './add-segment.page.html',
   styleUrls: ['./add-segment.page.scss'],
 })
+
 export class AddSegmentPage implements OnInit {
 
   constructor(
     private api: ApiService,
     private fb: FormBuilder,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public loadingCtrl: LoadingController,
+
   ) {
     this.addSegmentForm = this.fb.group({
       municipality: ['', Validators.required],
@@ -30,7 +33,6 @@ export class AddSegmentPage implements OnInit {
       Node_Type: ['', Validators.required],
       Auth_RD_Dir: ['', Validators.required],
       Status: ['', Validators.required],
-
     });
   }
 
@@ -39,6 +41,9 @@ export class AddSegmentPage implements OnInit {
   @Input('distance') distance;
   @Input('start_coords') start_coords;
   @Input('end_coords') end_coords;
+  public Local_Municipality: any;
+  public Municipality: any;
+
 
   public day = moment().add(0, 'd').format().toString();
   public isSubmitted = false;
@@ -47,6 +52,48 @@ export class AddSegmentPage implements OnInit {
   ngOnInit() {
     console.log('snapped_points', this.snapped_points);
     console.log('distance', this.distance);
+    this.get_all_municipality('Mpumalanga');
+
+
+    this.addSegmentForm.get('DISTRICT').valueChanges.subscribe(() => {
+ 
+      if(this.addSegmentForm.get('DISTRICT').value == ''){
+
+      }else{
+        this.Local_Municipality = [];
+        this.addSegmentForm.get('municipality').setValue('');
+        this.get_all_local_municipality(this.addSegmentForm.get('DISTRICT').value)
+      }
+      console.log('municipality changed', this.addSegmentForm.get('DISTRICT').value);
+    })
+  }
+
+  private async get_all_local_municipality(municipality_id) {
+    const loading = await this.loadingCtrl.create({
+      message:'getting local municipalities ...'
+    })
+
+    loading.present();
+
+    this.api.get_all_local_municipality(municipality_id).subscribe(res => {
+      loading.dismiss();
+      this.Local_Municipality = res.data;
+    })
+
+    
+  }
+
+  private async get_all_municipality(province) {
+    const loading = await this.loadingCtrl.create({
+      message:'getting district municipalities ...'
+    })
+
+    loading.present();
+
+    this.api.get_all_municipality_by_province(province).subscribe(res => {
+      loading.dismiss();
+      this.Municipality = res.data;
+    })
   }
 
   /**
