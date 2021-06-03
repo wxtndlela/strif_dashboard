@@ -72,8 +72,8 @@ export class AssesmentsPage implements OnInit {
     zoomControl: true,
     scrollwheel: true,
     disableDoubleClickZoom: true,
-    maxZoom: 10,
-    minZoom: 8,
+    // maxZoom: 10,
+    // minZoom: 8,
   }
 
   public Parcels: any = [];
@@ -109,7 +109,7 @@ export class AssesmentsPage implements OnInit {
   public load_map() {
     this.map = new google.maps.Map(document.getElementById('map_canvas'), {
       center: this.center,
-      zoom: 15
+      zoom: 9
     });
 
     var atrifact_image = '';

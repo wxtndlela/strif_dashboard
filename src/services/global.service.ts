@@ -28,7 +28,7 @@ export class GlobalSettings {
         this.asses_filter = new BehaviorSubject<String>('Segments');
         this.asses_report = new BehaviorSubject<String>('');
 
-        this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-25.998782, lng:28.127535 });
+        this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-26.510634, lng:29.9120346 });
         this.isMobile = new BehaviorSubject<Boolean>(false);
         this.Municipality = new BehaviorSubject<Object>(null);
     }
