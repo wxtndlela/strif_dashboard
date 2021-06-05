@@ -51,7 +51,7 @@ export class ProfilePage implements OnInit {
   public image: any = "../../../assets/avater-default.png";
   public Local_Municipality: any;
   public Municipality: any;
-
+  isSubmitted = false;
   async ngOnInit() {
     if (this.uuid && this.uuid.length > 1) {
       this.user_id = this.uuid;
