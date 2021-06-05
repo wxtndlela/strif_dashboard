@@ -65,6 +65,12 @@ export class FilterComponent implements OnInit {
       case 'trafficSort':
         this.global.set_traffic_sort_by(filter);
         break;
+      case 'userFilter':
+        this.global.set_user_filter_by(filter);
+        break;
+      case 'userSort':
+        this.global.set_user_sort_by(filter);
+        break;
 
       default:
         break;
@@ -93,8 +99,12 @@ export class FilterComponent implements OnInit {
       case 'trafficSort':
         this.list = this.trafficSort;
         break;
-
-
+      case 'userFilter':
+        this.list = this.userFilter;
+        break;
+      case 'userSort':
+        this.list = this.userSort;
+        break;
       default:
         break;
     }

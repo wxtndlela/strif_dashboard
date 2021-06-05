@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { ToasterService } from '../../services/toaster.service';
 import { AlertService } from '../../services/alert.service';
-import { ModalController } from "@ionic/angular";
+import { ModalController, LoadingController } from "@ionic/angular";
 import { FirebaseService } from '../../services/firebase.service';
 import * as moment from 'moment';
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-add-doc',
@@ -22,16 +23,18 @@ export class AddDocPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private apis: ApiService,
+    private api: ApiService,
     private modalCtrl: ModalController,
     private firebase: FirebaseService,
     private toaster: ToasterService,
-    private alerter: AlertService
+    private alerter: AlertService,
+    private file: FileService,
+    private loadingCtrl: LoadingController
   ) {
     this.addDocForm = this.fb.group({
       title: ['', Validators.required],
-      type: ['', Validators.required],
-      body: ['', Validators.required],
+      description: ['', Validators.required],
+      file: ['', Validators.required],
     });
   }
 
@@ -39,14 +42,14 @@ export class AddDocPage implements OnInit {
   Types = ['help', 'safety', 'about'];
   isLoading = false;
   isSubmitted = false;
-  public day = moment().add(0, 'd').format().toString();
+  public day = moment().format().toString();
+  base64Data: any;
+  filename: any;
+  filePath: any;
+  fileSize: any;
 
   ngOnInit() {
-    this.addDocForm.setValue({
-      title: this.doc_title,
-      type: this.doc_type,
-      body: this.doc_url
-    })
+
   }
 
   /**
@@ -125,5 +128,59 @@ export class AddDocPage implements OnInit {
   get errorControl() {
     return this.addDocForm.controls;
   }
+
+  /**
+   * add_doc
+   */
+  public async add_doc() {
+    this.isSubmitted = true;
+    if (this.addDocForm.invalid) {
+      return
+    }
+
+    let file = this.addDocForm.get('file').value;
+
+    let title = this.addDocForm.get('title').value;
+    let description = this.addDocForm.get('description').value;
+    let base64Data = this.base64Data;
+    let file_size = this.fileSize;
+    let file_extention = String(file).split('.')[1];
+    let District = 1;
+    let user_id = localStorage.getItem('uuid');
+    let date_created = moment().format('YYYY-MM-DD hh:mm:ss');
+    let filename = `${title}.${file_extention}`;
+    title = filename;
+
+    const loading = await this.loadingCtrl.create({
+      message: 'please wait ...'
+    })
+
+    loading.present();
+    this.api.add_document(title, description, base64Data, file_size, file_extention, District, user_id, date_created, filename).subscribe(res => {
+      loading.dismiss();
+      this.modalCtrl.dismiss();
+      console.log(res)
+    })
+  }
+
+  uploadFile(event) {
+
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    this.filename = event.target.files[0].name;
+    this.fileSize = Math.round(event.target.files[0].size / 1024);
+
+    reader.onload = (e) => {
+      // The file's text will be printed here
+      this.base64Data = reader.result;
+      // console.log(e.target.result)
+    };
+
+    reader.readAsDataURL(file);
+
+  }
+
+
 
 }

@@ -111,7 +111,7 @@ export class InfoModalPage implements OnInit {
    */
   public async do_delete_segment() {
     const loading = await this.loadingCtrl.create({
-      message: 'Deleteing segement ...'
+      message: 'Deleting segement ...'
     })
 
     await loading.present();

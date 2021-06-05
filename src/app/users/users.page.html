@@ -45,7 +45,7 @@
     <ion-col>
       <ion-card>
         <ion-card-content>
-          <table>
+          <table >
             <tr class="header">
               <th>Names</th>
               <th>Surname</th>
@@ -55,19 +55,13 @@
               <th>Role</th>
               <th></th>
             </tr>
-            <tr *ngFor="let user of Users;">
+            <tr *ngFor="let user of Users;" (click)="open_user(user.uuid)">
               <td>{{user.names}}</td>
               <td>{{user.surname}}</td>
               <td>{{user.email}}</td>
               <td>{{user.contact}}</td>
               <td>{{user.date_created}}</td>
               <td>{{user.user_role}}</td>
-              <td>
-                <ion-item lines="none">
-                  <ion-icon name="ellipsis-vertical-outline" color="medium">
-                  </ion-icon>
-                </ion-item>
-              </td>
             </tr>
           </table>
         </ion-card-content>

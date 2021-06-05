@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { AlertService } from '../../services/alert.service';
 import { ToasterService } from '../../services/toaster.service';
-import { PopoverController, ModalController, AlertController } from '@ionic/angular';
+import { PopoverController, ModalController, AlertController, LoadingController } from '@ionic/angular';
 import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
 import { AddDocPage } from '../add-doc/add-doc.page'
+import { FileService } from '../../services/file.service';
 
 @Component({
   selector: 'app-documents',
@@ -21,8 +22,10 @@ export class DocumentsPage implements OnInit {
     private Alerter: AlertService,
     public popoverController: PopoverController,
     private global: GlobalSettings,
-    private modalCtrl: ModalController,
-    private alertCtrl: AlertController
+    private modalController: ModalController,
+    private alertCtrl: AlertController,
+    private file: FileService,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit() {
@@ -66,9 +69,8 @@ export class DocumentsPage implements OnInit {
    * add_new_doc
    */
   public async add_new_doc() {
-    const modal = await this.modalCtrl.create({
+    const modal = await this.modalController.create({
       component: AddDocPage,
-      cssClass: 'modalClass',
     })
 
     modal.present();
@@ -83,7 +85,7 @@ export class DocumentsPage implements OnInit {
  * edit_doc
  */
   public async edit_doc(doc_id, doc_title, doc_url, doc_type) {
-    const modal = await this.modalCtrl.create({
+    const modal = await this.modalController.create({
       component: AddDocPage,
       cssClass: 'modalClass',
       componentProps: {
@@ -95,10 +97,10 @@ export class DocumentsPage implements OnInit {
     })
 
     modal.present();
-    await modal.onWillDismiss().then(res => {
+    await modal.onWillDismiss().then(() =>{
       this.get_docs();
-      console.log('popver dissmised:');
     })
+    
   }
 
   /**
@@ -116,7 +118,7 @@ export class DocumentsPage implements OnInit {
             console.log('delete doc');
           }
         },
-        {text: 'cancel'}
+        { text: 'cancel' }
       ]
     });
 
@@ -137,4 +139,52 @@ export class DocumentsPage implements OnInit {
 
     return await popover.present();
   }
+
+  public download_file(file, url) {
+    this.file.download_file(url, file)
+  }
+
+  public async delete_doc(doc_id, title) {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete document',
+      message: 'Are you sure to delete Document '+title+'  ?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'danger',
+          handler: () => {
+            this.do_delete_doc(doc_id);
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    })
+
+    await alert.present();
+  }
+
+  /**
+* do_delete_segment
+*/
+  public async do_delete_doc(doc_id) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Deleting user ...'
+    })
+
+    await loading.present();
+    this.api.remove_document(doc_id).subscribe(response => {
+      loading.dismiss();
+      console.log(response)
+      if (response.status == 0) {
+        this.toaster.successToast(response.msg);
+        this.get_docs();
+      } else {
+        this.toaster.warnToast(response.msg);
+      }
+    })
+  }
+
 }

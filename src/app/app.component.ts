@@ -67,7 +67,7 @@ export class AppComponent {
       this.isRegistering = true;
 
     } else {
-      // this.global.set_user_settings();
+      this.global.set_user_settings();
     }
 
     this.platform.ready().then(() => {

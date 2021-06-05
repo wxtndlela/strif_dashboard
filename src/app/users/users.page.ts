@@ -6,6 +6,7 @@ import { PopoverController, ModalController } from '@ionic/angular';
 import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
 import { AddUserPage } from '../add-user/add-user.page';
+import { ProfilePage } from '../profile/profile.page';
 
 @Component({
   selector: 'app-users',
@@ -24,14 +25,30 @@ export class UsersPage implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.global.get_user_filter_by().subscribe(async (value) => {
-      this.filterBy = await value;
-      this.get_users();
+
+      if (this.filterBy != "") {
+        this.filterBy = value;
+        this.get_users();
+      } else {
+        this.filterBy = value;
+      }
+
     });
     this.global.get_user_sort_by().subscribe(async (value) => {
-      this.SortBy = await value;
-      this.get_users();
+
+      if (this.SortBy != "") {
+        this.SortBy = value;
+        this.get_users();
+      } else {
+        this.SortBy = value;
+      }
+
     });
+
+    //get users once here
+    this.get_users();
 
   }
 
@@ -78,9 +95,27 @@ export class UsersPage implements OnInit {
 
     modal.present();
 
-    modal.onWillDismiss().then(()=>{
+    modal.onWillDismiss().then(() => {
       this.get_users();
     })
+  }
+
+  /**
+   * open_user
+   */
+  public async open_user(uuid) {
+    const modal = await this.modalCtrl.create({
+      component: ProfilePage,
+      componentProps: {
+        uuid: uuid
+      }
+    })
+
+    await modal.present();
+    await modal.onWillDismiss().then(()=>{
+      this.get_users();
+    })
+
   }
 
 

@@ -31,12 +31,17 @@ export class ApiService {
   add_segment(seg_id, snap_points, sys_user_id, municipality, DISTRICT, start_date, end_date, distance, start_coords, end_coords, surface_type, TERR_CLASS, RCAM_CLASS, STATUS) {
     return this.http.post<any>(`${this._Url}/add_segment`, { seg_id, snap_points, sys_user_id, municipality, DISTRICT, start_date, end_date, distance, start_coords, end_coords, surface_type, TERR_CLASS, RCAM_CLASS, STATUS });
   }
-
   /*
  * api to add new segment to the database
  */
   add_user(user_role, password, date_created, date_modified, email, contact, country, province, municipality, local_municipality, names, surname, username, photo_url, gender, dateofbirth, last_login) {
     return this.http.post<any>(`${this._Url}/add_user`, { user_role, password, date_created, date_modified, email, contact, country, province, municipality, local_municipality, names, surname, username, photo_url, gender, dateofbirth, last_login });
+  }
+  /*
+  * api to add new document to the database
+  */
+  add_document(title, description, base64Data, file_size, file_extention, District, user_id, date_created, filename) {
+    return this.http.post<any>(`${this._Url}/add_document`, { title, description, base64Data, file_size, file_extention, District, user_id, date_created, filename });
   }
 
   //GET
@@ -44,8 +49,7 @@ export class ApiService {
   * api user details from databse
   * @params user_id
   */
-  get_user() {
-    let user_id = localStorage.getItem('uuid');
+  get_user(user_id) {
     return this.http.post<any>(`${this._Url}/get_user`, { user_id });
   }
 
@@ -134,9 +138,8 @@ export class ApiService {
 
   //UPDATE
   //api to update user's details on database
-  update_user(address, country, modifiedondatetime, email, gender, names, surname, dateofbirth) {
-    let uuid = localStorage.getItem("uuid");
-    return this.http.post<any>(`${this._Url}/update_user`, { address, country, modifiedondatetime, email, gender, names, surname, dateofbirth, uuid });
+  update_user(user_id, address, country, date_modified, email, gender, names, surname, dateofbirth, province, municipality, local_municipality, user_role) {
+    return this.http.post<any>(`${this._Url}/update_user`, { user_id, address, country, date_modified, email, gender, names, surname, dateofbirth, province, municipality, local_municipality, user_role });
   }
   //api to update user's photo
   update_user_photo(photourl) {
@@ -176,6 +179,10 @@ export class ApiService {
   //api to delete segment on the database and server
   remove_segment(segment_id) {
     return this.http.post<any>(`${this._Url}/remove_segment`, { segment_id });
+  }
+  //api to delete segment on the database and server
+  remove_user(user_id) {
+    return this.http.post<any>(`${this._Url}/remove_user`, { user_id });
   }
 
 

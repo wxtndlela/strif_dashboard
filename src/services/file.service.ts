@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import { File } from '@ionic-native/file/ngx';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -9,8 +10,7 @@ const CSV_EXTENSION = '.csv';
 @Injectable()
 export class FileService {
 
-  constructor() {
-
+  constructor(private file: File) {
   }
 
   public exportAsExcelFile(json: any[], excelFileName: string): void {
@@ -43,7 +43,27 @@ export class FileService {
     });
 
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + CSV_EXTENSION);
-  
+  }
+
+  public async readFile (path,fileName){
+    var file ;
+    this.file.readAsDataURL(path,fileName).then(value =>{
+      console.log(value)
+    })
+
+    return file;
+  }
+
+  public download_file(_url : any, fileName){
+
+    const url = window.URL.createObjectURL(new Blob([_url]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
   }
 
 }

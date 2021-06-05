@@ -9,10 +9,10 @@
   </ion-toolbar>
 
   <ion-split-pane *ngIf="isLoggedIn" contentId="main-content">
-    <ion-menu style="margin-top: 2vh;" contentId="main-content" menuId="menu" type="overlay">
+    <ion-menu contentId="main-content" menuId="menu" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>
+          <ion-list-header style="margin-top: 3vh;">
 
             <img src="../assets/icon/favicon.png" />
 
@@ -30,12 +30,12 @@
           <ion-col class="anime" *ngIf="show">
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="userPages[0].url" 
-                lines="none" detail="false" routerLinkActive="selected">
+                lines="none" detail="false" routerLinkActive="selected" (click)="select_page(this.userPages[0].title)">
                 <ion-icon slot="start" [ios]="this.userPages[0].icon + '-outline'"
                   [md]="this.userPages[0].icon + '-sharp'"></ion-icon>
                 <ion-label>{{this.userPages[0].title}}</ion-label>
               </ion-item>
-              <ion-item class="link" (click)="logout()" lines="none" detail="false" routerLinkActive="selected">
+              <ion-item class="link" (click)="logout()" lines="none" detail="false" routerLinkActive="selected" >
                 <ion-icon slot="start" [ios]="this.userPages[1].icon + '-outline'"
                   [md]="this.userPages[1].icon + '-sharp'"></ion-icon>
                 <ion-label>{{this.userPages[1].title}}</ion-label>

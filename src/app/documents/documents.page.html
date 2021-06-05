@@ -65,21 +65,20 @@
             <tr class="header">
               <th>Title</th>
               <th>Description</th>
-              <th>Modified on datetime</th>
-              <th>Type</th>
+              <th>Date Created</th>
               <th>Size</th>
+              <th>Action</th>
             </tr>
             <tr *ngFor="let doc of Docs;" >
               <td>{{doc.title}}</td>
               <td>{{doc.description}}</td>
-              <td>{{doc.date_modified}}</td>
-              <td>{{doc.doc_type}}</td>
-              <td>{{doc.size}}</td>
+              <td>{{doc.date_created}}</td>
+              <td>{{doc.file_size}} KB</td>
 
               <td>
                 <ion-item lines="none" class="ion-no-padding">
-                  <ion-button color="primary"  shape="outline">Download</ion-button>
-                  <ion-button color="success"  shape="outline">Update</ion-button>
+                  <ion-button color="primary"  shape="outline" doc.doc_url href="{{doc.doc_url}}">Download</ion-button>
+                  <ion-button color="danger"  shape="outline" (click)="delete_doc(doc.id, doc.title)">Delete</ion-button>
                 </ion-item>
               </td>
             </tr>

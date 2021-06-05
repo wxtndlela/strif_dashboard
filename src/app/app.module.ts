@@ -33,6 +33,7 @@ import { environment } from '../environments/environment';
 
 //cordova plugins
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
     AlertService,
     ToasterService,
     StatusBar,
+    File,
     FileService
   ],
   bootstrap: [AppComponent],

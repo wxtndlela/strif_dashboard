@@ -1,6 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Profile</ion-title>
+    <ion-item lines="none">
+      <ion-title>Profile</ion-title>
+      <ion-icon *ngIf="this.uuid" (click)="dismiss();" name="close-outline"></ion-icon>
+    </ion-item>
+
   </ion-toolbar>
 </ion-header>
 
@@ -31,62 +35,161 @@
           <ion-item class="combo-box">
             <ion-label style="text-align: left;">Gender:</ion-label>
             <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="gender">
-              <ion-select-option value="male">male</ion-select-option>
-              <ion-select-option value="female">female</ion-select-option>
-              <ion-select-option value="rather not say">rather not say</ion-select-option>
+              <ion-select-option value="m">male</ion-select-option>
+              <ion-select-option value="f">female</ion-select-option>
+              <ion-select-option value="r">rather not say</ion-select-option>
             </ion-select>
           </ion-item>
+
           <ion-item lines="none">
             <ion-input type="text" placeholder="email contact" formControlName="email">
             </ion-input>
           </ion-item>
 
+          <ion-item lines="none">
+            <ion-input type="text" placeholder="contact number" formControlName="contact">
+            </ion-input>
+          </ion-item>
 
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col>
-          <ion-input type="text" placeholder="contact number" formControlName="contact">
-          </ion-input>
-        </ion-col>
-
-        <ion-col>
-          <ion-input type="text" placeholder="Address">
-          </ion-input>
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">User role:</ion-label>
+            <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss"
+              formControlName="user_role">
+              <ion-select-option value="super_user">super_user</ion-select-option>
+              <ion-select-option value="admin">admin</ion-select-option>
+              <ion-select-option value="sub_admin">sub_admin</ion-select-option>
+              <ion-select-option value="user">user</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.user_role.errors?.required">
+            User role is required.
+          </span>
         </ion-col>
       </ion-row>
 
-      <ion-col>
-        <ion-item lines="full" (click)="updateProfile()">
-          <ion-label color="primary" style="text-align: center;">
-            Update Profile
-          </ion-label>
-        </ion-item>
 
-        <br>
+      <ion-row>
+        <ion-col>
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">Province:</ion-label>
+            <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss"
+              formControlName="province">
+              <ion-select-option value="Eastern Cape">Eastern Cape</ion-select-option>
+              <ion-select-option value="Free State">Free State</ion-select-option>
+              <ion-select-option value="Gauteng">Gauteng</ion-select-option>
+              <ion-select-option value="KwaZulu-Natal">KwaZulu-Natal</ion-select-option>
+              <ion-select-option value="Limpopo">Limpopo</ion-select-option>
+              <ion-select-option value="Mpumalanga">Mpumalanga</ion-select-option>
+              <ion-select-option value="North West">North West</ion-select-option>
+              <ion-select-option value="Northern Cape">Northern Cape</ion-select-option>
+              <ion-select-option value="Western Cape">Western Cape</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.province.errors?.required">
+            Province is required.
+          </span>
+        </ion-col>
+      </ion-row>
 
-        <ion-item lines="full" (click)="openChangePass()">
-          <ion-label color="primary" style="text-align: center;">
-            Change password
-          </ion-label>
-        </ion-item>
+      <ion-row>
+        <ion-col *ngIf="Municipality">
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">District Municipality:</ion-label>
+            <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss"
+              formControlName="municipality">
+              <ion-select-option *ngFor="let municipality of Municipality" value="{{municipality.id}}">
+                {{municipality.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.municipality.errors?.required">
+            Municipality is required.
+          </span>
+        </ion-col>
+      </ion-row>
 
-        <br>
+      <ion-row>
+        <ion-col *ngIf="Local_Municipality && Municipality">
+          <ion-item class="input-valid">
+            <ion-label style="text-align: left;">Local municipality:</ion-label>
+            <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss"
+              formControlName="local_municipality">
+              <ion-select-option *ngFor="let local_municipality of Local_Municipality"
+                value="{{local_municipality.id}}">
+                {{local_municipality.name}}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <span class="error ion-padding"
+            *ngIf="isSubmitted && registerErrorControl.local_municipality.errors?.required">
+            Local municipality is required.
+          </span>
+        </ion-col>
+      </ion-row>
 
-        <ion-item lines="full" (click)="openChangePass()">
-          <ion-label color="danger" style="text-align: center;">
-            Logout
-          </ion-label>
-        </ion-item>
+      <ion-row>
+        <ion-col *ngIf="!this.uuid">
+          
+          <br>
+          <ion-item lines="full" (click)="updateProfile()">
+            <ion-label color="primary" style="text-align: center;">
+              Update Profile
+            </ion-label>
+          </ion-item>
+  
+          <br>
+  
+          <ion-item lines="full" (click)="openChangePass()">
+            <ion-label color="primary" style="text-align: center;">
+              Change password
+            </ion-label>
+          </ion-item>
+  
+          <br>
+  
+          <ion-item lines="full" (click)="openChangePass()">
+            <ion-label color="danger" style="text-align: center;">
+              Logout
+            </ion-label>
+          </ion-item>
+  
+          <br>
+  
+          <ion-item lines="full" (click)="delete_user()">
+            <ion-label color="danger" style="text-align: center;">
+              Delete account
+            </ion-label>
+          </ion-item>
+  
+  
+  
+        </ion-col>
+      </ion-row>
 
-
-      </ion-col>
+    
 
     </form>
   </ion-grid>
 </ion-content>
 
-<ion-footer class="ion-no-border" style="margin-bottom: 40px;">
-
+<ion-footer *ngIf="this.uuid">
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <ion-button fill='outline' expand="block" color='primary' (click)="updateProfile();">Update Profile</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill='outline' expand="block" color='primary' (click)="openChangePass();">Change Password
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill='outline' expand="block" color='danger' (click)="delete_user();">Delete Account</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
 </ion-footer>
