@@ -18,7 +18,7 @@ export class ApiService {
   }
 
   //api tesing server URL
-  // _Url = "http://127.0.0.1:8080";
+  // _Url = "http://127.0.0.1:3000";
 
   //api server URL
   _Url = "https://strif-backend.herokuapp.com" ;

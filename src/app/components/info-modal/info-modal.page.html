@@ -202,8 +202,8 @@
     </ion-col>
 
     <!-- Traffic info -->
-    <ion-col>
-      <ion-list>
+    <ion-col >
+      <ion-list *ngIf="traffic_station_id && Station">
 
         <ion-list-header lines="insert" style="font-size: large;">
           <strong>Traffic Station</strong>
@@ -281,7 +281,7 @@
 
       </ion-list>
 
-      <ion-list>
+      <ion-list *ngIf="traffic_station_id">
 
         <ion-list-header lines="insert" style="font-size: large;">
           <strong>Traffic Summary</strong>
@@ -293,9 +293,6 @@
 
 
       </ion-list>
-
-
-
 
     </ion-col>
 

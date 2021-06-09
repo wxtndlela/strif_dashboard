@@ -30,7 +30,7 @@ export class InfoModalPage implements OnInit {
     }
   };
 
-  chart_data : any[] = [];
+  chart_data: any[] = [];
 
   constructor(
     private api: ApiService,
@@ -78,15 +78,17 @@ export class InfoModalPage implements OnInit {
       loading.dismiss();
 
       this.chart_data.push(['Vehicle_type', 'Num of vehicle']);
-      this.chart_data.push(['LIGHT',Number(response.data[0].LIGHT)]);
-      this.chart_data.push(['HEAVY',Number(response.data[0].HEAVY)]);
-      this.chart_data.push(['MOTORBIKE',Number(response.data[0].BIKE)]);
+      this.chart_data.push(['LIGHT', Number(response.data[0].LIGHT)]);
+      this.chart_data.push(['HEAVY', Number(response.data[0].HEAVY)]);
+      this.chart_data.push(['MOTORBIKE', Number(response.data[0].BIKE)]);
 
+      google.charts.load('current', { packages: ['corechart'] });
+      google.charts.setOnLoadCallback(this.drawChart);
       this.Station = response.data[0];
     })
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     google.charts.load('current', { packages: ['corechart'] });
     google.charts.setOnLoadCallback(this.drawChart);
   }
@@ -95,8 +97,8 @@ export class InfoModalPage implements OnInit {
 
   drawChart = () => {
 
-    
-    let chart_data =  [
+
+    let chart_data = [
       ['Task', 'Hours per Day'],
       ['Work', 11],
       ['Eat', 2],
@@ -203,8 +205,8 @@ export class InfoModalPage implements OnInit {
    */
   public async get_artifacts() {
 
-    this.api.get_artifacts_by_segment(1).subscribe(response => {
-      // console.log('artifacts:', response);
+    this.api.get_artifacts_by_segment(this.segment_id).subscribe(response => {
+      console.log('artifacts:', response);
       this.Artifact = response.data;
     })
   }
@@ -214,8 +216,8 @@ export class InfoModalPage implements OnInit {
    */
   public async get_segment_defects() {
 
-    this.api.get_artifacts_by_segment(1).subscribe(response => {
-      // console.log('defects:', response);
+    this.api.get_segment_defects(this.segment_id).subscribe(response => {
+      console.log('defects:', response);
       this.Assesment = response.data[0];
     })
 
@@ -244,8 +246,6 @@ export class InfoModalPage implements OnInit {
               this.file.exportAsCsvFile(data, 'Traffic Station - S' + this.traffic_station_id);
 
             }
-
-
           }
         },
         {
@@ -259,7 +259,6 @@ export class InfoModalPage implements OnInit {
             } else if (this.traffic_station_id) {
               let data = this.Station;
               this.file.exportAsExcelFile(data, 'Traffic Station - S' + this.traffic_station_id);
-
             }
           }
         }

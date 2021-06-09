@@ -247,7 +247,7 @@ export class AssesmentsPage implements OnInit {
       for (let index = 0; index < this.Segments.length; index++) {
         var points = JSON.parse(this.Segments[index].snap_points);
         var path: any[] = [];
-        var id: any = this.Segments[index].id
+        var id: any = this.Segments[index].id;
         // console.log('snap_points:', points)
 
         if (points) {
@@ -448,7 +448,6 @@ export class AssesmentsPage implements OnInit {
       })
 
       await modal.present();
-
     });
 
     this.polyline.setMap(this.map);
