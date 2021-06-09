@@ -19,7 +19,7 @@ export class InfoModalPage implements OnInit {
   @ViewChild('pieChart') pieChart: ElementRef;
 
   public Segment: any;
-  public Station: any[];
+  public Station: any;
   public Artifact: any = [];
   public Assesment: any;
   slideOpts = {
