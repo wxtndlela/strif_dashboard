@@ -16,6 +16,7 @@ import { ApiService } from '../services/api.service';
 import { FirebaseService } from '../services/firebase.service';
 import { GlobalSettings } from '../services/global.service';
 import { FileService } from '../services/file.service';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 // Firebase
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -41,6 +42,7 @@ import { File } from '@ionic-native/file/ngx';
     AppComponent,
     FilterComponent
   ],
+
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -52,6 +54,7 @@ import { File } from '@ionic-native/file/ngx';
     AppRoutingModule,
     HttpClientModule,
     EditorModule,
+    GoogleChartsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

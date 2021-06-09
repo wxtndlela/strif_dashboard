@@ -119,6 +119,12 @@ export class ApiService {
   get_all_traffic(search, SortBy, filterBy, funnelBy) {
     return this.http.post<any>(`${this._Url}/get_all_traffic`, { search, SortBy, filterBy, funnelBy });
   }
+  /*
+  * api to get all traffic station from the database
+  */
+  get_all_traffic_station(search, SortBy, filterBy, funnelBy) {
+    return this.http.post<any>(`${this._Url}/get_all_traffic_station`, { search, SortBy, filterBy, funnelBy });
+  }
 
   /*
   * api to get all municipality from the database
@@ -132,9 +138,12 @@ export class ApiService {
   get_all_local_municipality(municipality_id) {
     return this.http.post<any>(`${this._Url}/get_all_local_municipality`, { municipality_id });
   }
-
-
-
+  /*
+ * api to get all traffic stationfrom the database
+ */
+  get_traffic_station(station_no) {
+    return this.http.post<any>(`${this._Url}/get_traffic_station`, { station_no });
+  }
 
   //UPDATE
   //api to update user's details on database
@@ -184,7 +193,9 @@ export class ApiService {
   remove_user(user_id) {
     return this.http.post<any>(`${this._Url}/remove_user`, { user_id });
   }
-
-
+  //api to delete traffic station on the database and server
+  remove_traffic_station(traffic_station_id) {
+    return this.http.post<any>(`${this._Url}/remove_traffic_station`, { traffic_station_id });
+  }
 
 }

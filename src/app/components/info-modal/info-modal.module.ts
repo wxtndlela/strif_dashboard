@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,7 +14,8 @@ import { InfoModalPage } from './info-modal.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    InfoModalPageRoutingModule
+    InfoModalPageRoutingModule,
+    GoogleChartsModule
   ],
   declarations: [InfoModalPage]
 })

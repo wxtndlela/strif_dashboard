@@ -29,6 +29,7 @@
     "@ionic/angular": "^5.5.2",
     "@tinymce/tinymce-angular": "^4.2.1",
     "@types/googlemaps": "^3.43.3",
+    "angular-google-charts": "^2.2.1",
     "ba64": "^3.0.9",
     "connect": "^3.7.0",
     "cordova-android": "9.1.0",

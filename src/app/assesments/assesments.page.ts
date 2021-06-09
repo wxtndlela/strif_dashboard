@@ -16,6 +16,7 @@ import { InfoModalPage } from '../components/info-modal/info-modal.page';
 })
 
 export class AssesmentsPage implements OnInit {
+  Traffic_station: any;
 
   constructor(
     private api: ApiService,
@@ -47,7 +48,7 @@ export class AssesmentsPage implements OnInit {
         //   this.open_info_windows(atrifact_image, this.marker)
         // });
 
-        this.marker[0].setMap(null);
+        // this.marker[0].setMap(null);
       }
 
     });
@@ -114,96 +115,97 @@ export class AssesmentsPage implements OnInit {
 
     var atrifact_image = '';
 
-    this.marker[0] = new google.maps.Marker({
-      position: { lat: -25.999168, lng: 28.128191 },
-      map: this.map
-    });
+    // this.marker[0] = new google.maps.Marker({
+    //   position: { lat: -25.999168, lng: 28.128191 },
+    //   map: this.map
+    // });
     // this.marker[0].addListener("click", () => {
     //   atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
     //   this.open_info_windows(atrifact_image, this.marker)
     // });
 
-    this.marker[0].setMap(this.map);
+    // this.marker[0].setMap(this.map);
 
-    this.addMarker({ lat: -25.999168, lng: 28.128191 });
+    // this.addMarker({ lat: -25.999168, lng: 28.128191 }, 1);
 
-    let marker1 = new google.maps.Marker({
-      position: { lat: -25.999168, lng: 28.128191 },
-      map: this.map
-    });
-    let marker2 = new google.maps.Marker({
-      position: { lat: -25.998546, lng: 28.127063 },
-      map: this.map
-    }); let marker3 = new google.maps.Marker({
-      position: { lat: -25.998628, lng: 28.127229 },
-      map: this.map
-    }); let marker4 = new google.maps.Marker({
-      position: { lat: -25.998729, lng: 28.127417 },
-      map: this.map
-    }); let marker5 = new google.maps.Marker({
-      position: { lat: -25.998864, lng: 28.127680 },
-      map: this.map
-    }); let marker6 = new google.maps.Marker({
-      position: { lat: -25.999028, lng: 28.127975 },
-      map: this.map
-    });
-
-
-    marker1.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/meetingR5.PNG";
-      this.open_info_windows(atrifact_image, marker1)
-    });
-    marker2.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/meeting4.PNG";
-      this.open_info_windows(atrifact_image, marker2)
-    });
-    marker3.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/meetingR3.PNG";
-      this.open_info_windows(atrifact_image, marker3)
-    });
-    marker4.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
-      this.open_info_windows(atrifact_image, marker4)
-    });
-    marker5.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/meetingR1.PNG";
-      this.open_info_windows(atrifact_image, marker5)
-    });
-    marker6.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
-      this.open_info_windows(atrifact_image, marker6)
-    });
+    // let marker1 = new google.maps.Marker({
+    //   position: { lat: -25.999168, lng: 28.128191 },
+    //   map: this.map
+    // });
+    // let marker2 = new google.maps.Marker({
+    //   position: { lat: -25.998546, lng: 28.127063 },
+    //   map: this.map
+    // }); let marker3 = new google.maps.Marker({
+    //   position: { lat: -25.998628, lng: 28.127229 },
+    //   map: this.map
+    // }); let marker4 = new google.maps.Marker({
+    //   position: { lat: -25.998729, lng: 28.127417 },
+    //   map: this.map
+    // }); let marker5 = new google.maps.Marker({
+    //   position: { lat: -25.998864, lng: 28.127680 },
+    //   map: this.map
+    // }); let marker6 = new google.maps.Marker({
+    //   position: { lat: -25.999028, lng: 28.127975 },
+    //   map: this.map
+    // });
 
 
-    var path = [
-      { lat: -25.999168, lng: 28.128191 },
-      { lat: -25.999158, lng: 28.128200 }
-    ]
+    // marker1.addListener("click", () => {
+    //   atrifact_image = "../../../assets/artifacts/meetingR5.PNG";
+    //   this.open_info_windows(atrifact_image, marker1)
+    // });
+    // marker2.addListener("click", () => {
+    //   atrifact_image = "../../../assets/artifacts/meeting4.PNG";
+    //   this.open_info_windows(atrifact_image, marker2)
+    // });
+    // marker3.addListener("click", () => {
+    //   atrifact_image = "../../../assets/artifacts/meetingR3.PNG";
+    //   this.open_info_windows(atrifact_image, marker3)
+    // });
+    // marker4.addListener("click", () => {
+    //   atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
+    //   this.open_info_windows(atrifact_image, marker4)
+    // });
+    // marker5.addListener("click", () => {
+    //   atrifact_image = "../../../assets/artifacts/meetingR1.PNG";
+    //   this.open_info_windows(atrifact_image, marker5)
+    // });
+    // marker6.addListener("click", () => {
+    //   atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
+    //   this.open_info_windows(atrifact_image, marker6)
+    // });
 
-    const polyline = new google.maps.Polyline({
-      path: [
-        { lat: -25.998444, lng: 28.126918 },
-        { lat: -25.998782, lng: 28.127535 },
-        { lat: -25.999163, lng: 28.128189 }
-      ],
-      geodesic: true,
-      strokeColor: "#2dd36f",
-      strokeOpacity: 1.0,
-      strokeWeight: 4,
-      map: this.map
-    });
 
-    polyline.addListener("click", () => {
-      let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
-      this.open_info_windows(atrifact_image, polyline)
-      console.log('clicked on a polyline');
-    });
+    // var path = [
+    //   { lat: -25.999168, lng: 28.128191 },
+    //   { lat: -25.999158, lng: 28.128200 }
+    // ]
 
-    polyline.setMap(this.map);
+    // const polyline = new google.maps.Polyline({
+    //   path: [
+    //     { lat: -25.998444, lng: 28.126918 },
+    //     { lat: -25.998782, lng: 28.127535 },
+    //     { lat: -25.999163, lng: 28.128189 }
+    //   ],
+    //   geodesic: true,
+    //   strokeColor: "#2dd36f",
+    //   strokeOpacity: 1.0,
+    //   strokeWeight: 4,
+    //   map: this.map
+    // });
+
+    // polyline.addListener("click", () => {
+    //   let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
+    //   this.open_info_windows(atrifact_image, polyline)
+    //   console.log('clicked on a polyline');
+    // });
+
+    // polyline.setMap(this.map);
 
 
 
     this.get_segments();
+    this.get_traffic_station();
 
     this.start_drawing()
 
@@ -260,6 +262,33 @@ export class AssesmentsPage implements OnInit {
       // for (let index = 0; index < segment.length; index++) {
       //   console.log(segment)
       // }
+    })
+
+  }
+
+  /**
+   * get_traffic_station
+   */
+   public async get_traffic_station() {
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading Traffic ....'
+    })
+
+    loading.present();
+
+    this.api.get_all_traffic_station('search', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
+      console.log('Traffic data:', (data));
+
+      this.Traffic_station = data.data;
+
+      for (let index = 0; index < this.Traffic_station.length; index++) {
+        let lat_lng = {lat : Number(data.data[index].start_latitude), lng : Number(data.data[index].start_longitude)};
+        console.log(lat_lng)
+        this.addMarker(lat_lng, data.data[index].station_no)
+      }
+
+      loading.dismiss();
     })
 
   }
@@ -505,19 +534,26 @@ export class AssesmentsPage implements OnInit {
     // }
   }
 
-  addMarker(location) {
+  addMarker(location, traffic_station_id) {
+
     const marker = new google.maps.Marker({
       position: location,
       map: this.map,
     });
 
-    var atrifact_image = '';
-
     this.marker.push(marker);
 
-    marker.addListener("click", () => {
-      atrifact_image = "../../../assets/artifacts/meetingR3.PNG";
-      this.open_info_windows(atrifact_image, this.marker)
+    marker.addListener("click", async () => {
+      console.log('clicked on a marker');
+
+      const modal = await this.modalCtrl.create({
+        component: InfoModalPage,
+        componentProps: {
+          traffic_station_id: traffic_station_id
+        }
+      })
+
+      return modal.present();
     });
   }
 

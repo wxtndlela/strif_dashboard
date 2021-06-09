@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, OnInit, Input } from '@angular/core';
 import { ApiService } from '../../../services/api.service';
 import { AlertService } from '../../../services/alert.service';
 import { ToasterService } from '../../../services/toaster.service';
@@ -15,7 +15,11 @@ import { FileService } from '../../../services/file.service';
 export class InfoModalPage implements OnInit {
 
   @Input('segment_id') segment_id: any;
+  @Input('traffic_station_id') traffic_station_id: any;
+  @ViewChild('pieChart') pieChart: ElementRef;
+
   public Segment: any;
+  public Station: any[];
   public Artifact: any = [];
   public Assesment: any;
   slideOpts = {
@@ -25,6 +29,8 @@ export class InfoModalPage implements OnInit {
       delay: 1000,
     }
   };
+
+  chart_data : any[] = [];
 
   constructor(
     private api: ApiService,
@@ -42,11 +48,77 @@ export class InfoModalPage implements OnInit {
 
   }
 
+
+
   ngOnInit() {
-    this.get_segment();
-    this.get_artifacts();
-    this.get_segment_defects();
+    if (this.segment_id) {
+      this.get_segment();
+      this.get_artifacts();
+      this.get_segment_defects();
+    }
+
+    if (this.traffic_station_id) {
+      this.get_traffic_station();
+    }
+
   }
+
+
+  /**
+   * get_traffic_station
+   */
+  public async get_traffic_station() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Please wait...'
+    })
+
+    await loading.present();
+    console.log('traffic_station_id :', this.traffic_station_id)
+    this.api.get_traffic_station(this.traffic_station_id).subscribe(response => {
+      loading.dismiss();
+
+      this.chart_data.push(['Vehicle_type', 'Num of vehicle']);
+      this.chart_data.push(['LIGHT',Number(response.data[0].LIGHT)]);
+      this.chart_data.push(['HEAVY',Number(response.data[0].HEAVY)]);
+      this.chart_data.push(['MOTORBIKE',Number(response.data[0].BIKE)]);
+
+      this.Station = response.data[0];
+    })
+  }
+
+  ngAfterViewInit(){
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(this.drawChart);
+  }
+
+
+
+  drawChart = () => {
+
+    
+    let chart_data =  [
+      ['Task', 'Hours per Day'],
+      ['Work', 11],
+      ['Eat', 2],
+      ['Commute', 2],
+      ['Watch TV', 2],
+      ['Sleep', 7]
+    ]
+
+    const data = google.visualization.arrayToDataTable(this.chart_data)
+
+    const options: any = {
+      title: "Summary",
+      legend: { position: 'top' }
+    };
+
+    const chart = new google.visualization.PieChart(
+      this.pieChart.nativeElement
+    );
+
+    chart.draw(data, options);
+  };
+
 
   /**
    * get_segment
@@ -162,20 +234,84 @@ export class InfoModalPage implements OnInit {
           text: 'CSV',
           role: 'danger',
           handler: () => {
-            let data = this.Segment;
-            this.file.exportAsCsvFile(data, 'Segment - ' + this.segment_id);
+
+            if (this.Segment) {
+              let data = this.Segment;
+              this.file.exportAsCsvFile(data, 'Segment - ' + this.segment_id);
+
+            } else if (this.traffic_station_id) {
+              let data = this.Station;
+              this.file.exportAsCsvFile(data, 'Traffic Station - S' + this.traffic_station_id);
+
+            }
+
+
           }
         },
         {
           text: 'EXCEL',
           role: 'danger',
           handler: () => {
-            this.file.exportAsExcelFile(this.Segment, 'Segment - ' + this.segment_id);
+            if (this.Segment) {
+              let data = this.Segment;
+              this.file.exportAsExcelFile(data, 'Segment - ' + this.segment_id);
+
+            } else if (this.traffic_station_id) {
+              let data = this.Station;
+              this.file.exportAsExcelFile(data, 'Traffic Station - S' + this.traffic_station_id);
+
+            }
           }
         }
       ]
     })
 
     await alert.present();
+  }
+
+
+  /**
+ * delete_station
+ */
+  public async delete_station() {
+    const alert = await this.alertCtrl.create({
+      header: 'delete station',
+      message: 'Are you sure to delete traffic station : S' + this.traffic_station_id + ' ?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'danger',
+          handler: () => {
+            this.do_delete_station();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    })
+
+    await alert.present();
+  }
+
+  /**
+   * do_delete_station
+   */
+  public async do_delete_station() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Deleting station ...'
+    })
+
+    await loading.present();
+    this.api.remove_traffic_station(this.traffic_station_id).subscribe(response => {
+      loading.dismiss();
+      console.log(response)
+      if (response.status == 0) {
+        this.toaster.successToast(response.msg);
+      } else {
+        this.toaster.warnToast(response.msg);
+      }
+    })
   }
 }
