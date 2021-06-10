@@ -239,7 +239,7 @@ export class AssesmentsPage implements OnInit {
 
     loading.present();
 
-    this.api.get_all_segments('search', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
+    this.api.get_all_segments('', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
       // console.log('Segment data:', JSON.parse(data.data[4].snap_points));
       this.Segments = data.data;
       loading.dismiss();

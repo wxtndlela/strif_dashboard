@@ -56,10 +56,10 @@ export class AddSegmentPage implements OnInit {
 
 
     this.addSegmentForm.get('DISTRICT').valueChanges.subscribe(() => {
- 
-      if(this.addSegmentForm.get('DISTRICT').value == ''){
 
-      }else{
+      if (this.addSegmentForm.get('DISTRICT').value == '') {
+
+      } else {
         this.Local_Municipality = [];
         this.addSegmentForm.get('municipality').setValue('');
         this.get_all_local_municipality(this.addSegmentForm.get('DISTRICT').value)
@@ -70,7 +70,7 @@ export class AddSegmentPage implements OnInit {
 
   private async get_all_local_municipality(municipality_id) {
     const loading = await this.loadingCtrl.create({
-      message:'getting local municipalities ...'
+      message: 'getting local municipalities ...'
     })
 
     loading.present();
@@ -80,12 +80,12 @@ export class AddSegmentPage implements OnInit {
       this.Local_Municipality = res.data;
     })
 
-    
+
   }
 
   private async get_all_municipality(province) {
     const loading = await this.loadingCtrl.create({
-      message:'getting district municipalities ...'
+      message: 'getting district municipalities ...'
     })
 
     loading.present();
@@ -100,24 +100,98 @@ export class AddSegmentPage implements OnInit {
    * submit
    */
   public async submit() {
-    let seg_id = 'this';
+    let SEG_ID = 'this';
     let snap_points = JSON.stringify(this.snapped_points);
     let sys_user_id = localStorage.getItem('uuid');
-    let municipality = this.addSegmentForm.get('municipality').value;
+    let MUNIC = this.addSegmentForm.get('municipality').value;
     let DISTRICT = this.addSegmentForm.get('DISTRICT').value;
-    let start_date = '2016-06-22 19:10:25-07'; //this.day.substr(0, 10) + ' ' + this.day.substr(11, 11);
-    let end_date = '2016-06-22 19:10:25-07'; //this.day.substr(0, 10) + ' ' + this.day.substr(11, 11);
-    let distance = this.distance;
-    let start_coords = JSON.stringify(this.start_coords);
-    let end_coords = JSON.stringify(this.end_coords);
-    let surface_type = this.addSegmentForm.get('surface_type').value;
+
+    let START_DATE = moment().format('YYYY-MM-DD HH:MM:00');
+    let END_DATE = moment().format('YYYY-MM-DD HH:MM:00');
+
+    let NODE_TYPE = this.addSegmentForm.get('Node_Type').value;
+    let SADC_ROUTE = '';
+    let AUTH_RD_DIR = this.addSegmentForm.get('Auth_RD_Dir').value;
+    let START_KM = '0';
+    let END_KM = this.distance;
+
+    let AUTH_ID = '';
+    let AUTH_ROAD_ID = '';
+    let RDDA_ID = '';
+    let LEG_SEG_ID = '';
+    let ROUTE = '';
+
+    let END_LATITUDE = this.end_coords.lat;
+    let END_LONGITUDE = this.end_coords.lon;
+    let START_LATITUDE = this.start_coords.lat;
+    let START_LONGITUDE = this.start_coords.lon;
+
+    let START_DESC = '';
+    let END_DESC = '';
+    let GIS_LINK_ID = '';
+
+    let SURF_TYPE = this.addSegmentForm.get('surface_type').value;
     let TERR_CLASS = this.addSegmentForm.get('TERR_CLASS').value;
     let RCAM_CLASS = this.addSegmentForm.get('RCAM_CLASS').value;
-    let STATUS = 'not assessed';
+    let ROAD_WIDTH = this.addSegmentForm.get('Road_Width').value;
+    let GRADIENT = this.addSegmentForm.get('Gradient').value;
+    let NO_LANES = '';
+    let NO_SHOULDER = '';
+    let ROAD_TYPE = '';
+    let BASE_DATE = moment().format('YYYY-MM-DD HH:MM:00');
+    let SURFACE_DATE = ''
+    let ROAD_NAME = this.addSegmentForm.get('Road_Name').value;
+    let LANE_CODE = this.addSegmentForm.get('Lane_Code').value;
+    let SEGMENT_STATUS = 'not assessed';
 
-    console.log(snap_points, 'snap_points')
+    let LANE_SEG_ID = '';
+    let CL_OFFSET = '';
+    let SHOULDER_TYPE = '';
+    let OWNER = localStorage.getItem('uuid');
 
-    this.api.add_segment(seg_id, snap_points, sys_user_id, municipality, DISTRICT, start_date, end_date, distance, start_coords, end_coords, surface_type, TERR_CLASS, RCAM_CLASS, STATUS).subscribe(response => {
+    this.api.add_segment(
+      snap_points,
+      SEG_ID,
+      sys_user_id,
+      MUNIC,
+      DISTRICT,
+      AUTH_ID,
+      AUTH_ROAD_ID,
+      RDDA_ID,
+      LEG_SEG_ID,
+      ROUTE,
+      START_DATE,
+      END_DATE,
+      NODE_TYPE,
+      SADC_ROUTE,
+      AUTH_RD_DIR,
+      START_KM,
+      END_KM,
+      END_LATITUDE,
+      END_LONGITUDE,
+      START_LATITUDE,
+      START_LONGITUDE,
+      START_DESC,
+      END_DESC,
+      GIS_LINK_ID,
+      SURF_TYPE,
+      TERR_CLASS,
+      RCAM_CLASS,
+      ROAD_WIDTH,
+      GRADIENT,
+      NO_LANES,
+      NO_SHOULDER,
+      ROAD_TYPE,
+      BASE_DATE,
+      SURFACE_DATE,
+      ROAD_NAME,
+      LANE_CODE,
+      SEGMENT_STATUS,
+      LANE_SEG_ID,
+      CL_OFFSET,
+      SHOULDER_TYPE,
+      OWNER
+    ).subscribe(response => {
       console.log(response)
       this.dismiss_modal();
     })
