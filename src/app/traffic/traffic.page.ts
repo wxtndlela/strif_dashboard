@@ -83,12 +83,11 @@ export class TrafficPage implements OnInit {
     let filterBy = this.filterBy;
     let funnelBy = this.funnelBy;
 
-    console.log('Sort by :', this.SortBy)
 
     this.api.get_all_traffic(search, SortBy, filterBy, funnelBy).subscribe(response => {
       this.results_count = response.rows;
       this.Traffic = response.data;
-      console.log(response.data);
+      console.log('Traffic station:',response.data);
     })
 
   }

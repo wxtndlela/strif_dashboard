@@ -187,4 +187,8 @@ export class DocumentsPage implements OnInit {
     })
   }
 
+  public download_tmh(){
+    
+  }
+
 }

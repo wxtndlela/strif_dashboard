@@ -7,22 +7,22 @@
       <ion-searchbar [(ngModel)]="searchText" (ngModelChange)="get_docs()" showCancelButton="focus"></ion-searchbar>
       <ion-item lines="none">
         <ion-item class="searchItem" lines="none" (click)="presentPopover($event, 'docFilter')">
-          <ion-icon slot="start" name="filter-outline" >
+          <ion-icon slot="start" name="filter-outline">
           </ion-icon>
           <ion-label>
             {{filterBy}}
           </ion-label>
         </ion-item>
-        
-  
+
+
         <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'docSort')">
-          <ion-icon slot="start" name="swap-vertical-outline" >
+          <ion-icon slot="start" name="swap-vertical-outline">
           </ion-icon>
           <ion-label>
             {{SortBy}}
           </ion-label>
         </ion-item>
-  
+
         <!-- <ion-item lines="none" (click)="presentPopover($event,'funnelBy')">
           <ion-icon slot="start" name="funnel-outline" >
           </ion-icon>
@@ -30,19 +30,19 @@
             {{funnelBy}}
           </ion-label>
         </ion-item> -->
-  
-        
-  
+
+
+
         <ion-item class="searchItem">
-          <ion-label>Results: ({{results_count}})</ion-label> 
+          <ion-label>Results: ({{results_count}})</ion-label>
         </ion-item>
-  
+
         <ion-item slot="end" class=".add-button">
           <ion-button (click)="add_new_doc()">
             <ion-icon name="add"></ion-icon>
           </ion-button>
         </ion-item>
-  
+
       </ion-item>
     </ion-card>
   </ion-toolbar>
@@ -54,7 +54,7 @@
 
 <ion-content>
   <ion-grid>
-   
+
 
 
 
@@ -69,7 +69,104 @@
               <th>Size</th>
               <th>Action</th>
             </tr>
-            <tr *ngFor="let doc of Docs;" >
+
+            <!-- .adt -->
+            <tr>
+              <td>THM18.adt.xlsx</td>
+              <td>THM18 Traffic Link Information</td>
+              <td>NOW</td>
+              <td>0 KB</td>
+
+              <td>
+                <ion-item lines="none" class="ion-no-padding">
+                  <ion-button color="primary" shape="outline"
+                    href="https://strif-backend.herokuapp.com/generate_ndot_excel/.adt" target="_blank">Download
+                  </ion-button>
+                </ion-item>
+              </td>
+            </tr>
+
+            <!-- .net -->
+            <tr>
+              <td>THM18.net.xlsx</td>
+              <td>THM18 Network Definition File</td>
+              <td>NOW</td>
+              <td>0 KB</td>
+
+              <td>
+                <ion-item lines="none" class="ion-no-padding">
+                  <ion-button color="primary" shape="outline"
+                    href="https://strif-backend.herokuapp.com/generate_ndot_excel/.net" target="_blank">Download
+                  </ion-button>
+                </ion-item>
+              </td>
+            </tr>
+
+            <!-- .rcl -->
+            <tr>
+              <td>THM18.rcl.xlsx</td>
+              <td>THM18 Road Classification File</td>
+              <td>NOW</td>
+              <td>0 KB</td>
+
+              <td>
+                <ion-item lines="none" class="ion-no-padding">
+                  <ion-button color="primary" shape="outline"
+                    href="https://strif-backend.herokuapp.com/generate_ndot_excel/.rcl" target="_blank">Download
+                  </ion-button>
+                </ion-item>
+              </td>
+            </tr>
+
+            <!-- .vcb -->
+            <tr>
+              <td>THM18.vcb.xlsx</td>
+              <td>THM18 Block Visual Condition Summary</td>
+              <td>NOW</td>
+              <td>0 KB</td>
+
+              <td>
+                <ion-item lines="none" class="ion-no-padding">
+                  <ion-button color="primary" shape="outline"
+                    href="https://strif-backend.herokuapp.com/generate_ndot_excel/.vcb" target="_blank">Download
+                  </ion-button>
+                </ion-item>
+              </td>
+            </tr>
+
+            <!-- .vcf -->
+            <tr>
+              <td>THM18.vcf.xlsx</td>
+              <td>THM18 Flexible Visual Condition Summary</td>
+              <td>NOW</td>
+              <td>0 KB</td>
+
+              <td>
+                <ion-item lines="none" class="ion-no-padding">
+                  <ion-button color="primary" shape="outline"
+                    href="https://strif-backend.herokuapp.com/generate_ndot_excel/.vcf" target="_blank">Download
+                  </ion-button>
+                </ion-item>
+              </td>
+            </tr>
+
+            <!-- .vcu -->
+            <tr>
+              <td>THM18.vcu.xlsx</td>
+              <td>THM18 Unsurfaced Visual Condition Summary</td>
+              <td>NOW</td>
+              <td>0 KB</td>
+
+              <td>
+                <ion-item lines="none" class="ion-no-padding">
+                  <ion-button color="primary" shape="outline"
+                    href="https://strif-backend.herokuapp.com/generate_ndot_excel/.vcu" target="_blank">Download
+                  </ion-button>
+                </ion-item>
+              </td>
+            </tr>
+
+            <tr *ngFor="let doc of Docs;">
               <td>{{doc.title}}</td>
               <td>{{doc.description}}</td>
               <td>{{doc.date_created}}</td>
@@ -77,8 +174,8 @@
 
               <td>
                 <ion-item lines="none" class="ion-no-padding">
-                  <ion-button color="primary"  shape="outline" doc.doc_url href="{{doc.doc_url}}">Download</ion-button>
-                  <ion-button color="danger"  shape="outline" (click)="delete_doc(doc.id, doc.title)">Delete</ion-button>
+                  <ion-button color="primary" shape="outline" href="{{doc.doc_url}}">Download</ion-button>
+                  <ion-button color="danger" shape="outline" (click)="delete_doc(doc.id, doc.title)">Delete</ion-button>
                 </ion-item>
               </td>
             </tr>

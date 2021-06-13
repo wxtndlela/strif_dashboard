@@ -56,14 +56,11 @@ export class FileService {
 
   public download_file(_url : any, fileName){
 
-    const url = window.URL.createObjectURL(new Blob([_url]));
     const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', fileName);
+    link.href = _url;
     document.body.appendChild(link);
     link.click();
     link.remove();
-
   }
 
 }

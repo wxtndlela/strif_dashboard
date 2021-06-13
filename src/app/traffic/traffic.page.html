@@ -63,18 +63,25 @@
         <ion-card-content>
           <table>
             <tr class="header">
-              <th>Station No</th>
-              <th>Town Name</th>
+              <th>STATION_NO</th>
+              <th>TOWN_NAME</th>
               <th>LIGHT</th>
-              <th>HEAVY</th>
-              <th>BIKE</th>
+              <th>MINIBUS</th>
+              <th>BUS</th>
+              <th>TRUCK_SHORT</th>
+              <th>TRUCK_MEDIUM</th>
+              <th>TRUCK_LONG</th>
             </tr>
             <tr *ngFor="let traffic of Traffic;">
-              <td>{{traffic.station_no}}</td>
-              <td>{{traffic.town_name}}</td>
+              <td>{{traffic.STATION_NO}}</td>
+              <td>{{traffic.TOWN_NAME}}</td>
               <td>{{traffic.LIGHT}}</td>
-              <td>{{traffic.HEAVY}}</td>
-              <td>{{traffic.BIKE}}</td>
+              <td>{{traffic.MINIBUS}}</td>
+              <td>{{traffic.BUS}}</td>
+              <td>{{traffic.TRUCK_SHORT}}</td>
+              <td>{{traffic.TRUCK_MEDIUM}}</td>
+              <td>{{traffic.TRUCK_LONG}}</td>
+
               <td>
                 <ion-item lines="none">
                   <ion-icon name="ellipsis-vertical-outline" color="medium">
