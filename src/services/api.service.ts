@@ -22,7 +22,7 @@ export class ApiService {
 
   //api server URL
   _Url = "https://strif-backend.herokuapp.com" ;
-  key = "AIzaSyBEAceBp5yFxmfMRkRngNy-0yyEdsro6-o";
+  key = "AIzaSyDpdp4k5ZfK03StYzYWLwnan7oex-s7Org";
 
   //ADD
   /*
