@@ -316,8 +316,11 @@
       </ion-col>
 
       <!-- all -->
-      <ion-col>
+      <ion-col *ngIf="segment_id">
         <ion-button fill='outline' expand="block" color='primary' (click)="export_as();">Export</ion-button>
+      </ion-col>
+      <ion-col *ngIf="traffic_station_id">
+        <ion-button fill='outline' expand="block" color='primary' href="https://strif-backend.herokuapp.com/generate_ndot_excel/.adt" target="_blank">Export</ion-button>
       </ion-col>
       <ion-col>
         <ion-button fill='outline' expand="block" color='primary' (click)="dismiss();">Dismiss</ion-button>
