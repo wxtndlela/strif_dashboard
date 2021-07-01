@@ -24,11 +24,13 @@ export class GlobalSettings {
         this.user_name = new BehaviorSubject<String>('');
         this.user_avater = new BehaviorSubject<String>('../../assets/avater-default.png');
         
-        this.asses_municipality = new BehaviorSubject<String>('all municipalities');
+        this.asses_municipality = new BehaviorSubject<String>('Gert Sibande District Municipality');
         this.asses_filter = new BehaviorSubject<String>('Segments');
         this.asses_report = new BehaviorSubject<String>('');
 
         this.asses_MunicipalCoords = new BehaviorSubject<Object>({ lat:-26.510634, lng:29.9120346 });
+        this.munic_Borderline = new BehaviorSubject<String>('!4m5!3m4!1s0x1eeb8d69cec5c3e7:0x6f0a14c21c7465bd!8m2!3d-26.5470697!4d29.9740534');
+
         this.isMobile = new BehaviorSubject<Boolean>(false);
         this.Municipality = new BehaviorSubject<Object>(null);
     }
@@ -72,6 +74,14 @@ export class GlobalSettings {
     }
     get_asses_MunicipalCoords(): Observable<Object> {
         return this.asses_MunicipalCoords.asObservable();
+    }
+    
+    public munic_Borderline: BehaviorSubject<Object>;
+    set_munic_Borderline(newValue): void {
+        this.munic_Borderline.next(newValue);
+    }
+    get_munic_Borderline(): Observable<Object> {
+        return this.munic_Borderline.asObservable();
     }
 
     public asses_report: BehaviorSubject<String>;

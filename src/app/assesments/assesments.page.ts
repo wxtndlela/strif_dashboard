@@ -16,7 +16,37 @@ import { InfoModalPage } from '../components/info-modal/info-modal.page';
 })
 
 export class AssesmentsPage implements OnInit {
+
   Traffic_station: any;
+  public Parcels: any = [];
+  public results_count = 0;
+  public searchText = '';
+  public filterBy: String = '';
+  public assesMunicipality: String = '';
+  private Segments: any = [];
+  atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
+
+  private distance = 0;
+  public segments_length: any = 0;
+  private road_name = '';
+  private snapped_points: any[] = [];
+  private polyline: any[] = [];
+
+  routes: any[];
+  public mapHeight = 70;
+  private map;
+  private marker: any[] = [];
+
+  zoom: 8.53;
+  center: any;
+  options: google.maps.MapOptions = {
+    mapTypeId: 'hybrid',
+    zoomControl: true,
+    scrollwheel: true,
+    disableDoubleClickZoom: true,
+    // maxZoom: 10,
+    // minZoom: 8,
+  }
 
   constructor(
     private api: ApiService,
@@ -32,63 +62,56 @@ export class AssesmentsPage implements OnInit {
   }
 
   ngOnInit() {
+
     this.global.get_asses_municipality().subscribe(async (value) => {
-      this.municipalities = await value;
-    });
-    this.global.get_asses_filter().subscribe(async (value) => {
-      this.filterBy = await value;
-      if (value != 'pothole') {
-        // this.marker = [];
-        // this.marker[0] = new google.maps.Marker({
-        //   position: { lat: -25.999168, lng: 28.128191 },
-        //   map: this.map
-        // });
-        // this.marker[0].addListener("click", () => {
-        //   let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
-        //   this.open_info_windows(atrifact_image, this.marker)
-        // });
-
-        // this.marker[0].setMap(null);
-      }
-
+      this.assesMunicipality = value;
     });
 
     this.global.get_asses_MunicipalCoords().subscribe(async (value) => {
-      this.center = value;
+      this.decode_path(this.global.munic_Borderline.value);
+
+      this.move_camera(value);
     });
 
+    this.global.get_asses_filter().subscribe(async (value) => {
+
+      this.filterBy = value;
+      this.clear_map();
+
+      switch (value) {
+        case 'Segments':
+          this.get_segments();
+          console.log('Segments');
+
+          break;
+        case 'Traffic':
+          this.get_traffic_station();
+
+          console.log('Traffic')
+          break;
+
+        case 'Structures':
+          // this.get_segments();
+          console.log('Structures');
+          break;
+
+        case 'Furniture':
+          // this.get_segments();
+          console.log('Furniture');
+          break;
+
+        default:
+          break;
+      }
+
+
+    });
+
+
+
     this.load_map();
-
   }
 
-  routes: any[];
-  public mapHeight = 70;
-  private map;
-  private marker: any[] = [];
-
-  zoom: 18;
-  center: any;
-  options: google.maps.MapOptions = {
-    mapTypeId: 'hybrid',
-    zoomControl: true,
-    scrollwheel: true,
-    disableDoubleClickZoom: true,
-    // maxZoom: 10,
-    // minZoom: 8,
-  }
-
-  public Parcels: any = [];
-  public results_count = 0;
-  public searchText = '';
-  public filterBy: String = '';
-  public municipalities: String = '';
-  private Segments: any = [];
-  atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
-
-  private distance = 0;
-  private road_name = '';
-  private snapped_points: any[] = [];
-  private polyline: any;
 
   async presentPopover(ev: any, event) {
     String(event).substr
@@ -108,107 +131,31 @@ export class AssesmentsPage implements OnInit {
    * load_map
    */
   public load_map() {
+
     this.map = new google.maps.Map(document.getElementById('map_canvas'), {
       center: this.center,
-      zoom: 9
+      zoom: 9,
+      styles: [
+        {
+          "featureType": "administrative",
+          "elementType": "geometry.stroke",
+          "stylers": [
+            { "visibility": "on" },
+            { "weight": 2.5 },
+            { "color": "#eb445a" }
+          ]
+        },
+        {
+          "featureType": "road",
+          "elementType": "geometry",
+          "stylers": [
+            { "visibility": "on" }
+          ]
+        }
+      ]
     });
 
-    var atrifact_image = '';
-
-    // this.marker[0] = new google.maps.Marker({
-    //   position: { lat: -25.999168, lng: 28.128191 },
-    //   map: this.map
-    // });
-    // this.marker[0].addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
-    //   this.open_info_windows(atrifact_image, this.marker)
-    // });
-
-    // this.marker[0].setMap(this.map);
-
-    // this.addMarker({ lat: -25.999168, lng: 28.128191 }, 1);
-
-    // let marker1 = new google.maps.Marker({
-    //   position: { lat: -25.999168, lng: 28.128191 },
-    //   map: this.map
-    // });
-    // let marker2 = new google.maps.Marker({
-    //   position: { lat: -25.998546, lng: 28.127063 },
-    //   map: this.map
-    // }); let marker3 = new google.maps.Marker({
-    //   position: { lat: -25.998628, lng: 28.127229 },
-    //   map: this.map
-    // }); let marker4 = new google.maps.Marker({
-    //   position: { lat: -25.998729, lng: 28.127417 },
-    //   map: this.map
-    // }); let marker5 = new google.maps.Marker({
-    //   position: { lat: -25.998864, lng: 28.127680 },
-    //   map: this.map
-    // }); let marker6 = new google.maps.Marker({
-    //   position: { lat: -25.999028, lng: 28.127975 },
-    //   map: this.map
-    // });
-
-
-    // marker1.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/meetingR5.PNG";
-    //   this.open_info_windows(atrifact_image, marker1)
-    // });
-    // marker2.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/meeting4.PNG";
-    //   this.open_info_windows(atrifact_image, marker2)
-    // });
-    // marker3.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/meetingR3.PNG";
-    //   this.open_info_windows(atrifact_image, marker3)
-    // });
-    // marker4.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
-    //   this.open_info_windows(atrifact_image, marker4)
-    // });
-    // marker5.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/meetingR1.PNG";
-    //   this.open_info_windows(atrifact_image, marker5)
-    // });
-    // marker6.addListener("click", () => {
-    //   atrifact_image = "../../../assets/artifacts/meetingR2.PNG";
-    //   this.open_info_windows(atrifact_image, marker6)
-    // });
-
-
-    // var path = [
-    //   { lat: -25.999168, lng: 28.128191 },
-    //   { lat: -25.999158, lng: 28.128200 }
-    // ]
-
-    // const polyline = new google.maps.Polyline({
-    //   path: [
-    //     { lat: -25.998444, lng: 28.126918 },
-    //     { lat: -25.998782, lng: 28.127535 },
-    //     { lat: -25.999163, lng: 28.128189 }
-    //   ],
-    //   geodesic: true,
-    //   strokeColor: "#2dd36f",
-    //   strokeOpacity: 1.0,
-    //   strokeWeight: 4,
-    //   map: this.map
-    // });
-
-    // polyline.addListener("click", () => {
-    //   let atrifact_image = "../../../assets/artifacts/DJI_0945.JPG";
-    //   this.open_info_windows(atrifact_image, polyline)
-    //   console.log('clicked on a polyline');
-    // });
-
-    // polyline.setMap(this.map);
-
-
-
-    this.get_segments();
-    this.get_traffic_station();
-
-    this.start_drawing()
-
+    this.start_drawing();
   }
 
   /**
@@ -217,15 +164,40 @@ export class AssesmentsPage implements OnInit {
   public async get_routes() {
     this.api.get_file('TMH18/TMH18.rcl').subscribe(data => {
 
-
       this.routes = JSON.parse(data);
 
       console.log(
         this.routes
       );
-
-
     })
+  }
+
+  /**
+   * move_camera
+   */
+  public move_camera(center) {
+    this.center = center;
+    this.map.panTo(center);
+    console.log('map moved to :', center)
+  }
+
+  private decode_path(encodedPath) {
+    // let path = google.maps.geometry.encoding.decodePath(encodedPath);
+    // console.log('encodedPath:', path)
+
+
+
+    // var geocoder = new google.maps.Geocoder();
+    // geocoder.geocode({
+    //   'address': "rajasthan"
+    // }, (results, status) => {
+    //   console.log('Results:', results[0].geometry.location);
+    //   let path: any;
+    //   path = results[0].geometry.location;
+    //   for (let index = 0; index < path.length; index++) {
+
+    //   }
+    // })
   }
 
   /**
@@ -240,15 +212,18 @@ export class AssesmentsPage implements OnInit {
     loading.present();
 
     this.api.get_all_segments('', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
-      // console.log('Segment data:', JSON.parse(data.data[4].snap_points));
+      console.log('Segment data:', data.data[4].START_KM);
       this.Segments = data.data;
+      this.results_count = data.data.length;
       loading.dismiss();
 
       for (let index = 0; index < this.Segments.length; index++) {
         var points = JSON.parse(this.Segments[index].snap_points);
         var path: any[] = [];
         var id: any = this.Segments[index].id;
-        // console.log('snap_points:', points)
+        this.segments_length += Math.round(this.Segments[index].START_KM);
+        this.segments_length += Math.round(this.Segments[index].END_KM);
+
 
         if (points) {
           for (let i = 0; i < points.length; i++) {
@@ -258,10 +233,6 @@ export class AssesmentsPage implements OnInit {
         }
       }
 
-
-      // for (let index = 0; index < segment.length; index++) {
-      //   console.log(segment)
-      // }
     })
 
   }
@@ -269,7 +240,7 @@ export class AssesmentsPage implements OnInit {
   /**
    * get_traffic_station
    */
-   public async get_traffic_station() {
+  public async get_traffic_station() {
 
     const loading = await this.loadingCtrl.create({
       message: 'Loading Traffic ....'
@@ -281,10 +252,10 @@ export class AssesmentsPage implements OnInit {
       console.log('Traffic data:', (data));
 
       this.Traffic_station = data.data;
+      this.results_count = data.data.length;
 
       for (let index = 0; index < this.Traffic_station.length; index++) {
-        let lat_lng = {lat : Number(data.data[index].start_latitude), lng : Number(data.data[index].start_longitude)};
-        console.log(lat_lng)
+        let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
         this.addMarker(lat_lng, data.data[index].station_no)
       }
 
@@ -410,7 +381,7 @@ export class AssesmentsPage implements OnInit {
 
       set_snapped_points();
 
-      this.draw_polyline(points, '','');
+      this.draw_polyline(points, '', '');
       // drawingManager.setDrawingMode(null);
       let origin = await path[0].location.latitude + ',' + path[0].location.longitude;
       let destination = await path[path.length - 1].location.latitude + ',' + path[path.length - 1].location.longitude
@@ -420,16 +391,16 @@ export class AssesmentsPage implements OnInit {
   }
 
   public async draw_polyline(path, id, status) {
-    var color ;
-    if(status == '1'){
+    var color;
+    if (status == '1') {
       color = "#2dd36f";
-    }else if(status = '8'){
+    } else if (status = '8') {
       color = "#AE60A6";
-    }else {
+    } else {
       color = "#F2C849"
     }
 
-    this.polyline = new google.maps.Polyline({
+    let polyline = new google.maps.Polyline({
       path: path,
       geodesic: true,
       strokeColor: color,
@@ -438,10 +409,12 @@ export class AssesmentsPage implements OnInit {
       map: this.map
     });
 
-    this.polyline.addListener("click", async () => {
+    this.polyline.push(polyline)
+
+    polyline.addListener("click", async () => {
       const modal = await this.modalCtrl.create({
         component: InfoModalPage,
-        componentProps :{ 
+        componentProps: {
           'segment_id': id
         },
         cssClass: 'infoModalClass'
@@ -450,7 +423,7 @@ export class AssesmentsPage implements OnInit {
       await modal.present();
     });
 
-    this.polyline.setMap(this.map);
+    polyline.setMap(this.map);
   }
 
   /**
@@ -504,9 +477,8 @@ export class AssesmentsPage implements OnInit {
       km = response.rows[0].elements[0].distance.value;
       km /= 1000;
       setDistance();
-      console.log(km)
-      // See Parsing the Results for
-      // the basics of a callback function.
+      // console.log(km)
+
     }
   }
 
@@ -527,11 +499,6 @@ export class AssesmentsPage implements OnInit {
     return modal.present()
   }
 
-  setMapOnAll(map: google.maps.Map | null) {
-    // for (let i = 0; i < markers.length; i++) {
-    //   markers[i].setMap(map);
-    // }
-  }
 
   addMarker(location, traffic_station_id) {
 
@@ -543,7 +510,6 @@ export class AssesmentsPage implements OnInit {
     this.marker.push(marker);
 
     marker.addListener("click", async () => {
-      console.log('clicked on a marker');
 
       const modal = await this.modalCtrl.create({
         component: InfoModalPage,
@@ -554,6 +520,30 @@ export class AssesmentsPage implements OnInit {
 
       return modal.present();
     });
+  }
+
+  /**
+   * clear_map
+   */
+  public clear_map() {
+
+    if (this.polyline && this.polyline.length > 0) {
+      //clear segments
+      for (let index = 0; index < this.polyline.length; index++) {
+        let polyline: google.maps.Polyline = this.polyline[index];
+        polyline.setMap(null);
+      }
+    }
+
+    if (this.marker && this.marker.length > 0) {
+      //clear traffic
+      for (let index = 0; index < this.marker.length; index++) {
+        let marker: google.maps.Marker = this.marker[index];
+        marker.setMap(null);
+      }
+    }
+
+    this.results_count = 0;
   }
 
 
