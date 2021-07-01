@@ -8,6 +8,7 @@ import { FilterComponent } from '../components/filter/filter.component';
 import { GlobalSettings } from '../../services/global.service';
 import { AddSegmentPage } from '../add-segment/add-segment.page';
 import { InfoModalPage } from '../components/info-modal/info-modal.page';
+import { LayersComponent } from '../components/layers/layers.component';
 
 @Component({
   selector: 'app-assesments',
@@ -127,6 +128,20 @@ export class AssesmentsPage implements OnInit {
     return await popover.present();
   }
 
+  async presentLayersPopover(ev: any, event) {
+    String(event).substr
+    const popover = await this.popoverController.create({
+      component: LayersComponent,
+      // cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true,
+      componentProps: {
+        event: event
+      },
+    });
+    return await popover.present();
+  }
+
   /**
    * load_map
    */
@@ -135,6 +150,7 @@ export class AssesmentsPage implements OnInit {
     this.map = new google.maps.Map(document.getElementById('map_canvas'), {
       center: this.center,
       zoom: 9,
+      fullscreenControl: false,
       styles: [
         {
           "featureType": "administrative",
