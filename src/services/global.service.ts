@@ -33,6 +33,15 @@ export class GlobalSettings {
 
         this.isMobile = new BehaviorSubject<Boolean>(false);
         this.Municipality = new BehaviorSubject<Object>(null);
+        this.Surf_type = new BehaviorSubject<Object>(null);
+    }
+
+    public Surf_type: BehaviorSubject<Object>;
+    set_Surf_type(newValue): void {
+        this.Surf_type.next(newValue);
+    }
+    get_Surf_type(): Observable<Object> {
+        return this.Surf_type.asObservable();
     }
 
     public Municipality: BehaviorSubject<Object>;

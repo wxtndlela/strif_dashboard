@@ -1,0 +1,16 @@
+.item {
+    ion-item {
+        --min-height: 0. 5rem;
+        --max-height: 8rem;
+        --highlight-height: 0;
+    }
+}
+
+
+.combo-box {
+    text-align: left;
+    border: 1px solid var(--ion-color-medium);
+    border-radius: 10px;
+    width: 90%;
+    font-size: medium;
+  }

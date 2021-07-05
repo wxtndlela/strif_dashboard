@@ -27,6 +27,8 @@ import { AngularFireModule } from '@angular/fire';
 //commponents
 import { FilterComponent } from './components/filter/filter.component';
 import { LayersComponent } from './components/layers/layers.component';
+import { AddOptionsComponent } from './components/add-options/add-options.component';
+
 import { UsersPage } from './users/users.page';
 import { EditorModule } from "@tinymce/tinymce-angular";
 
@@ -42,7 +44,8 @@ import { File } from '@ionic-native/file/ngx';
   declarations: [
     AppComponent,
     FilterComponent,
-    LayersComponent
+    LayersComponent,
+    AddOptionsComponent
   ],
 
   entryComponents: [],

@@ -80,7 +80,6 @@ export class AddSegmentPage implements OnInit {
       this.Local_Municipality = res.data;
     })
 
-
   }
 
   private async get_all_municipality(province) {

@@ -67,7 +67,15 @@ const routes: Routes = [
   {
     path: 'add-user',
     loadChildren: () => import('./add-user/add-user.module').then( m => m.AddUserPageModule)
+  },  {
+    path: 'add-furniture',
+    loadChildren: () => import('./add-furniture/add-furniture.module').then( m => m.AddFurniturePageModule)
+  },
+  {
+    path: 'add-structure',
+    loadChildren: () => import('./add-structure/add-structure.module').then( m => m.AddStructurePageModule)
   }
+
 
 
 

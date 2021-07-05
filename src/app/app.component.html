@@ -3,8 +3,8 @@
   <ion-toolbar color="secondary" *ngIf="isMobile">
     <ion-item color="secondary" lines="none">
       <ion-icon name="menu-outline" (click)="open_menu();"></ion-icon>
-      <ion-title>{{selected_appPage}}</ion-title>
-      <ion-icon name="bulb-outline" (click)='open_hint();'></ion-icon>
+      <ion-title >{{selected_appPage}}</ion-title>
+      <!-- <ion-icon name="bulb-outline" (click)='open_hint();'></ion-icon> -->
     </ion-item>
   </ion-toolbar>
 
@@ -13,7 +13,6 @@
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header style="margin-top: 3vh;">
-
             <!-- <img src="../assets/icon/favicon.png" /> -->
             <img src="../assets/icon/client_logo.png" style="height: 10vh;margin-left: auto;margin-right: auto;"/>
           </ion-list-header>

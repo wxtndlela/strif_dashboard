@@ -9,6 +9,7 @@ import { GlobalSettings } from '../../services/global.service';
 import { AddSegmentPage } from '../add-segment/add-segment.page';
 import { InfoModalPage } from '../components/info-modal/info-modal.page';
 import { LayersComponent } from '../components/layers/layers.component';
+import { AddOptionsComponent } from '../components/add-options/add-options.component';
 
 @Component({
   selector: 'app-assesments',
@@ -26,6 +27,23 @@ export class AssesmentsPage implements OnInit {
   public assesMunicipality: String = '';
   private Segments: any = [];
   atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
+  public list = [];
+  public SURF_TYPE = [
+    {
+      name: 'BLOCK',
+      isChecked: true,
+      borderline: '!4m5!3m4!1s0x1eeb8d69cec5c3e7:0x6f0a14c21c7465bd!8m2!3d-26.5470697!4d29.9740534'
+    },
+    {
+      name: 'FLEX',
+      isChecked: true
+    },
+    {
+      name: 'GRAV',
+      isChecked:true
+    },
+    
+  ];
 
   private distance = 0;
   public segments_length: any = 0;
@@ -59,6 +77,7 @@ export class AssesmentsPage implements OnInit {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
   ) {
+    this.list = this.SURF_TYPE
 
   }
 
@@ -142,6 +161,20 @@ export class AssesmentsPage implements OnInit {
     return await popover.present();
   }
 
+  async presentAddPopover(ev: any, event) {
+    String(event).substr
+    const popover = await this.popoverController.create({
+      component: AddOptionsComponent,
+      // cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true,
+      componentProps: {
+        event: event
+      },
+    });
+    return await popover.present();
+  }
+
   /**
    * load_map
    */
@@ -151,6 +184,9 @@ export class AssesmentsPage implements OnInit {
       center: this.center,
       zoom: 9,
       fullscreenControl: false,
+      zoomControl: true,
+      mapTypeControl: false,
+      streetViewControl: false,
       styles: [
         {
           "featureType": "administrative",

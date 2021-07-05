@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add furniture</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <form [formGroup]="addFurnitureForm">
+      <ion-card-content>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">DISTRICT:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="DISTRICT">
+            <ion-select-option *ngFor="let item of Municipality" value="{{item.id}}">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.DISTRICT.errors?.required">
+          DISTRICT is required.
+        </span>
+        <br>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">MUNICIPALITY:</ion-label>
+          <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="municipality">
+            <ion-select-option *ngFor="let item of Local_Municipality" value="{{item.name}}">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.municipality.errors?.required">
+          municipality is required.
+        </span>
+        <br>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">FEATURE:</ion-label>
+          <ion-select value="Bridge" okText="Okay" cancelText="Dismiss" formControlName="FEATURE">
+            <ion-select-option value="Street Light">Street Light</ion-select-option>
+            <ion-select-option value="Traffic Light">Traffic Light</ion-select-option>
+            <ion-select-option value="Guard Rails">Guard Rails</ion-select-option>
+            <ion-select-option value="Bollards">Bollards</ion-select-option>
+            <ion-select-option value="Road Signs">Road Signs</ion-select-option>
+            <ion-select-option value="Gantry Sign">Gantry Sign</ion-select-option>
+            <ion-select-option value="Bus Stop">Bus Stop</ion-select-option>
+            <ion-select-option value="Speed Humps">Speed Humps</ion-select-option>
+            <ion-select-option value="Walkaway and Cycle Paths">Walkaway and Cycle Paths</ion-select-option>
+            <ion-select-option value="Manholes">Manholes</ion-select-option>
+            <ion-select-option value="Parking">Parking</ion-select-option>
+            <ion-select-option value="Drainage">Drainage</ion-select-option>
+            <ion-select-option value="Islands">Islands</ion-select-option>
+            <ion-select-option value="Traffic Circle">Traffic Circle</ion-select-option>
+            <ion-select-option value="Other">Other</ion-select-option>
+            <ion-select-option value="Propose Road Markings/Furniture">Propose Road Markings/Furniture</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.FEATURE.errors?.required">
+          FEATURE is required.
+        </span>
+        <br>
+
+        <ion-item class="combo-box">
+          <ion-label style="text-align: left;">TYPE:</ion-label>
+          <ion-select  value="select" okText="Okay" cancelText="Dismiss" formControlName="TYPE">
+            <ion-select-option *ngFor="let item of Type" value="{{item}}">{{item}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.TYPE.errors?.required">
+          TYPE is required.
+        </span>
+        <br>
+
+        <ion-item class="input-valid">
+          <ion-input type="text" placeholder="Enter width (m)" formControlName="width"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.width.errors?.required">
+          width is required.
+        </span>
+        <br>
+
+        <ion-item class="input-valid">
+          <ion-input type="text" placeholder="Enter height (m)" formControlName="height"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.height.errors?.required">
+          height is required.
+        </span>
+        <br>
+
+
+        <ion-item class="input-valid">
+          <ion-input type="text" placeholder="Enter distance from road (m)" formControlName="distance_from_road"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.distance_from_road.errors?.required">
+          distance_from_road is required.
+        </span>
+        <br>
+
+        <ion-item class="input-valid">
+          <ion-input type="file" placeholder="Enter Cell Hight" formControlName="cell_length"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.cell_length.errors?.required">
+          cell_length is required.
+        </span>
+        <br>
+
+ 
+
+        <ion-item class="input-valid">
+          <ion-input type="text" placeholder="Enter START_LATITUDE" formControlName="START_LATITUDE"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.START_LATITUDE.errors?.required">
+          START_LATITUDE is required.
+        </span>
+        <br>
+
+        <ion-item class="input-valid">
+          <ion-input type="text" placeholder="Enter START_LONGITUDE" formControlName="START_LONGITUDE"></ion-input>
+        </ion-item>
+        <span class="error ion-padding" *ngIf="isSubmitted && errorControl.START_LONGITUDE.errors?.required">
+          START_LONGITUDE is required.
+        </span>
+        <br>
+
+        <ion-item class="input-valid">
+          <ion-input type="text" placeholder="Enter COMMENTS" formControlName="COMMENTS"></ion-input>
+        </ion-item>
+        <br>
+
+        <ion-button (click)="submit()" style="width: 100%;" shape="outline">Add Structure</ion-button>
+        <br>
+        <span class="ion-padding" style="text-align: center;">
+        </span>
+      </ion-card-content>
+    </form>
+  </ion-grid>
+</ion-content>

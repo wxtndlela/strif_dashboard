@@ -22,7 +22,6 @@ export class FilterComponent implements OnInit {
   public docSort = ['DESC', 'ASC'];
   public funnelBy = ['all', 'help', 'safety', 'about'];
 
-
   public assesMunicipality = [
     {
       name: 'Gert Sibande District Municipality',

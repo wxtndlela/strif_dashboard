@@ -5,15 +5,15 @@
     <br>
     <ion-card>
       <ion-card-content>
-        <ion-item lines="none">
+        <ion-item lines="none" >
 
-          <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'assesMunicipality')">
+          <!-- <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'assesMunicipality')">
             <ion-icon slot="start" name="locate-outline">
             </ion-icon>
             <ion-label>
               {{assesMunicipality}}
             </ion-label>
-          </ion-item>
+          </ion-item> -->
 
           <ion-item class="searchItem" lines="none" (click)="presentPopover($event,'assesFilter')">
             <ion-icon slot="start" name="filter-outline">
@@ -29,26 +29,59 @@
             </ion-label>
           </ion-item>
 
-          <ion-item *ngIf="filterBy == 'Segments'" class="searchItem" lines="none">
-            <ion-label>
-              Length:{{segments_length}} km
-            </ion-label>
-          </ion-item>
-
+  
         </ion-item>
+
+        
       </ion-card-content>
     </ion-card>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content>
   <ion-grid id="map_canvas" style="height: 100%;">
   </ion-grid>
 
-  <!-- fab placed to the top end -->
-  <ion-fab  vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="presentLayersPopover($event)">
+  <!-- layers -->
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentLayersPopover($event, '')">
       <ion-icon name="layers-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- add structure -->
+  <ion-fab vertical="top" horizontal="start" slot="fixed" >
+    <ion-fab-button (click)="presentAddPopover($event, '')">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <ion-item *ngIf="filterBy == 'Segments'" class="searchItem" lines="none">
+          <ion-icon slot="start" name="analytics-outline"></ion-icon>
+          <ion-label>
+            Length:{{segments_length}} km
+          </ion-label>
+        </ion-item>
+      </ion-col>
+
+      <ion-col>
+       <ion-item *ngIf="filterBy == 'Segments'" class="combo-box" (click)="presentLayersPopover($event, 'SURF_TYPE')">
+         <ion-label>SURF_TYPE</ion-label>
+         <ion-icon name="chevron-down"></ion-icon>
+       </ion-item>
+      </ion-col>
+
+      <ion-col>
+        <ion-item *ngIf="filterBy == 'Segments'" class="combo-box" (click)="presentLayersPopover($event, 'MUNIC')">
+          <ion-label>MUNIC</ion-label>
+          <ion-icon name="chevron-down"></ion-icon>
+        </ion-item>
+       </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
