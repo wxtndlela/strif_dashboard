@@ -18,10 +18,10 @@ export class ApiService {
   }
 
   //api tesing server URL
-  _Url = "http://127.0.0.1:3000";
+  // _Url = "http://127.0.0.1:3000";
 
   //api server URL
-    // _Url = "https://strif-backend.herokuapp.com" ;
+  _Url = "https://strif-backend.herokuapp.com";
   key = "AIzaSyDpdp4k5ZfK03StYzYWLwnan7oex-s7Org";
 
   //ADD
@@ -71,50 +71,50 @@ export class ApiService {
     SHOULDER_TYPE,
     OWNER
   ) {
-    return this.http.post<any>(`${this._Url}/add_segment`, 
-    {
-      snap_points,
-      SEG_ID,
-      sys_user_id,
-      MUNIC,
-      DISTRICT,
-      AUTH_ID,
-      AUTH_ROAD_ID,
-      RDDA_ID,
-      LEG_SEG_ID,
-      ROUTE,
-      START_DATE,
-      END_DATE,
-      NODE_TYPE,
-      SADC_ROUTE,
-      AUTH_RD_DIR,
-      START_KM,
-      END_KM,
-      END_LATITUDE,
-      END_LONGITUDE,
-      START_LATITUDE,
-      START_LONGITUDE,
-      START_DESC,
-      END_DESC,
-      GIS_LINK_ID,
-      SURF_TYPE,
-      TERR_CLASS,
-      RCAM_CLASS,
-      ROAD_WIDTH,
-      GRADIENT,
-      NO_LANES,
-      NO_SHOULDER,
-      ROAD_TYPE,
-      BASE_DATE,
-      SURFACE_DATE,
-      ROAD_NAME,
-      LANE_CODE,
-      SEGMENT_STATUS,
-      LANE_SEG_ID,
-      CL_OFFSET,
-      SHOULDER_TYPE,
-      OWNER
-    }
+    return this.http.post<any>(`${this._Url}/add_segment`,
+      {
+        snap_points,
+        SEG_ID,
+        sys_user_id,
+        MUNIC,
+        DISTRICT,
+        AUTH_ID,
+        AUTH_ROAD_ID,
+        RDDA_ID,
+        LEG_SEG_ID,
+        ROUTE,
+        START_DATE,
+        END_DATE,
+        NODE_TYPE,
+        SADC_ROUTE,
+        AUTH_RD_DIR,
+        START_KM,
+        END_KM,
+        END_LATITUDE,
+        END_LONGITUDE,
+        START_LATITUDE,
+        START_LONGITUDE,
+        START_DESC,
+        END_DESC,
+        GIS_LINK_ID,
+        SURF_TYPE,
+        TERR_CLASS,
+        RCAM_CLASS,
+        ROAD_WIDTH,
+        GRADIENT,
+        NO_LANES,
+        NO_SHOULDER,
+        ROAD_TYPE,
+        BASE_DATE,
+        SURFACE_DATE,
+        ROAD_NAME,
+        LANE_CODE,
+        SEGMENT_STATUS,
+        LANE_SEG_ID,
+        CL_OFFSET,
+        SHOULDER_TYPE,
+        OWNER
+      }
     );
   }
   /*
