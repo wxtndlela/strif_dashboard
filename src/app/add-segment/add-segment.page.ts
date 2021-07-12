@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, LoadingController } from '@ionic/angular';
+import { GlobalSettings } from '../../services/global.service';
 
 @Component({
   selector: 'app-add-segment',
@@ -17,6 +18,7 @@ export class AddSegmentPage implements OnInit {
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
+    private global: GlobalSettings
 
   ) {
     this.addSegmentForm = this.fb.group({
@@ -25,7 +27,6 @@ export class AddSegmentPage implements OnInit {
       surface_type: ['', Validators.required],
       TERR_CLASS: ['', Validators.required],
       RCAM_CLASS: ['', Validators.required],
-
       Road_Name: ['', Validators.required],
       Lane_Code: ['', Validators.required],
       Road_Width: ['', Validators.required],
@@ -34,6 +35,8 @@ export class AddSegmentPage implements OnInit {
       Auth_RD_Dir: ['', Validators.required],
       Status: ['', Validators.required],
     });
+
+    this.Municipality = (this.global.Province.value)[0].District;
   }
 
   public addSegmentForm: FormGroup;
@@ -50,21 +53,24 @@ export class AddSegmentPage implements OnInit {
 
 
   ngOnInit() {
-    console.log('snapped_points', this.snapped_points);
-    console.log('distance', this.distance);
-    this.get_all_municipality('Mpumalanga');
-
 
     this.addSegmentForm.get('DISTRICT').valueChanges.subscribe(() => {
-
-      if (this.addSegmentForm.get('DISTRICT').value == '') {
-
-      } else {
-        this.Local_Municipality = [];
-        this.addSegmentForm.get('municipality').setValue('');
-        this.get_all_local_municipality(this.addSegmentForm.get('DISTRICT').value)
+      let District_code = this.addSegmentForm.get('DISTRICT');
+      if (District_code.value != '') {
+        for (let index = 0; index < this.Municipality.length; index++) {
+          const District = this.Municipality[index];
+          if (District_code.value == District.code) {
+            this.addSegmentForm.get('municipality').setValue('');
+            this.Local_Municipality = [];
+            const Local_Municipality = District.Municipality;
+            for (let index = 0; index < Local_Municipality.length; index++) {
+              const element = Local_Municipality[index];
+              this.Local_Municipality.push(element);
+            }
+            /*take a */ break;
+          }
+        }
       }
-      console.log('municipality changed', this.addSegmentForm.get('DISTRICT').value);
     })
   }
 

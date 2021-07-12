@@ -40,9 +40,9 @@ export class AssesmentsPage implements OnInit {
     },
     {
       name: 'GRAV',
-      isChecked:true
+      isChecked: true
     },
-    
+
   ];
 
   private distance = 0;
@@ -89,20 +89,20 @@ export class AssesmentsPage implements OnInit {
 
     this.global.get_asses_MunicipalCoords().subscribe(async (value) => {
       this.decode_path(this.global.munic_Borderline.value);
-
       this.move_camera(value);
     });
 
-    this.global.get_asses_filter().subscribe(async (value) => {
+    this.global.get_MUNIC().subscribe(value => {
+      console.log('District Filter:', value)
+    })
 
+    this.global.get_asses_filter().subscribe(async (value) => {
       this.filterBy = value;
       this.clear_map();
-
       switch (value) {
         case 'Segments':
-          this.get_segments();
+          // this.get_segments();
           console.log('Segments');
-
           break;
         case 'Traffic':
           this.get_traffic_station();

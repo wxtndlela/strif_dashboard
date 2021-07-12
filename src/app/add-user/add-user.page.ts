@@ -39,8 +39,12 @@ export class AddUserPage implements OnInit {
       province: ['', [Validators.required]],
       gender: ['', [Validators.required]],
     });
+
+    this.Province = (this.global.Province.value);
+
   }
 
+  public Province: any;
   public registerForm: FormGroup;
   isSubmitted = false;
   public day = moment().format('yyyy-MM-DD H:mm:ss-00').toString();
@@ -51,32 +55,45 @@ export class AddUserPage implements OnInit {
   ngOnInit() {
 
     this.registerForm.get('province').valueChanges.subscribe(() => {
-      this.Municipality = [];
-      this.Local_Municipality = [];
-      this.registerForm.get('municipality').setValue('');
-      this.registerForm.get('local_municipality').setValue('');
-
-      this.get_all_municipality(this.registerForm.get('province').value)
-      console.log('province changed', this.registerForm.get('province').value);
+      let Province_name = this.registerForm.get('province');
+      if(Province_name.value != ''){
+        for (let index = 0; index < this.Province.length; index++) {
+          const Province = this.Province[index];
+          if(Province_name.value == Province.name){
+            console.log('Province:', Province);
+            this.Municipality = [];
+            let District = Province.District;
+            this.Municipality = District
+            this.registerForm.get('municipality').setValue('');
+          }
+        }
+      }
     })
 
     this.registerForm.get('municipality').valueChanges.subscribe(() => {
- 
-      if(this.registerForm.get('municipality').value == ''){
-
-      }else{
-        this.Local_Municipality = [];
-        this.registerForm.get('local_municipality').setValue('');
-        this.get_all_local_municipality(this.registerForm.get('municipality').value)
+      let District_code = this.registerForm.get('municipality');
+      if (District_code.value != '') {
+        for (let index = 0; index < this.Municipality.length; index++) {
+          const District = this.Municipality[index];
+          if (District_code.value == District.code) {
+            this.registerForm.get('local_municipality').setValue('');
+            this.Local_Municipality = [];
+            const Local_Municipality = District.Municipality;
+            for (let index = 0; index < Local_Municipality.length; index++) {
+              const element = Local_Municipality[index];
+              this.Local_Municipality.push(element);
+            }
+            /*take a */ break;
+          }
+        }
       }
-      console.log('municipality changed', this.registerForm.get('municipality').value);
     })
 
   }
 
   private async get_all_local_municipality(municipality_id) {
     const loading = await this.loadingCtrl.create({
-      message:'getting local municipalities ...'
+      message: 'getting local municipalities ...'
     })
 
     loading.present();
@@ -89,7 +106,7 @@ export class AddUserPage implements OnInit {
 
   private async get_all_municipality(province) {
     const loading = await this.loadingCtrl.create({
-      message:'getting district municipalities ...'
+      message: 'getting district municipalities ...'
     })
 
     loading.present();
@@ -146,13 +163,13 @@ export class AddUserPage implements OnInit {
     let dateofbirth = '';
     let last_login = this.day;
 
-    this.api.add_user(user_role, password, date_created, date_modified, email, contact, country, province, municipality, local_municipality, names, surname, username, photo_url, gender, dateofbirth, last_login).subscribe(res =>{
+    this.api.add_user(user_role, password, date_created, date_modified, email, contact, country, province, municipality, local_municipality, names, surname, username, photo_url, gender, dateofbirth, last_login).subscribe(res => {
       loading.dismiss();
-      if(res.status == 0){
+      if (res.status == 0) {
         this.toaster.successToast(res.msg);
         console.log(res)
         this.modalCtrl.dismiss()
-      }else{
+      } else {
         this.alert.presentWarnAlert(res.msg)
       }
     })

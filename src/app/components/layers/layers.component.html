@@ -1,20 +1,17 @@
-
-
 <ion-row>
-  
+
   <ion-col>
-    <ion-list>
-      <ion-list-header>
-        <strong>SURF_TYPE:</strong>
-      </ion-list-header>
-      <ion-item  *ngFor="let item of list" lines="none" >
-    
-        <ion-label style="font-size: small;">
-          {{item.name}}
-        </ion-label>
-        <ion-checkbox checked="item.isChecked"></ion-checkbox>
-    
-      </ion-item>
-    </ion-list>
+      <ion-list>
+        <ion-list-header>
+          <strong>{{event}}:</strong>
+        </ion-list-header>
+        <ion-item *ngFor="let item of list" lines="none">
+
+          <ion-label style="font-size: small;">
+            {{item.name}}
+          </ion-label>
+          <ion-checkbox (ionChange)="check_item_clicked(item)" [(ngModel)]="item.isChecked"></ion-checkbox>
+        </ion-item>
+      </ion-list>
   </ion-col>
 </ion-row>

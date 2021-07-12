@@ -68,15 +68,7 @@
           <ion-item class="input-valid">
             <ion-label style="text-align: left;">Province:</ion-label>
             <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="province">
-              <ion-select-option value="Eastern Cape">Eastern Cape</ion-select-option>
-              <ion-select-option value="Free State">Free State</ion-select-option>
-              <ion-select-option value="Gauteng">Gauteng</ion-select-option>
-              <ion-select-option value="KwaZulu-Natal">KwaZulu-Natal</ion-select-option>
-              <ion-select-option value="Limpopo">Limpopo</ion-select-option>
-              <ion-select-option value="Mpumalanga">Mpumalanga</ion-select-option>
-              <ion-select-option value="North West">North West</ion-select-option>
-              <ion-select-option value="Northern Cape">Northern Cape</ion-select-option>
-              <ion-select-option value="Western Cape">Western Cape</ion-select-option>
+              <ion-select-option *ngFor="let item of Province" value="{{item.name}}">{{item.name}}</ion-select-option>
             </ion-select>
           </ion-item>
           <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.province.errors?.required">
@@ -87,7 +79,7 @@
           <ion-item class="input-valid">
             <ion-label style="text-align: left;">District Municipality:</ion-label>
             <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="municipality">
-              <ion-select-option *ngFor="let municipality of Municipality" value="{{municipality.id}}">
+              <ion-select-option *ngFor="let municipality of Municipality" value="{{municipality.code}}">
                 {{municipality.name}}
               </ion-select-option>
             </ion-select>
@@ -101,7 +93,7 @@
             <ion-label style="text-align: left;">Local municipality:</ion-label>
             <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="local_municipality">
               <ion-select-option *ngFor="let local_municipality of Local_Municipality"
-                value="{{local_municipality.id}}">
+                value="{{local_municipality.code}}">
                 {{local_municipality.name}}
               </ion-select-option>
             </ion-select>

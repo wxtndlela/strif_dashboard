@@ -12,7 +12,7 @@
         <ion-item class="combo-box">
           <ion-label style="text-align: left;">DISTRICT:</ion-label>
           <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="DISTRICT">
-            <ion-select-option *ngFor="let item of Municipality" value="{{item.id}}">{{item.name}}</ion-select-option>
+            <ion-select-option *ngFor="let item of Municipality" value="{{item.code}}">{{item.name}}</ion-select-option>
           </ion-select>
         </ion-item>
         <span class="error ion-padding" *ngIf="isSubmitted && errorControl.DISTRICT.errors?.required">

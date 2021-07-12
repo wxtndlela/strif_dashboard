@@ -67,6 +67,7 @@ export class AppComponent {
       this.isRegistering = true;
 
     } else {
+      // this.global.set_District();
       this.global.set_user_settings();
     }
 
@@ -319,6 +320,7 @@ export class AppComponent {
   public open_hint() {
 
   }
+
 
 
 }

@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import * as moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController, LoadingController } from '@ionic/angular';
+import { GlobalSettings } from '../../services/global.service';
 
 @Component({
   selector: 'app-add-furniture',
@@ -17,67 +18,85 @@ export class AddFurniturePage implements OnInit {
   public Local_Municipality: any;
   public Municipality: any;
   isSubmitted: Boolean = false;
-  Type: any[
-
-  ];
-
-  Asset: any[] = [
-    {name: 'Masts and foundations', type: 'Street Light'},
-    {name: 'Luminaires', type: 'Street Light'},
-    {name: 'Electrical Supply', type: 'Street Light'},
-
-  ];
+  Type: any[] = [];
+  Road_furniture: any;
+  Places: any;
 
   constructor(
     private api: ApiService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
+    private global: GlobalSettings
   ) {
     this.addFurnitureForm = this.fb.group({
+
       municipality: ['', Validators.required],
       DISTRICT: ['', Validators.required],
-      FEATURE: ['Street Light', Validators.required],
-      height_fill: ['', Validators.required],
-      cell_length: ['', Validators.required],
+      FEATURE: ['', Validators.required],
+      TYPE: ['', Validators.required],
+      DESCRIPTION: ['', Validators.required],
+
+      NAME: ['', Validators.nullValidator], //BUS STOP NAME
+      SERVICE: ['', Validators.nullValidator],//POLE, MANHOLE
+      DIAMETER: ['', Validators.nullValidator],//MANHOLE (m)
+      DISTANCE_FROM_ROAD: ['', Validators.nullValidator],
+
       height: ['', Validators.required],
       width: ['', Validators.required],
-      FEATURE_CROSSED: ['', Validators.required],
-      TYPE: ['', Validators.required],
+      length: ['', Validators.nullValidator],//SIDE WALK(m)
+      quantity: ['', Validators.nullValidator],//Bollards
+
       START_LATITUDE: ['', Validators.required],
       START_LONGITUDE: ['', Validators.required],
       COMMENTS: ['', Validators.nullValidator],
+
     });
 
+    this.Road_furniture = this.global.Road_furniture.value;
+    this.Places = this.global.Province.value;
+    this.Municipality = (this.global.Province.value)[0].District;
   }
 
   ngOnInit() {
 
-    this.get_all_municipality('Mpumalanga');
     this.addFurnitureForm.get('DISTRICT').valueChanges.subscribe(() => {
-
-      if (this.addFurnitureForm.get('DISTRICT').value == '') {
-
-      } else {
-        this.Local_Municipality = [];
-        this.addFurnitureForm.get('municipality').setValue('');
-        this.get_all_local_municipality(this.addFurnitureForm.get('DISTRICT').value)
-      }
-      console.log('municipality changed', this.addFurnitureForm.get('DISTRICT').value);
-    })
-
-    this.addFurnitureForm.get('FEATURE').valueChanges.subscribe(() => {
-
-      this.Type = [];
-      let featureType = this.addFurnitureForm.get('FEATURE').value;
-      for (let index = 0; index < this.Asset.length; index++) {
-        let asset = this.Asset[index]
-        if(asset.type == featureType){
-          this.Type.push(asset.name)
+      let District_code = this.addFurnitureForm.get('DISTRICT');
+      if (District_code.value != '') {
+        for (let index = 0; index < this.Municipality.length; index++) {
+          const District = this.Municipality[index];
+          if (District_code.value == District.code) {
+            this.addFurnitureForm.get('municipality').setValue('');
+            this.Local_Municipality = [];
+            const Local_Municipality = District.Municipality;
+            for (let index = 0; index < Local_Municipality.length; index++) {
+              const element = Local_Municipality[index];
+              this.Local_Municipality.push(element);
+            }
+            /*take a */ break;
+          }
         }
       }
+    })
 
-      this.addFurnitureForm.get('TYPE').setValue('');
+
+    this.addFurnitureForm.get('FEATURE').valueChanges.subscribe(() => {
+      let featureType_name = this.addFurnitureForm.get('FEATURE');
+      if (featureType_name.value != '') {
+        for (let index = 0; index < this.Road_furniture.length; index++) {
+          const Feature = this.Road_furniture[index];
+          if (featureType_name.value == Feature.name) {
+            const Type = Feature.type;
+            this.Type = [];
+            for (let index = 0; index < Type.length; index++) {
+              const element = Type[index];
+              this.Type.push(element.name);
+              console.log(element.name);
+            }
+            /*take a */ break;
+          }
+        }
+      }
     })
 
   }
