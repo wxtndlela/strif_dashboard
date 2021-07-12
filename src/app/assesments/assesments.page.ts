@@ -28,25 +28,11 @@ export class AssesmentsPage implements OnInit {
   private Segments: any = [];
   atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
   public list = [];
-  public SURF_TYPE = [
-    {
-      name: 'BLOCK',
-      isChecked: true,
-      borderline: '!4m5!3m4!1s0x1eeb8d69cec5c3e7:0x6f0a14c21c7465bd!8m2!3d-26.5470697!4d29.9740534'
-    },
-    {
-      name: 'FLEX',
-      isChecked: true
-    },
-    {
-      name: 'GRAV',
-      isChecked: true
-    },
-
-  ];
+  public SURF_TYPE: any;
+  public MUNIC: any;
 
   private distance = 0;
-  public segments_length: any = 0;
+  public segments_length = 0;
   private road_name = '';
   private snapped_points: any[] = [];
   private polyline: any[] = [];
@@ -93,20 +79,29 @@ export class AssesmentsPage implements OnInit {
     });
 
     this.global.get_MUNIC().subscribe(value => {
-      console.log('District Filter:', value)
+      this.MUNIC = value;
+      if(this.Segments){
+        this.Filter_segments();
+      }
+    })
+
+    this.global.get_SURF_TYPE().subscribe(value => {
+      this.SURF_TYPE = value;
+      if(this.Segments){
+        this.Filter_segments();
+      }
     })
 
     this.global.get_asses_filter().subscribe(async (value) => {
       this.filterBy = value;
-      this.clear_map();
       switch (value) {
         case 'Segments':
-          // this.get_segments();
+          this.get_segments();
           console.log('Segments');
           break;
+
         case 'Traffic':
           this.get_traffic_station();
-
           console.log('Traffic')
           break;
 
@@ -124,10 +119,7 @@ export class AssesmentsPage implements OnInit {
           break;
       }
 
-
     });
-
-
 
     this.load_map();
   }
@@ -269,23 +261,66 @@ export class AssesmentsPage implements OnInit {
       this.results_count = data.data.length;
       loading.dismiss();
 
-      for (let index = 0; index < this.Segments.length; index++) {
-        var points = JSON.parse(this.Segments[index].snap_points);
-        var path: any[] = [];
-        var id: any = this.Segments[index].id;
-        this.segments_length += Math.round(this.Segments[index].START_KM);
-        this.segments_length += Math.round(this.Segments[index].END_KM);
+      this.Filter_segments();
+    })
+
+  }
+
+  /**
+  * Filter_segments
+  */
+  public async Filter_segments() {
+
+    let munic_data: any[] = [];
+    let surface_data: any[] = [];
+    this.segments_length = 0;
+    this.clear_map();
 
 
-        if (points) {
-          for (let i = 0; i < points.length; i++) {
-            path.push(points[i])
-            this.draw_polyline(path, id, this.Segments[index].SEGMENT_STATUS)
-          }
+    //filter by surface type
+    for (let index = 0; index < this.Segments.length; index++) {
+      for (let x = 0; x < this.SURF_TYPE.length; x++) {
+        const SURF_TYPE = this.SURF_TYPE[x];
+        if (SURF_TYPE.name == this.Segments[index].SURF_TYPE && SURF_TYPE.isChecked) {
+          surface_data.push(await this.Segments[index])
         }
       }
+    }
 
-    })
+    //filter by municipality
+    for (let index = 0; index < surface_data.length; index++) {
+      for (let x = 0; x < this.MUNIC.length; x++) {
+        const MUNIC = this.MUNIC[x];
+        if (MUNIC.code == surface_data[index].MUNIC && MUNIC.isChecked) {
+          munic_data.push(await surface_data[index])
+        }
+      }
+    }
+
+    //finally plot
+    for (let index = 0; index < munic_data.length; index++) {
+      var points = JSON.parse(munic_data[index].snap_points);
+      var path: any[] = [];
+      var id: any = munic_data[index].id;
+      this.segments_length += Math.round(munic_data[index].START_KM);
+      this.segments_length += Math.round(munic_data[index].END_KM);
+
+
+      if (points) {
+        for (let i = 0; i < points.length; i++) {
+          path.push(points[i])
+          this.draw_polyline(path, id, munic_data[index].SEGMENT_STATUS)
+        }
+      }
+    }
+
+    this.results_count = await munic_data.length;
+
+    // console.log(munic_data)
+
+
+
+    
 
   }
 
@@ -401,7 +436,6 @@ export class AssesmentsPage implements OnInit {
 
   async snap_points(points, drawingManager) {
     var path = '';
-
 
     for (let index = 0; index < points.length; index++) {
       if (index == points.length - 1) {
