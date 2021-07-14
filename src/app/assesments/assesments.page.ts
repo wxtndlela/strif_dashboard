@@ -80,14 +80,14 @@ export class AssesmentsPage implements OnInit {
 
     this.global.get_MUNIC().subscribe(value => {
       this.MUNIC = value;
-      if(this.Segments){
+      if (this.Segments) {
         this.Filter_segments();
       }
     })
 
     this.global.get_SURF_TYPE().subscribe(value => {
       this.SURF_TYPE = value;
-      if(this.Segments){
+      if (this.Segments) {
         this.Filter_segments();
       }
     })
@@ -274,9 +274,13 @@ export class AssesmentsPage implements OnInit {
     let munic_data: any[] = [];
     let surface_data: any[] = [];
     this.segments_length = 0;
-    this.clear_map();
+
+    const loading = await this.loadingCtrl.create({
+      message: 'filtering ...'
+    })
 
 
+    await loading.present()
     //filter by surface type
     for (let index = 0; index < this.Segments.length; index++) {
       for (let x = 0; x < this.SURF_TYPE.length; x++) {
@@ -298,12 +302,15 @@ export class AssesmentsPage implements OnInit {
     }
 
     //finally plot
+    this.clear_map();
+    this.results_count = munic_data.length;
+
     for (let index = 0; index < munic_data.length; index++) {
       var points = JSON.parse(munic_data[index].snap_points);
       var path: any[] = [];
       var id: any = munic_data[index].id;
-      this.segments_length += Math.round(munic_data[index].START_KM);
-      this.segments_length += Math.round(munic_data[index].END_KM);
+      this.segments_length += Math.round(munic_data[index].START_KM) -(Math.round(munic_data[index].END_KM)) ;
+      // this.segments_length += (Math.round(munic_data[index].END_KM));
 
 
       if (points) {
@@ -314,13 +321,7 @@ export class AssesmentsPage implements OnInit {
       }
     }
 
-    this.results_count = await munic_data.length;
-
-    // console.log(munic_data)
-
-
-
-    
+    await loading.dismiss();
 
   }
 

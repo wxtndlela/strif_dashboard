@@ -28,23 +28,23 @@ export class LayersComponent implements OnInit {
       isChecked: ['', [Validators.required]],
     });
 
+
+
   }
 
   ngOnInit() {
+
     switch (this.event) {
       case 'SURF_TYPE':
-        this.global.get_SURF_TYPE().subscribe(value =>{
-          this.list = value;
-        })
+        this.list = this.global.SURF_TYPE.value;
         break;
       case 'MUNIC':
-        this.global.get_MUNIC().subscribe(value => {
-          this.list = value;
-        })
+        this.list = this.global.MUNIC.value;
         break;
       default:
         break;
     }
+
   }
 
   check_item_clicked(item: any) {
@@ -59,6 +59,7 @@ export class LayersComponent implements OnInit {
       default:
         break;
     }
+
   }
 
 }

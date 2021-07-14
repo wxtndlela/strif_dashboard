@@ -370,7 +370,7 @@ export class GlobalSettings {
         this.SURF_TYPE = new BehaviorSubject<Object>(
             [
                 {
-                  name: 'BLOCK',
+                  name: 'BLOC',
                   isChecked: true,
                   borderline: '!4m5!3m4!1s0x1eeb8d69cec5c3e7:0x6f0a14c21c7465bd!8m2!3d-26.5470697!4d29.9740534'
                 },
