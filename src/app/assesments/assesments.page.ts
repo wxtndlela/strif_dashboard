@@ -99,7 +99,7 @@ export class AssesmentsPage implements OnInit {
       this.filterBy = value;
       switch (value) {
         case 'Segments':
-          this.get_segments();
+          // this.get_segments();
           console.log('Segments');
           break;
 
@@ -347,7 +347,7 @@ export class AssesmentsPage implements OnInit {
 
       for (let index = 0; index < this.Traffic_station.length; index++) {
         let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
-        this.addMarker(lat_lng, data.data[index].station_no)
+        this.addMarker(lat_lng, data.data[index].station_no, 'traffic')
       }
 
       loading.dismiss();
@@ -590,7 +590,7 @@ export class AssesmentsPage implements OnInit {
   }
 
 
-  addMarker(location, traffic_station_id) {
+  addMarker(location, id, feature) {
 
     const marker = new google.maps.Marker({
       position: location,
@@ -599,17 +599,48 @@ export class AssesmentsPage implements OnInit {
 
     this.marker.push(marker);
 
-    marker.addListener("click", async () => {
+    switch (feature) {
+      case 'traffic':
+        marker.addListener("click", async () => {
+          const modal = await this.modalCtrl.create({
+            component: InfoModalPage,
+            componentProps: {
+              traffic_station_id: id
+            }
+          })
+          return modal.present();
+        });
+        break;
 
-      const modal = await this.modalCtrl.create({
-        component: InfoModalPage,
-        componentProps: {
-          traffic_station_id: traffic_station_id
-        }
-      })
+        case 'structure':
+        marker.addListener("click", async () => {
+          const modal = await this.modalCtrl.create({
+            component: InfoModalPage,
+            componentProps: {
+              structure_id: id
+            }
+          })
+          return modal.present();
+        });
+        break;
 
-      return modal.present();
-    });
+        case 'furniture':
+        marker.addListener("click", async () => {
+          const modal = await this.modalCtrl.create({
+            component: InfoModalPage,
+            componentProps: {
+              furniture_id: id
+            }
+          })
+          return modal.present();
+        });
+        break;
+    
+      default:
+        break;
+    }
+
+    
   }
 
   /**
@@ -649,13 +680,15 @@ export class AssesmentsPage implements OnInit {
     this.api.get_all_furniture().subscribe(data =>{
       loading.dismiss();
       console.log('Furniture:', data)
+
+      this.clear_map();
+
       this.Furniture = data.data;
       this.results_count = data.rows;
-      this.clear_map();
 
       for (let index = 0; index < this.Furniture.length; index++) {
         let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
-        this.addMarker(lat_lng, data.data[index].id)
+        this.addMarker(lat_lng, data.data[index].id, 'furniture')
       }
 
     })
@@ -674,13 +707,14 @@ export class AssesmentsPage implements OnInit {
     this.api.get_all_structure().subscribe(data =>{
       loading.dismiss();
       console.log('Structure:', data)
+      this.clear_map();
+
       this.Structure = data.data;
       this.results_count = this.Structure.length;
-      this.clear_map();
 
       for (let index = 0; index < this.Structure.length; index++) {
         let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
-        this.addMarker(lat_lng, data.data[index].id)
+        this.addMarker(lat_lng, data.data[index].id, 'structure');
       }
     })
   }

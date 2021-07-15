@@ -188,10 +188,20 @@ export class ApiService {
     return this.http.post<any>(`${this._Url}/get_all_segments`, { search, SortBy, filterBy, funnelBy });
   }
   /*
-  * api to get all segment by search from the database
+  * api to get segment from the database
   */
   get_segment(segment_id) {
     return this.http.post<any>(`${this._Url}/get_segment`, { segment_id });
+  } /*
+  * api to get_structure from the database
+  */
+  get_structure(structure_id) {
+    return this.http.post<any>(`${this._Url}/get_structure`, { structure_id });
+  } /*
+  * api to get_furniture from the database
+  */
+  get_furniture(furniture_id) {
+    return this.http.post<any>(`${this._Url}/get_furniture`, { furniture_id });
   }
   /*
  * api to get all segment by search from the database

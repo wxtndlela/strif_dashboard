@@ -200,8 +200,8 @@
     </ion-col>
 
     <!-- Traffic info -->
-    <ion-col >
-      <ion-list *ngIf="traffic_station_id && Station">
+    <ion-col *ngIf="traffic_station_id && Station">
+      <ion-list>
 
         <ion-list-header lines="insert" style="font-size: large;">
           <strong>Traffic Station</strong>
@@ -294,6 +294,223 @@
 
     </ion-col>
 
+    <!-- Road structure info -->
+    <ion-col *ngIf="structure_id && Structure">
+      <ion-list>
+
+        <ion-list-header lines="insert" style="font-size: large;">
+          <strong>Road Structure</strong>
+        </ion-list-header>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            District
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.district}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            municipality :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.municipality}}
+          </ion-label>
+        </ion-item>
+
+        <!-- <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Town name :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.TOWN_NAME}}
+          </ion-label>
+        </ion-item> -->
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Start latitude:
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.start_latitude}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Start longitude:
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.start_longitude}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Structure class :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.structure_class}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Type :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.type}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            feature_crossed :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.feature_crossed}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            feature_crossed :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Structure.feature_crossed}}
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-col>
+
+    <!-- Road Furniture info -->
+    <ion-col *ngIf="furniture_id && Furniture">
+      <ion-list>
+
+        <ion-list-header lines="insert" style="font-size: large;">
+          <strong>Road Furniture</strong>
+        </ion-list-header>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            District
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.district}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            municipality :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.municipality}}
+          </ion-label>
+        </ion-item>
+
+        <!-- <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Town name :
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.TOWN_NAME}}
+          </ion-label>
+        </ion-item> -->
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Start latitude:
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.start_latitude}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Start longitude:
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.start_longitude}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Feature :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.feature}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Type :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.type}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            distance_from_road :
+          </ion-label>
+
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Furniture.distance_from_road}} (m)
+          </ion-label>
+        </ion-item>
+
+       
+
+      </ion-list>
+
+    </ion-col>
+
+
   </ion-grid>
 </ion-content>
 
@@ -320,7 +537,8 @@
         <ion-button fill='outline' expand="block" color='primary' (click)="export_as();">Export</ion-button>
       </ion-col>
       <ion-col *ngIf="traffic_station_id">
-        <ion-button fill='outline' expand="block" color='primary' href="https://strif-backend.herokuapp.com/generate_ndot_excel/.adt" target="_blank">Export</ion-button>
+        <ion-button fill='outline' expand="block" color='primary'
+          href="https://strif-backend.herokuapp.com/generate_ndot_excel/.adt" target="_blank">Export</ion-button>
       </ion-col>
       <ion-col>
         <ion-button fill='outline' expand="block" color='primary' (click)="dismiss();">Dismiss</ion-button>

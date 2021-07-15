@@ -15,11 +15,15 @@ import { FileService } from '../../../services/file.service';
 export class InfoModalPage implements OnInit {
 
   @Input('segment_id') segment_id: any;
+  @Input('furniture_id') furniture_id: any;
+  @Input('structure_id') structure_id: any;
   @Input('traffic_station_id') traffic_station_id: any;
   @ViewChild('pieChart') pieChart: ElementRef;
 
   public Segment: any;
   public Station: any;
+  public Furniture: any;
+  public Structure: any;
   public Artifact: any = [];
   public Assesment: any;
   slideOpts = {
@@ -51,13 +55,16 @@ export class InfoModalPage implements OnInit {
 
 
   ngOnInit() {
+
     if (this.segment_id) {
       this.get_segment();
       this.get_artifacts();
       this.get_segment_defects();
-    }
-
-    if (this.traffic_station_id) {
+    }else if (this.structure_id) {
+      this.get_structure();
+    }else if (this.furniture_id) {
+      this.get_furniture();
+    }else if (this.traffic_station_id) {
       this.get_traffic_station();
     }
 
@@ -311,6 +318,27 @@ export class InfoModalPage implements OnInit {
       } else {
         this.toaster.warnToast(response.msg);
       }
+    })
+  }
+
+
+  /**
+   * get_structure
+   */
+  public async get_structure() {
+    this.api.get_structure(this.structure_id).subscribe(res => {
+      console.log('Structure:', res);
+      this.Structure = res.data[0];
+    })
+  }
+
+  /**
+   * get_furniture
+   */
+  public async get_furniture() {
+    this.api.get_furniture(this.furniture_id).subscribe(res => {
+      console.log('Furniture:', res);
+      this.Furniture = res.data[0];
     })
   }
 }
