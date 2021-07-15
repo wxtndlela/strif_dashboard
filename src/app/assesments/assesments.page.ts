@@ -26,6 +26,8 @@ export class AssesmentsPage implements OnInit {
   public filterBy: String = '';
   public assesMunicipality: String = '';
   private Segments: any = [];
+  Furniture: any;
+  Structure: any;
   atrifact_image = "../../../assets/artifacts/DJI_0940.JPG";
   public list = [];
   public SURF_TYPE: any;
@@ -52,6 +54,7 @@ export class AssesmentsPage implements OnInit {
     // maxZoom: 10,
     // minZoom: 8,
   }
+
 
   constructor(
     private api: ApiService,
@@ -106,12 +109,12 @@ export class AssesmentsPage implements OnInit {
           break;
 
         case 'Structures':
-          // this.get_segments();
+          this.get_structure();
           console.log('Structures');
           break;
 
         case 'Furniture':
-          // this.get_segments();
+          this.get_furniture();
           console.log('Furniture');
           break;
 
@@ -309,7 +312,7 @@ export class AssesmentsPage implements OnInit {
       var points = JSON.parse(munic_data[index].snap_points);
       var path: any[] = [];
       var id: any = munic_data[index].id;
-      this.segments_length += Math.round(munic_data[index].START_KM) -(Math.round(munic_data[index].END_KM)) ;
+      this.segments_length += (Math.round(munic_data[index].END_KM)) - Math.round(munic_data[index].START_KM)  ;
       // this.segments_length += (Math.round(munic_data[index].END_KM));
 
 
@@ -338,7 +341,7 @@ export class AssesmentsPage implements OnInit {
 
     this.api.get_all_traffic_station('search', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
       console.log('Traffic data:', (data));
-
+      this.clear_map();
       this.Traffic_station = data.data;
       this.results_count = data.data.length;
 
@@ -633,6 +636,53 @@ export class AssesmentsPage implements OnInit {
     this.results_count = 0;
   }
 
+  /**
+   * get_furniture
+   */
+  public async get_furniture() {
+    const loading = await this.loadingCtrl.create({
+      message:'Loading furnitures ...'
+    })
 
+    loading.present();
+
+    this.api.get_all_furniture().subscribe(data =>{
+      loading.dismiss();
+      console.log('Furniture:', data)
+      this.Furniture = data.data;
+      this.results_count = data.rows;
+      this.clear_map();
+
+      for (let index = 0; index < this.Furniture.length; index++) {
+        let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
+        this.addMarker(lat_lng, data.data[index].id)
+      }
+
+    })
+  }
+
+  /**
+   * get_structure
+   */
+   public async get_structure() {
+    const loading = await this.loadingCtrl.create({
+      message:'Loading structures ...'
+    })
+
+    loading.present();
+
+    this.api.get_all_structure().subscribe(data =>{
+      loading.dismiss();
+      console.log('Structure:', data)
+      this.Structure = data.data;
+      this.results_count = this.Structure.length;
+      this.clear_map();
+
+      for (let index = 0; index < this.Structure.length; index++) {
+        let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
+        this.addMarker(lat_lng, data.data[index].id)
+      }
+    })
+  }
 
 }

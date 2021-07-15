@@ -129,6 +129,12 @@ export class ApiService {
   add_document(title, description, base64Data, file_size, file_extention, District, user_id, date_created, filename) {
     return this.http.post<any>(`${this._Url}/add_document`, { title, description, base64Data, file_size, file_extention, District, user_id, date_created, filename });
   }
+  /*
+  * api to add a new structure to the database
+  */
+  add_structure(municipality, DISTRICT, FEATURE, TYPE, DESCRIPTION, NAME, SERVICE, DIAMETER, DISTANCE_FROM_ROAD, height, width, length, quantity, START_LATITUDE, START_LONGITUDE, COMMENTS) {
+    return this.http.post<any>(`${this._Url}/add_structure`, { municipality, DISTRICT, FEATURE, TYPE, DESCRIPTION, NAME, SERVICE, DIAMETER, DISTANCE_FROM_ROAD, height, width, length, quantity, START_LATITUDE, START_LONGITUDE, COMMENTS });
+  }
 
   //GET
   /*
@@ -229,6 +235,18 @@ export class ApiService {
  */
   get_traffic_station(station_no) {
     return this.http.post<any>(`${this._Url}/get_traffic_station`, { station_no });
+  }
+  /*
+  * api to get_all_furniture from the database
+  */
+  get_all_furniture() {
+    return this.http.post<any>(`${this._Url}/get_all_furniture`, {});
+  }
+  /*
+ * api to get_all_furniture from the database
+ */
+  get_all_structure() {
+    return this.http.post<any>(`${this._Url}/get_all_structure`, {});
   }
 
   //UPDATE

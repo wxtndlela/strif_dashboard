@@ -23,11 +23,13 @@ export class AddFurniturePage implements OnInit {
   Places: any;
 
   constructor(
+
     private api: ApiService,
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     public loadingCtrl: LoadingController,
     private global: GlobalSettings
+
   ) {
     this.addFurnitureForm = this.fb.group({
 
