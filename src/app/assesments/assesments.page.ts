@@ -67,7 +67,6 @@ export class AssesmentsPage implements OnInit {
     private loadingCtrl: LoadingController
   ) {
     this.list = this.SURF_TYPE
-
   }
 
   ngOnInit() {
@@ -99,7 +98,7 @@ export class AssesmentsPage implements OnInit {
       this.filterBy = value;
       switch (value) {
         case 'Segments':
-          // this.get_segments();
+          this.get_segments();
           console.log('Segments');
           break;
 
@@ -224,7 +223,7 @@ export class AssesmentsPage implements OnInit {
    */
   public move_camera(center) {
     this.center = center;
-    this.map.panTo(center);
+    // this.map.panTo(center);
     console.log('map moved to :', center)
   }
 
@@ -592,9 +591,24 @@ export class AssesmentsPage implements OnInit {
 
   addMarker(location, id, feature) {
 
+    var icon;
+
+    if(feature == 'traffic' && id == 1){
+      icon = {
+        url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+        strokeColor: "white",
+      }
+    }else{
+      icon = {
+        url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+        strokeColor: "white"
+      }
+    }
+
     const marker = new google.maps.Marker({
       position: location,
       map: this.map,
+      icon: icon
     });
 
     this.marker.push(marker);
@@ -640,7 +654,6 @@ export class AssesmentsPage implements OnInit {
         break;
     }
 
-    
   }
 
   /**
