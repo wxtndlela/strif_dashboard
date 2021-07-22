@@ -39,8 +39,10 @@ export class ProfilePage implements OnInit {
       local_municipality: ['', Validators.required],
       province: ['', Validators.required],
       user_role: ['', Validators.required]
-
     });
+
+    this.Province = (this.global.Province.value);
+
   }
 
   @Input('uuid') uuid: String;
@@ -51,7 +53,11 @@ export class ProfilePage implements OnInit {
   public image: any = "../../../assets/avater-default.png";
   public Local_Municipality: any;
   public Municipality: any;
+  public Province: any;
+
   isSubmitted = false;
+
+
   async ngOnInit() {
     if (this.uuid && this.uuid.length > 1) {
       this.user_id = this.uuid;
@@ -59,11 +65,43 @@ export class ProfilePage implements OnInit {
       this.user_id = localStorage.getItem('uuid');
     }
 
+    this.profileForm.get('province').valueChanges.subscribe(() => {
+      let Province_name = this.profileForm.get('province');
+      if(Province_name.value != ''){
+        for (let index = 0; index < this.Province.length; index++) {
+          const Province = this.Province[index];
+          if(Province_name.value == Province.name){
+            console.log('Province:', Province);
+            this.Municipality = [];
+            let District = Province.District;
+            this.Municipality = District
+            this.profileForm.get('municipality').setValue('');
+          }
+        }
+      }
+    })
+
+    this.profileForm.get('municipality').valueChanges.subscribe(() => {
+      let District_code = this.profileForm.get('municipality');
+      if (District_code.value != '') {
+        for (let index = 0; index < this.Municipality.length; index++) {
+          const District = this.Municipality[index];
+          if (District_code.value == District.code) {
+            this.profileForm.get('local_municipality').setValue('');
+            this.Local_Municipality = [];
+            const Local_Municipality = District.Municipality;
+            for (let index = 0; index < Local_Municipality.length; index++) {
+              const element = Local_Municipality[index];
+              this.Local_Municipality.push(element);
+            }
+            /*take a */ break;
+          }
+        }
+      }
+    })
+
     await this.getProfile();
 
- 
-
-    
   }
 
   ionViewWillEnter() {
@@ -121,8 +159,7 @@ export class ProfilePage implements OnInit {
             this.image = data.data[0].photourl;
           }
 
-          this.profileForm.get('local_municipality').setValue(data.data[0].local_municipality);
-          this.profileForm.get('municipality').setValue(data.data[0].municipality);
+          // this.profileForm.get('municipality').setValue(data.data[0].municipality);
           this.profileForm.get('email').setValue(data.data[0].email);
           this.profileForm.get('names').setValue(data.data[0].names);
           this.profileForm.get('surname').setValue(data.data[0].surname);
@@ -131,31 +168,34 @@ export class ProfilePage implements OnInit {
           this.profileForm.get('province').setValue(data.data[0].province);
           this.profileForm.get('user_role').setValue(data.data[0].user_role);
 
-          this.get_all_municipality(data.data[0].province)
-          this.get_all_local_municipality(data.data[0].municipality)
-          
-          this.profileForm.get('province').valueChanges.subscribe(() => {
-            this.Municipality = [];
-            this.Local_Municipality = [];
-      
-            this.profileForm.get('municipality').setValue('');
-            this.profileForm.get('local_municipality').setValue('');
-      
-            this.get_all_municipality(this.profileForm.get('province').value)
-            console.log('province changed', this.profileForm.get('province').value);
-          })
-      
-          this.profileForm.get('municipality').valueChanges.subscribe(() => {
-       
-            if(this.profileForm.get('municipality').value == ''){
-      
-            }else{
-              this.Local_Municipality = [];
-              this.get_all_local_municipality(this.profileForm.get('municipality').value)
+          let Province_name = this.profileForm.get('province');
+          for (let index = 0; index < this.Province.length; index++) {
+            const Province = this.Province[index];
+            if (Province_name.value == Province.name) {
+              console.log('Province:', Province);
+              this.Municipality = [];
+              let District = Province.District;
+              this.Municipality = District
+              this.profileForm.get('municipality').setValue(data.data[0].municipality);
             }
-            console.log('local municipality changed', this.profileForm.get('municipality').value);
-          })
-          
+          }
+
+          let District_code = this.profileForm.get('municipality');
+          for (let index = 0; index < this.Municipality.length; index++) {
+            const District = this.Municipality[index];
+            if (District_code.value == District.code) {
+              this.profileForm.get('local_municipality').setValue(data.data[0].local_municipality);
+              this.Local_Municipality = [];
+              const Local_Municipality = District.Municipality;
+              for (let index = 0; index < Local_Municipality.length; index++) {
+                const element = Local_Municipality[index];
+                this.Local_Municipality.push(element);
+              }
+                /*take a */ break;
+            }
+          }
+
+
           loading.dismiss();
         } else {
           loading.dismiss();

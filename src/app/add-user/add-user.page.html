@@ -55,9 +55,9 @@
           <ion-item class="input-valid">
             <ion-label style="text-align: left;">Gender:</ion-label>
             <ion-select value="select" okText="Okay" cancelText="Dismiss" formControlName="gender">
-              <ion-select-option value="male">male</ion-select-option>
-              <ion-select-option value="female">female</ion-select-option>
-              <ion-select-option value="rather not say">rather not say</ion-select-option>
+              <ion-select-option value="m">male</ion-select-option>
+              <ion-select-option value="f">female</ion-select-option>
+              <ion-select-option value="r">rather not say</ion-select-option>
             </ion-select>
           </ion-item>
           <span class="error ion-padding" *ngIf="isSubmitted && registerErrorControl.gender.errors?.required">

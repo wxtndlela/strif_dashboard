@@ -86,8 +86,11 @@ export class InfoModalPage implements OnInit {
 
       this.chart_data.push(['Vehicle_type', 'Num of vehicle']);
       this.chart_data.push(['LIGHT', Number(response.data[0].LIGHT)]);
-      this.chart_data.push(['HEAVY', Number(response.data[0].HEAVY)]);
-      this.chart_data.push(['MOTORBIKE', Number(response.data[0].BIKE)]);
+      this.chart_data.push(['BUS', Number(response.data[0].BUS)]);
+      this.chart_data.push(['MINIBUS', Number(response.data[0].MINIBUS)]);
+      this.chart_data.push(['TRUCK_SHORT', Number(response.data[0].TRUCK_SHORT)]);
+      this.chart_data.push(['TRUCK_MEDIUM', Number(response.data[0].TRUCK_MEDIUM)]);
+      this.chart_data.push(['TRUCK_LONG', Number(response.data[0].TRUCK_LONG)]);
 
       google.charts.load('current', { packages: ['corechart'] });
       google.charts.setOnLoadCallback(this.drawChart);
@@ -96,8 +99,8 @@ export class InfoModalPage implements OnInit {
   }
 
   ngAfterViewInit() {
-    google.charts.load('current', { packages: ['corechart'] });
-    google.charts.setOnLoadCallback(this.drawChart);
+    // google.charts.load('current', { packages: ['corechart'] });
+    // google.charts.setOnLoadCallback(this.drawChart);
   }
 
 
@@ -141,10 +144,30 @@ export class InfoModalPage implements OnInit {
 
     this.api.get_segment(this.segment_id).subscribe(response => {
       loading.dismiss();
-      // console.log('segemnt:', response);
+      console.log('segemnt:', response);
       this.Segment = response.data;
     })
   }
+
+    /**
+   * get_structure
+   */
+     public async get_structure() {
+      this.api.get_structure(this.structure_id).subscribe(res => {
+        console.log('Structure:', res);
+        this.Structure = res.data[0];
+      })
+    }
+  
+    /**
+     * get_furniture
+     */
+    public async get_furniture() {
+      this.api.get_furniture(this.furniture_id).subscribe(res => {
+        console.log('Furniture:', res);
+        this.Furniture = res.data[0];
+      })
+    }
 
   /**
    * start_new_analysis
@@ -322,23 +345,5 @@ export class InfoModalPage implements OnInit {
   }
 
 
-  /**
-   * get_structure
-   */
-  public async get_structure() {
-    this.api.get_structure(this.structure_id).subscribe(res => {
-      console.log('Structure:', res);
-      this.Structure = res.data[0];
-    })
-  }
 
-  /**
-   * get_furniture
-   */
-  public async get_furniture() {
-    this.api.get_furniture(this.furniture_id).subscribe(res => {
-      console.log('Furniture:', res);
-      this.Furniture = res.data[0];
-    })
-  }
 }
