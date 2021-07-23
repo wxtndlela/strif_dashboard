@@ -258,7 +258,7 @@ export class AssesmentsPage implements OnInit {
     loading.present();
 
     this.api.get_all_segments('', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
-      console.log('Segment data:', data.data[4].START_KM);
+      console.log('Segment data:', data.data);
       this.Segments = data.data;
       this.results_count = data.data.length;
       loading.dismiss();
@@ -309,18 +309,29 @@ export class AssesmentsPage implements OnInit {
 
     for (let index = 0; index < munic_data.length; index++) {
       var points = JSON.parse(munic_data[index].snap_points);
-      var path: any[] = [];
+      // var path: any[] = [];
+
+      var start_latitude = Number(munic_data[index].START_LATITUDE);
+      var start_longitude = Number(munic_data[index].START_LONGITUDE);
+      var end_latitude = Number(munic_data[index].END_LATITUDE);
+      var end_longitude = Number(munic_data[index].END_LONGITUDE);
+
+      var path = [
+        { lat: start_latitude, lng: start_longitude },
+        { lat: end_latitude, lng: end_longitude }
+      ]
+
       var id: any = munic_data[index].id;
-      this.segments_length += (Math.round(munic_data[index].END_KM)) - Math.round(munic_data[index].START_KM)  ;
-      // this.segments_length += (Math.round(munic_data[index].END_KM));
+      this.segments_length += (Number(munic_data[index].END_KM)) - Number(munic_data[index].START_KM);
 
+      this.draw_polyline(path, id, munic_data[index].SEGMENT_STATUS)
 
-      if (points) {
-        for (let i = 0; i < points.length; i++) {
-          path.push(points[i])
-          this.draw_polyline(path, id, munic_data[index].SEGMENT_STATUS)
-        }
-      }
+      // if (points) {
+      //   for (let i = 0; i < points.length; i++) {
+      //     path.push(points[i])
+      //     this.draw_polyline(path, id, munic_data[index].SEGMENT_STATUS)
+      //   }
+      // }
     }
 
     await loading.dismiss();
@@ -593,12 +604,12 @@ export class AssesmentsPage implements OnInit {
 
     var icon;
 
-    if(feature == 'traffic' && id == 1){
+    if (feature == 'traffic' && id == 1) {
       icon = {
         url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
         strokeColor: "white",
       }
-    }else{
+    } else {
       icon = {
         url: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
         strokeColor: "white"
@@ -626,7 +637,7 @@ export class AssesmentsPage implements OnInit {
         });
         break;
 
-        case 'structure':
+      case 'structure':
         marker.addListener("click", async () => {
           const modal = await this.modalCtrl.create({
             component: InfoModalPage,
@@ -638,7 +649,7 @@ export class AssesmentsPage implements OnInit {
         });
         break;
 
-        case 'furniture':
+      case 'furniture':
         marker.addListener("click", async () => {
           const modal = await this.modalCtrl.create({
             component: InfoModalPage,
@@ -649,7 +660,7 @@ export class AssesmentsPage implements OnInit {
           return modal.present();
         });
         break;
-    
+
       default:
         break;
     }
@@ -685,12 +696,12 @@ export class AssesmentsPage implements OnInit {
    */
   public async get_furniture() {
     const loading = await this.loadingCtrl.create({
-      message:'Loading furnitures ...'
+      message: 'Loading furnitures ...'
     })
 
     loading.present();
 
-    this.api.get_all_furniture().subscribe(data =>{
+    this.api.get_all_furniture().subscribe(data => {
       loading.dismiss();
       console.log('Furniture:', data)
 
@@ -710,14 +721,14 @@ export class AssesmentsPage implements OnInit {
   /**
    * get_structure
    */
-   public async get_structure() {
+  public async get_structure() {
     const loading = await this.loadingCtrl.create({
-      message:'Loading structures ...'
+      message: 'Loading structures ...'
     })
 
     loading.present();
 
-    this.api.get_all_structure().subscribe(data =>{
+    this.api.get_all_structure().subscribe(data => {
       loading.dismiss();
       console.log('Structure:', data)
       this.clear_map();
