@@ -182,15 +182,15 @@ export class AssesmentsPage implements OnInit {
       mapTypeControl: false,
       streetViewControl: false,
       styles: [
-        {
-          "featureType": "administrative",
-          "elementType": "geometry.stroke",
-          "stylers": [
-            { "visibility": "on" },
-            { "weight": 2.5 },
-            { "color": "#eb445a" }
-          ]
-        },
+        // {
+        //   "featureType": "administrative",
+        //   "elementType": "geometry.stroke",
+        //   "stylers": [
+        //     { "visibility": "on" },
+        //     { "weight": 2.5 },
+        //     { "color": "#eb445a" }
+        //   ]
+        // },
         {
           "featureType": "road",
           "elementType": "geometry",
@@ -308,7 +308,7 @@ export class AssesmentsPage implements OnInit {
     this.results_count = munic_data.length;
 
     for (let index = 0; index < munic_data.length; index++) {
-      var points = JSON.parse(munic_data[index].snap_points);
+      var points = munic_data[index].snap_points;
       // var path: any[] = [];
 
       var start_latitude = Number(munic_data[index].START_LATITUDE);
@@ -322,9 +322,10 @@ export class AssesmentsPage implements OnInit {
       ]
 
       var id: any = munic_data[index].id;
-      this.segments_length += (Number(munic_data[index].END_KM)) - Number(munic_data[index].START_KM);
+      // this.segments_length += (Number(munic_data[index].END_KM)) - Number(munic_data[index].START_KM);
+      this.segments_length += munic_data[index].length_km;
 
-      this.draw_polyline(path, id, munic_data[index].SEGMENT_STATUS)
+      this.draw_polyline(points, id, munic_data[index].SEGMENT_STATUS)
 
       // if (points) {
       //   for (let i = 0; i < points.length; i++) {
@@ -500,12 +501,14 @@ export class AssesmentsPage implements OnInit {
       color = "#F2C849"
     }
 
+    // console.log('path:', google.maps.geometry.encoding.decodePath('|_p~iF~ps|U_ulLnnqC_mqNvxq`@'))
+
     let polyline = new google.maps.Polyline({
-      path: path,
+      path: google.maps.geometry.encoding.decodePath(path),
       geodesic: true,
       strokeColor: color,
       strokeOpacity: 1.0,
-      strokeWeight: 4,
+      strokeWeight: 2,
       map: this.map
     });
 
