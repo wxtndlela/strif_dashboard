@@ -179,26 +179,14 @@ export class AssesmentsPage implements OnInit {
       zoom: 9,
       fullscreenControl: false,
       zoomControl: true,
-      mapTypeControl: false,
+      mapTypeControl: true,
       streetViewControl: false,
-      styles: [
-        // {
-        //   "featureType": "administrative",
-        //   "elementType": "geometry.stroke",
-        //   "stylers": [
-        //     { "visibility": "on" },
-        //     { "weight": 2.5 },
-        //     { "color": "#eb445a" }
-        //   ]
-        // },
-        {
-          "featureType": "road",
-          "elementType": "geometry",
-          "stylers": [
-            { "visibility": "on" }
-          ]
-        }
-      ]
+      mapTypeId: "hybrid",
+      mapTypeControlOptions: {
+        mapTypeIds: ["satellite", "hybrid", "roadmap", "terrain"],
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.RIGHT_TOP
+      },
     });
 
     this.start_drawing();
