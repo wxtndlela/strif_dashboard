@@ -3,6 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { AddStructurePage } from '../../add-structure/add-structure.page';
 import { AddFurniturePage } from '../../add-furniture/add-furniture.page';
 import { AddSegmentPage } from '../../add-segment/add-segment.page';
+import { GlobalSettings } from '../../../services/global.service';
+import { PopoverController } from '@ionic/angular';
 
 
 @Component({
@@ -14,6 +16,8 @@ export class AddOptionsComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private global: GlobalSettings,
+    private popoverController: PopoverController
   ) { }
 
   ngOnInit() { }
@@ -34,8 +38,8 @@ export class AddOptionsComponent implements OnInit {
         modal.present();
         break;
       case 'segment':
-        modal.component = AddSegmentPage;
-        modal.present();
+        this.global.set_isDrawing(true);
+        this.popoverController.dismiss();
         break;
       case 'structure':
         modal.component = AddStructurePage;

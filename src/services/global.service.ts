@@ -385,6 +385,16 @@ export class GlobalSettings {
               ]
         );
 
+        this.isDrawing = new BehaviorSubject<Boolean>(true);
+
+    }
+
+    public isDrawing: BehaviorSubject<Object>;
+    set_isDrawing(newValue): void {
+        this.isDrawing.next(newValue);
+    }
+    get_isDrawing(): Observable<Object> {
+        return this.isDrawing.asObservable();
     }
 
     public SURF_TYPE: BehaviorSubject<Object>;

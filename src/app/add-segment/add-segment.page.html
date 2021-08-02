@@ -144,13 +144,15 @@
         </ion-item>
 
         <ion-item class="input-valid">
-          <ion-label>Start coords:</ion-label>
-          <ion-input disabled type="text" ></ion-input>
+          <ion-label>Start coords: </ion-label>
+          <ion-input disabled type="text" [value]="start_coords"></ion-input>
+
         </ion-item>
 
         <ion-item class="input-valid">
-          <ion-label>End coords:</ion-label>
-          <ion-input disabled type="text" ></ion-input>
+          <ion-label>End coords: </ion-label>
+          <ion-input disabled type="text" [value]="start_coords"></ion-input>
+
         </ion-item>
 
         <ion-button (click)="submit()" style="width: 100%;" shape="outline">Add segment</ion-button>

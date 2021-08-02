@@ -36,7 +36,7 @@ export class AssesmentsPage implements OnInit {
   private distance = 0;
   public segments_length = 0;
   private road_name = '';
-  private snapped_points: any[] = [];
+  private snapped_points: any;
   private polyline: any[] = [];
 
   routes: any[];
@@ -54,6 +54,10 @@ export class AssesmentsPage implements OnInit {
     // maxZoom: 10,
     // minZoom: 8,
   }
+  newSegment_origin: string;
+  newSegment_destination: string;
+  drawingManager: google.maps.drawing.DrawingManager;
+  shape: any;
 
 
   constructor(
@@ -123,6 +127,20 @@ export class AssesmentsPage implements OnInit {
 
     });
 
+    this.global.get_isDrawing().subscribe(value => {
+      switch (value) {
+        case true:
+          this.start_drawing();
+          break;
+        case false:
+          this.stop_drawing();
+          break;
+
+        default:
+          break;
+      }
+    })
+
     this.load_map();
   }
 
@@ -156,7 +174,7 @@ export class AssesmentsPage implements OnInit {
   }
 
   async presentAddPopover(ev: any, event) {
-    String(event).substr
+
     const popover = await this.popoverController.create({
       component: AddOptionsComponent,
       // cssClass: 'my-custom-class',
@@ -167,12 +185,212 @@ export class AssesmentsPage implements OnInit {
       },
     });
     return await popover.present();
+
   }
 
   /**
    * load_map
    */
   public load_map() {
+    // Create a new StyledMapType object, passing it an array of styles,
+    // and the name to be displayed on the map type control.
+    const RetroMapStyle = new google.maps.StyledMapType(
+      [
+        { elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
+        { elementType: "labels.text.fill", stylers: [{ color: "#523735" }] },
+        { elementType: "labels.text.stroke", stylers: [{ color: "#f5f1e6" }] },
+        {
+          featureType: "administrative",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#c9b2a6" }],
+        },
+        {
+          featureType: "administrative.land_parcel",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#dcd2be" }],
+        },
+        {
+          featureType: "administrative.land_parcel",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#ae9e90" }],
+        },
+        {
+          featureType: "landscape.natural",
+          elementType: "geometry",
+          stylers: [{ color: "#dfd2ae" }],
+        },
+        {
+          featureType: "poi",
+          elementType: "geometry",
+          stylers: [{ color: "#dfd2ae" }],
+        },
+        {
+          featureType: "poi",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#93817c" }],
+        },
+        {
+          featureType: "poi.park",
+          elementType: "geometry.fill",
+          stylers: [{ color: "#a5b076" }],
+        },
+        {
+          featureType: "poi.park",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#447530" }],
+        },
+        {
+          featureType: "road",
+          elementType: "geometry",
+          stylers: [{ color: "#f5f1e6" }],
+        },
+        {
+          featureType: "road.arterial",
+          elementType: "geometry",
+          stylers: [{ color: "#fdfcf8" }],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry",
+          stylers: [{ color: "#f8c967" }],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#e9bc62" }],
+        },
+        {
+          featureType: "road.highway.controlled_access",
+          elementType: "geometry",
+          stylers: [{ color: "#e98d58" }],
+        },
+        {
+          featureType: "road.highway.controlled_access",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#db8555" }],
+        },
+        {
+          featureType: "road.local",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#806b63" }],
+        },
+        {
+          featureType: "transit.line",
+          elementType: "geometry",
+          stylers: [{ color: "#dfd2ae" }],
+        },
+        {
+          featureType: "transit.line",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#8f7d77" }],
+        },
+        {
+          featureType: "transit.line",
+          elementType: "labels.text.stroke",
+          stylers: [{ color: "#ebe3cd" }],
+        },
+        {
+          featureType: "transit.station",
+          elementType: "geometry",
+          stylers: [{ color: "#dfd2ae" }],
+        },
+        {
+          featureType: "water",
+          elementType: "geometry.fill",
+          stylers: [{ color: "#b9d3c2" }],
+        },
+        {
+          featureType: "water",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#92998d" }],
+        },
+      ],
+      { name: "Retro" }
+    );
+
+    const DarkMapStyle = new google.maps.StyledMapType(
+      [
+        { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+        { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+        { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+        {
+          featureType: "administrative.locality",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#d59563" }],
+        },
+        {
+          featureType: "poi",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#d59563" }],
+        },
+        {
+          featureType: "poi.park",
+          elementType: "geometry",
+          stylers: [{ color: "#263c3f" }],
+        },
+        {
+          featureType: "poi.park",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#6b9a76" }],
+        },
+        {
+          featureType: "road",
+          elementType: "geometry",
+          stylers: [{ color: "#38414e" }],
+        },
+        {
+          featureType: "road",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#212a37" }],
+        },
+        {
+          featureType: "road",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#9ca5b3" }],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry",
+          stylers: [{ color: "#746855" }],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "geometry.stroke",
+          stylers: [{ color: "#1f2835" }],
+        },
+        {
+          featureType: "road.highway",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#f3d19c" }],
+        },
+        {
+          featureType: "transit",
+          elementType: "geometry",
+          stylers: [{ color: "#2f3948" }],
+        },
+        {
+          featureType: "transit.station",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#d59563" }],
+        },
+        {
+          featureType: "water",
+          elementType: "geometry",
+          stylers: [{ color: "#17263c" }],
+        },
+        {
+          featureType: "water",
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#515c6d" }],
+        },
+        {
+          featureType: "water",
+          elementType: "labels.text.stroke",
+          stylers: [{ color: "#17263c" }],
+        },
+      ],
+      { name: "Dark" }
+    );
 
     this.map = new google.maps.Map(document.getElementById('map_canvas'), {
       center: this.center,
@@ -183,13 +401,17 @@ export class AssesmentsPage implements OnInit {
       streetViewControl: false,
       mapTypeId: "hybrid",
       mapTypeControlOptions: {
-        mapTypeIds: ["satellite", "hybrid", "roadmap", "terrain"],
+        mapTypeIds: ["satellite", "hybrid", "roadmap", "terrain", "RetroMap", "DarkMap"],
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: google.maps.ControlPosition.RIGHT_TOP
       },
     });
 
-    this.start_drawing();
+    //Associate the styled map with the MapTypeId and set it to display.
+    this.map.mapTypes.set("RetroMap", RetroMapStyle);
+    this.map.mapTypes.set("DarkMap", DarkMapStyle);
+    // this.start_drawing();
+
   }
 
   /**
@@ -401,12 +623,17 @@ export class AssesmentsPage implements OnInit {
 
   }
 
+
+
+
+
   /**
    * start_drawing
    */
   public start_drawing() {
+    console.log('Start drawing')
     var coordinates = [];
-    var drawingManager = new google.maps.drawing.DrawingManager({
+    this.drawingManager = new google.maps.drawing.DrawingManager({
       drawingControlOptions: {
         position: google.maps.ControlPosition.TOP_CENTER,
         drawingModes: [
@@ -419,21 +646,36 @@ export class AssesmentsPage implements OnInit {
       }
     });
 
-    var secondMethod = () => {
-      this.snap_points(coordinates, drawingManager);
+    this.drawingManager.setMap(this.map);
+
+    var secondMethod = (shape) => {
+      this.shape = shape;
+      this.snap_points(coordinates, this.drawingManager);
     }
 
-    google.maps.event.addListener(drawingManager, 'polylinecomplete', function (line) {
+    google.maps.event.addListener(this.drawingManager, 'polylinecomplete', function (line) {
       var polygonBounds = line.getPath();
+      var shape = line;
 
       for (var i = 0; i < polygonBounds.length; i++) {
         coordinates.push(polygonBounds.getAt(i).lat() + "," + polygonBounds.getAt(i).lng());
       }
 
-      secondMethod();
+      secondMethod(shape);
     })
 
-    drawingManager.setMap(this.map);
+  }
+
+  /**
+   * stop_drawing
+   */
+  public stop_drawing() {
+    this.drawingManager.setMap(null);
+    let polyline: google.maps.Polyline = this.polyline[this.polyline.length - 1];
+    this.shape.setMap(null);
+    this.shape = null;
+    polyline.setMap(null);
+
   }
 
 
@@ -452,29 +694,32 @@ export class AssesmentsPage implements OnInit {
       console.log('Nearest road:', response)
     })
 
-
-
     this.api.get_snap_points(path).subscribe(async res => {
 
-      console.log('res:', res)
+      // console.log('snappoints:', res)
       var path = res.snappedPoints;
       var points: any[] = [];
 
       for (let index = 0; index < path.length; index++) {
-        points.push({ lat: await path[index].location.latitude, lng: await path[index].location.longitude });
+        let latlng = new google.maps.LatLng(path[index].location.latitude, path[index].location.longitude);
+        points.push(latlng);
       }
 
+
+
       var set_snapped_points = () => {
-        this.snapped_points = points;
+        let encodedPath = google.maps.geometry.encoding.encodePath(points)
+        console.log('Endcoded path:', encodedPath);
+        this.snapped_points = encodedPath;
+        this.newSegment_origin = path[0].location.latitude + ',' + path[0].location.longitude;
+        this.newSegment_destination = path[path.length - 1].location.latitude + ',' + path[path.length - 1].location.longitude
+        this.get_distance(this.newSegment_origin, this.newSegment_destination);
+        this.draw_polyline(encodedPath, '', '');
+
       }
 
       set_snapped_points();
 
-      this.draw_polyline(points, '', '');
-      // drawingManager.setDrawingMode(null);
-      let origin = await path[0].location.latitude + ',' + path[0].location.longitude;
-      let destination = await path[path.length - 1].location.latitude + ',' + path[path.length - 1].location.longitude
-      this.get_distance(origin, destination);
 
     })
   }
@@ -489,7 +734,6 @@ export class AssesmentsPage implements OnInit {
       color = "#F2C849"
     }
 
-    // console.log('path:', google.maps.geometry.encoding.decodePath('|_p~iF~ps|U_ulLnnqC_mqNvxq`@'))
 
     let polyline = new google.maps.Polyline({
       path: google.maps.geometry.encoding.decodePath(path),
@@ -531,7 +775,7 @@ export class AssesmentsPage implements OnInit {
           side: 'start',
           icon: 'close',
           handler: () => {
-            console.log('Favorite clicked');
+            this.global.set_isDrawing(false);
           }
         }, {
           text: 'Add',
@@ -582,8 +826,8 @@ export class AssesmentsPage implements OnInit {
       componentProps: {
         distance: this.distance,
         snapped_points: this.snapped_points,
-        start_coords: { lat: this.snapped_points[0].lat, lng: this.snapped_points[0].lng },
-        end_coords: { lat: this.snapped_points[this.snapped_points.length - 1].lat, lng: this.snapped_points[this.snapped_points.length - 1].lng }
+        start_coords: this.newSegment_origin,
+        end_coords: this.newSegment_destination
       }
     })
 
