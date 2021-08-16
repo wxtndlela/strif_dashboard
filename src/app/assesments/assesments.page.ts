@@ -395,16 +395,20 @@ export class AssesmentsPage implements OnInit {
     this.map = new google.maps.Map(document.getElementById('map_canvas'), {
       center: this.center,
       zoom: 9,
-      fullscreenControl: false,
       zoomControl: true,
       mapTypeControl: true,
-      streetViewControl: false,
+      fullscreenControl: true,
+
+      streetViewControl: true,
       mapTypeId: "hybrid",
       mapTypeControlOptions: {
         mapTypeIds: ["satellite", "hybrid", "roadmap", "terrain", "RetroMap", "DarkMap"],
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         position: google.maps.ControlPosition.RIGHT_TOP
       },
+      fullscreenControlOptions: {
+        position: google.maps.ControlPosition.BOTTOM_RIGHT
+      }
     });
 
     //Associate the styled map with the MapTypeId and set it to display.
