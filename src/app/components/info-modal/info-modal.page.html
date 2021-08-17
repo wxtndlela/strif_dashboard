@@ -30,7 +30,7 @@
             {{Segment[0].SEG_ID}}
           </ion-label>
         </ion-item>
-        
+
         <ion-item lines="full">
           <ion-label slot="start" style="font-size: small;">
             District
@@ -40,6 +40,18 @@
           </ion-label>
           <ion-label style="text-align: right;font-size: small;" slot="end">
             {{Segment[0].DISTRICT}}
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            MUNIC
+          </ion-label>
+          <ion-label>
+
+          </ion-label>
+          <ion-label style="text-align: right;font-size: small;" slot="end">
+            {{Segment[0].MUNIC}}
           </ion-label>
         </ion-item>
 
@@ -291,11 +303,22 @@
 
       </ion-list>
 
-      <ion-list *ngIf="traffic_station_id">
+      <ion-list>
 
         <ion-list-header lines="insert" style="font-size: large;">
           <strong>Traffic Summary</strong>
         </ion-list-header>
+
+
+
+      </ion-list>
+
+    </ion-col>
+
+    <ion-col>
+      <ion-list>
+
+        
 
         <ion-item lines="full">
           <div #pieChart style="width: 50vw; height: 40vh;"></div>
@@ -303,8 +326,8 @@
 
 
       </ion-list>
-
     </ion-col>
+
 
     <!-- Road structure info -->
     <ion-col *ngIf="structure_id && Structure">

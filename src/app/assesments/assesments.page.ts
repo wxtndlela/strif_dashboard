@@ -572,7 +572,7 @@ export class AssesmentsPage implements OnInit {
 
       for (let index = 0; index < this.Traffic_station.length; index++) {
         let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
-        this.addMarker(lat_lng, data.data[index].station_no, 'traffic')
+        this.addMarker(lat_lng, data.data[index].station_no, 'traffic', data.data[index].status)
       }
 
       loading.dismiss();
@@ -839,11 +839,11 @@ export class AssesmentsPage implements OnInit {
   }
 
 
-  addMarker(location, id, feature) {
+  addMarker(location, id, feature, status) {
 
     var icon;
 
-    if (feature == 'traffic' && id == 1) {
+    if (status == 1) {
       icon = {
         url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
         strokeColor: "white",
@@ -951,7 +951,7 @@ export class AssesmentsPage implements OnInit {
 
       for (let index = 0; index < this.Furniture.length; index++) {
         let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
-        this.addMarker(lat_lng, data.data[index].id, 'furniture')
+        this.addMarker(lat_lng, data.data[index].id, 'furniture', 0)
       }
 
     })
@@ -977,9 +977,8 @@ export class AssesmentsPage implements OnInit {
 
       for (let index = 0; index < this.Structure.length; index++) {
         let lat_lng = { lat: Number(data.data[index].start_latitude), lng: Number(data.data[index].start_longitude) };
-        this.addMarker(lat_lng, data.data[index].id, 'structure');
+        this.addMarker(lat_lng, data.data[index].id, 'structure', 0);
       }
     })
   }
-
 }

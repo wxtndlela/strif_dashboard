@@ -83,6 +83,7 @@ export class InfoModalPage implements OnInit {
     console.log('traffic_station_id :', this.traffic_station_id)
     this.api.get_traffic_station(this.traffic_station_id).subscribe(response => {
       loading.dismiss();
+      console.log('traffic_station', response)
 
       this.chart_data.push(['Vehicle_type', 'Num of vehicle']);
       this.chart_data.push(['LIGHT', Number(response.data[0].LIGHT)]);
