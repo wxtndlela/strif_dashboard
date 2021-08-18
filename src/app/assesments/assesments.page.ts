@@ -535,7 +535,7 @@ export class AssesmentsPage implements OnInit {
         { lat: end_latitude, lng: end_longitude }
       ]
 
-      var id: any = munic_data[index].id;
+      var id: any = munic_data[index].SEG_ID;
       // this.segments_length += (Number(munic_data[index].END_KM)) - Number(munic_data[index].START_KM);
       this.segments_length += munic_data[index].length_km;
 

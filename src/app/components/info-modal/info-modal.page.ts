@@ -57,6 +57,7 @@ export class InfoModalPage implements OnInit {
   ngOnInit() {
 
     if (this.segment_id) {
+      console.log('Seg_id:', this.segment_id)
       this.get_segment();
       this.get_artifacts();
       this.get_segment_defects();
