@@ -28,7 +28,7 @@ export class InfoModalPage implements OnInit {
   public Assesment: any;
   slideOpts = {
     initialSlide: 1,
-    speed: 400,
+    speed: 600,
     autoplay: {
       delay: 1000,
     }

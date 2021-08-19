@@ -577,7 +577,7 @@
 
       <!-- all -->
       <ion-col *ngIf="segment_id">
-        <ion-button fill='outline' expand="block" color='primary' (click)="export_as();">Export</ion-button>
+        <ion-button fill='outline' expand="block" color='primary' href="https://strif-backend.herokuapp.com/generate_ndot_excel/.vcf/{{segment_id}}" target="_blank">Export</ion-button>
       </ion-col>
       <ion-col *ngIf="traffic_station_id">
         <ion-button fill='outline' expand="block" color='primary'
