@@ -102,7 +102,7 @@ export class AssesmentsPage implements OnInit {
       this.filterBy = value;
       switch (value) {
         case 'Segments':
-          // this.get_segments();
+          this.get_segments();
           console.log('Segments');
           break;
 
