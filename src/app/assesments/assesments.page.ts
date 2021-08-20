@@ -36,7 +36,7 @@ export class AssesmentsPage implements OnInit {
   public SURF_TYPE_COUNT: any = this.global.SURF_TYPE_COUNT.value;
   public MUNIC_COUNT: any = this.global.MUNIC_COUNT.value;
   public SEGMENT_STATUS_COUNT: any = this.global.SEGMENT_STATUS_COUNT.value;
-
+  public current_place = '';
   private distance = 0;
   public segments_length = 0;
   private road_name = '';
@@ -726,10 +726,25 @@ export class AssesmentsPage implements OnInit {
     this.map.mapTypes.set("DarkMap", DarkMapStyle);
     this.map.mapTypes.set("Map", StandardMapStyle);
 
+    var reverse_geocode = (latlang) => {
+      this.reverse_geocode(latlang);
+    }
 
+
+    google.maps.event.addListener(this.map, "idle", function () {
+      var center = this.getCenter();
+      var latitude = center.lat();
+      var longitude = center.lng();
+      console.log("current latitude is: " + latitude);
+      console.log("current longitude is: " + longitude);
+      reverse_geocode(latitude + ',' + longitude);
+    });
     // this.start_drawing();
-
   }
+
+
+
+
 
   /**
    * get_routes
@@ -752,6 +767,16 @@ export class AssesmentsPage implements OnInit {
     this.center = center;
     // this.map.panTo(center);
     console.log('map moved to :', center)
+  }
+
+  /**
+   * reverse_geocode
+   */
+  public reverse_geocode(latlng: string) {
+    this.api.get_reverse_geocode(latlng).subscribe(res => {
+      console.log(res.data.results[0].formatted_address)
+      this.current_place = res.data.results[0].formatted_address;
+    })
   }
 
   private decode_path(encodedPath) {

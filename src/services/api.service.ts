@@ -22,8 +22,13 @@ export class ApiService {
 
   //api server URL
   _Url = "https://strif-backend.herokuapp.com";
+  public _Url1 = "https://lmcapi.onrender.com";
   key = "AIzaSyDpdp4k5ZfK03StYzYWLwnan7oex-s7Org";
 
+  //api to get address by coordinates
+  get_reverse_geocode(latlng) {
+    return this.http.post<any>(`${this._Url1}/get_reverse_geocode`, { latlng });
+  }
   
 
   //ADD
