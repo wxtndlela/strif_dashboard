@@ -70,7 +70,7 @@ export class AssesmentsPage implements OnInit {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController
   ) {
-    this.list = this.SURF_TYPE
+    this.list = this.SURF_TYPE;
   }
 
   ngOnInit() {
@@ -1046,7 +1046,7 @@ export class AssesmentsPage implements OnInit {
       geodesic: true,
       strokeColor: color,
       strokeOpacity: 1.0,
-      strokeWeight: 2,
+      strokeWeight: 4,
       map: this.map
     });
 
