@@ -32,6 +32,10 @@ export class AssesmentsPage implements OnInit {
   public list = [];
   public SURF_TYPE: any;
   public MUNIC: any;
+  public SEGMENT_STATUS: any = this.global.SEGMENT_STATUS.value;
+  public SURF_TYPE_COUNT: any = this.global.SURF_TYPE_COUNT.value;
+  public MUNIC_COUNT: any = this.global.MUNIC_COUNT.value;
+  public SEGMENT_STATUS_COUNT: any = this.global.SEGMENT_STATUS_COUNT.value;
 
   private distance = 0;
   public segments_length = 0;
@@ -93,6 +97,13 @@ export class AssesmentsPage implements OnInit {
 
     this.global.get_SURF_TYPE().subscribe(value => {
       this.SURF_TYPE = value;
+      if (this.Segments) {
+        this.Filter_segments();
+      }
+    })
+
+    this.global.get_SEGMENT_STATUS().subscribe(value => {
+      this.SEGMENT_STATUS = value;
       if (this.Segments) {
         this.Filter_segments();
       }
@@ -689,7 +700,7 @@ export class AssesmentsPage implements OnInit {
       { name: "Map" }
     );
 
-    
+
 
     this.map = new google.maps.Map(document.getElementById('map_canvas'), {
       center: this.center,
@@ -697,7 +708,7 @@ export class AssesmentsPage implements OnInit {
       zoomControl: true,
       mapTypeControl: true,
       fullscreenControl: true,
-      styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }]}],
+      styles: [{ featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }],
       streetViewControl: true,
       mapTypeId: "hybrid",
       mapTypeControlOptions: {
@@ -715,7 +726,7 @@ export class AssesmentsPage implements OnInit {
     this.map.mapTypes.set("DarkMap", DarkMapStyle);
     this.map.mapTypes.set("Map", StandardMapStyle);
 
-    
+
     // this.start_drawing();
 
   }
@@ -791,20 +802,53 @@ export class AssesmentsPage implements OnInit {
 
     let munic_data: any[] = [];
     let surface_data: any[] = [];
+    let segment_data: any[] = [];
     this.segments_length = 0;
+
+    //reset counters
+    for (let index = 0; index < this.MUNIC_COUNT.length; index++) {
+      this.global.MUNIC_COUNT.value[index].count = 0;
+    }
+    for (let index = 0; index < this.SURF_TYPE_COUNT.length; index++) {
+      this.global.SURF_TYPE_COUNT.value[index].count = 0;
+    }
+    for (let index = 0; index < this.SEGMENT_STATUS_COUNT.length; index++) {
+      this.global.SEGMENT_STATUS_COUNT.value[index].count = 0;
+    }
 
     const loading = await this.loadingCtrl.create({
       message: 'filtering ...'
     })
 
-
     await loading.present()
+
     //filter by surface type
     for (let index = 0; index < this.Segments.length; index++) {
       for (let x = 0; x < this.SURF_TYPE.length; x++) {
         const SURF_TYPE = this.SURF_TYPE[x];
         if (SURF_TYPE.name == this.Segments[index].SURF_TYPE && SURF_TYPE.isChecked) {
           surface_data.push(await this.Segments[index])
+        }
+      }
+
+      //count per surface type
+      for (let i = 0; i < this.SURF_TYPE_COUNT.length; i++) {
+        if (this.SURF_TYPE_COUNT[i].code == this.Segments[index].SURF_TYPE) {
+          this.global.SURF_TYPE_COUNT.value[i].count++;
+        }
+      }
+
+      //count per municipality
+      for (let i = 0; i < this.MUNIC_COUNT.length; i++) {
+        if (this.MUNIC_COUNT[i].code == this.Segments[index].MUNIC) {
+          this.global.MUNIC_COUNT.value[i].count++;
+        }
+      }
+
+      //count per segment_status
+      for (let i = 0; i < this.SEGMENT_STATUS_COUNT.length; i++) {
+        if (this.SEGMENT_STATUS_COUNT[i].level == this.Segments[index].SEGMENT_STATUS) {
+          this.global.SEGMENT_STATUS_COUNT.value[i].count++;
         }
       }
     }
@@ -819,29 +863,39 @@ export class AssesmentsPage implements OnInit {
       }
     }
 
+    //filter by Segement_status
+    for (let index = 0; index < munic_data.length; index++) {
+      for (let x = 0; x < this.SEGMENT_STATUS.length; x++) {
+        const SEGMENT_STATUS = this.SEGMENT_STATUS[x];
+        if (SEGMENT_STATUS.level == munic_data[index].SEGMENT_STATUS && SEGMENT_STATUS.isChecked) {
+          segment_data.push(await munic_data[index])
+        }
+      }
+    }
+
+
     //finally plot
     this.clear_map();
-    this.results_count = munic_data.length;
+    this.results_count = segment_data.length;
 
-    for (let index = 0; index < munic_data.length; index++) {
-      var points = munic_data[index].snap_points;
-      // var path: any[] = [];
+    for (let index = 0; index < segment_data.length; index++) {
+      var points = segment_data[index].snap_points;
 
-      var start_latitude = Number(munic_data[index].START_LATITUDE);
-      var start_longitude = Number(munic_data[index].START_LONGITUDE);
-      var end_latitude = Number(munic_data[index].END_LATITUDE);
-      var end_longitude = Number(munic_data[index].END_LONGITUDE);
+      var start_latitude = Number(segment_data[index].START_LATITUDE);
+      var start_longitude = Number(segment_data[index].START_LONGITUDE);
+      var end_latitude = Number(segment_data[index].END_LATITUDE);
+      var end_longitude = Number(segment_data[index].END_LONGITUDE);
 
       var path = [
         { lat: start_latitude, lng: start_longitude },
         { lat: end_latitude, lng: end_longitude }
       ]
 
-      var id: any = munic_data[index].SEG_ID;
-      // this.segments_length += (Number(munic_data[index].END_KM)) - Number(munic_data[index].START_KM);
-      this.segments_length += munic_data[index].length_km;
+      var id: any = segment_data[index].SEG_ID;
+      // this.segments_length += (Number(segment_data[index].END_KM)) - Number(segment_data[index].START_KM);
+      this.segments_length += segment_data[index].length_km;
 
-      this.draw_polyline(points, id, munic_data[index].SEGMENT_STATUS)
+      this.draw_polyline(points, id, segment_data[index].SEGMENT_STATUS)
 
       // if (points) {
       //   for (let i = 0; i < points.length; i++) {
@@ -1026,18 +1080,34 @@ export class AssesmentsPage implements OnInit {
 
       set_snapped_points();
 
-
     })
   }
 
   public async draw_polyline(path, id, status) {
     var color;
-    if (status == '1') {
-      color = "#2dd36f";
-    } else if (status = '8') {
-      color = "#AE60A6";
-    } else {
-      color = "#F2C849"
+    switch (status) {
+      case 0:
+        color = '#4B0082';
+        break;
+      case 1:
+        color = '#0583F2';
+        break;
+      case 2:
+        color = '#2dd36f';
+        break;
+      case 3:
+        color = '#F2C849';
+        break;
+      case 4:
+        color = '#F27405';
+        break;
+      case 5:
+        color = '#eb445a';
+        break;
+
+      default:
+        color = '#4B0082';
+        break;
     }
 
 

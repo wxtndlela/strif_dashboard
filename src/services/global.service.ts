@@ -214,6 +214,7 @@ export class GlobalSettings {
                                         { name: 'Ekulindeni' },
                                         { name: 'Empuluzi' },
                                         { name: 'eManzana' },
+                                        { name: 'Ermelo' },
                                     ]
                                 },
                                 {
@@ -370,19 +371,139 @@ export class GlobalSettings {
         this.SURF_TYPE = new BehaviorSubject<Object>(
             [
                 {
-                  name: 'BLOC',
-                  isChecked: true,
-                  borderline: '!4m5!3m4!1s0x1eeb8d69cec5c3e7:0x6f0a14c21c7465bd!8m2!3d-26.5470697!4d29.9740534'
+                    name: 'BLOC',
+                    isChecked: true,
+                    borderline: '!4m5!3m4!1s0x1eeb8d69cec5c3e7:0x6f0a14c21c7465bd!8m2!3d-26.5470697!4d29.9740534'
                 },
                 {
-                  name: 'FLEX',
-                  isChecked: true
+                    name: 'FLEX',
+                    isChecked: true
                 },
                 {
-                  name: 'GRAV',
-                  isChecked: true
+                    name: 'GRAV',
+                    isChecked: true
                 },
-              ]
+            ]
+        );
+
+        this.SEGMENT_STATUS = new BehaviorSubject<Object>(
+            [
+                {
+                    name: 'Not Assesed',
+                    level: 0,
+                    color: "#4B0082",
+                    isChecked: true,
+                },
+                {
+                    name: 'Very Good',
+                    level: 1,
+                    color: "#4B0082",
+                    isChecked: true,
+                },
+                {
+                    name: 'Good',
+                    level: 2,
+                    color: "#4B0082",
+                    isChecked: true,
+                }, {
+                    name: 'Average',
+                    level: 3,
+                    color: "#4B0082",
+                    isChecked: true,
+                }, {
+                    name: 'Bad',
+                    level: 4,
+                    color: "#4B0082",
+                    isChecked: true,
+                }, {
+                    name: 'Very Bad',
+                    level: 5,
+                    color: "#4B0082",
+                    isChecked: true,
+                },
+            ]
+        );
+
+        this.SEGMENT_STATUS_COUNT = new BehaviorSubject<Object>(
+            [
+                {
+                    name: 'Not Assesed',
+                    level: 0,
+                    count: 0,
+                },
+                {
+                    name: 'Very Good',
+                    level: 1,
+                    count: 0,
+
+                },
+                {
+                    name: 'Good',
+                    level: 2,
+                    count: 0,
+
+                }, {
+                    name: 'Average',
+                    level: 3,
+                    count: 0,
+
+                }, {
+                    name: 'Bad',
+                    level: 4,
+                    count: 0,
+
+                }, {
+                    name: 'Very Bad',
+                    level: 5,
+                    count: 0,
+
+                },
+            ]
+        );
+
+        this.MUNIC_COUNT = new BehaviorSubject<Object>(
+            [
+                {
+                    code: 'MP301',
+                    count: 0,
+                }, {
+                    code: 'MP302',
+                    count: 0,
+                }, {
+                    code: 'MP303',
+                    count: 0,
+                }, {
+                    code: 'MP304',
+                    count: 0,
+                }, {
+                    code: 'MP305',
+                    count: 0,
+                }, {
+                    code: 'MP305',
+                    count: 0,
+                }, {
+                    code: 'MP306',
+                    count: 0,
+                }, {
+                    code: 'MP307',
+                    count: 0,
+                },
+            ]
+        );
+
+        this.SURF_TYPE_COUNT = new BehaviorSubject<Object>(
+            [
+                {
+                    code: 'BLOC',
+                    count: 0,
+                }, {
+                    code: 'FLEX',
+                    count: 0,
+                }, {
+                    code: 'GRAV',
+                    count: 0,
+                }
+            ]
         );
 
         this.isDrawing = new BehaviorSubject<Boolean>(true);
@@ -395,6 +516,38 @@ export class GlobalSettings {
     }
     get_isDrawing(): Observable<Object> {
         return this.isDrawing.asObservable();
+    }
+
+    public MUNIC_COUNT: BehaviorSubject<Object>;
+    set_MUNIC_COUNT(newValue): void {
+        this.MUNIC_COUNT.next(newValue);
+    }
+    get_MUNIC_COUNT(): Observable<Object> {
+        return this.MUNIC_COUNT.asObservable();
+    }
+
+    public SURF_TYPE_COUNT: BehaviorSubject<Object>;
+    set_SURF_TYPE_COUNT(newValue): void {
+        this.SURF_TYPE_COUNT.next(newValue);
+    }
+    get_SURF_TYPE_COUNT(): Observable<Object> {
+        return this.SURF_TYPE_COUNT.asObservable();
+    }
+
+    public SEGMENT_STATUS: BehaviorSubject<Object>;
+    set_SEGMENT_STATUS(newValue): void {
+        this.SEGMENT_STATUS.next(newValue);
+    }
+    get_SEGMENT_STATUS(): Observable<Object> {
+        return this.SEGMENT_STATUS.asObservable();
+    }
+
+    public SEGMENT_STATUS_COUNT: BehaviorSubject<Object>;
+    set_SEGMENT_STATUS_COUNT(newValue): void {
+        this.SEGMENT_STATUS_COUNT.next(newValue);
+    }
+    get_SEGMENT_STATUS_COUNT(): Observable<Object> {
+        return this.SEGMENT_STATUS_COUNT.asObservable();
     }
 
     public SURF_TYPE: BehaviorSubject<Object>;

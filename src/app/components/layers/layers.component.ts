@@ -17,7 +17,10 @@ export class LayersComponent implements OnInit {
   public LayersForm: FormGroup;
   public MUNIC: any = this.global.MUNIC.value;
   public SURF_TYPE: any = this.global.SURF_TYPE.value;
-
+  public SEGMENT_STATUS: any = this.global.SEGMENT_STATUS.value;
+  public SURF_TYPE_COUNT: any = this.global.SURF_TYPE_COUNT.value;
+  public MUNIC_COUNT: any = this.global.MUNIC_COUNT.value;
+  public SEGMENT_STATUS_COUNT: any = this.global.SEGMENT_STATUS_COUNT.value;
 
   constructor(
     public global: GlobalSettings,
@@ -41,6 +44,9 @@ export class LayersComponent implements OnInit {
       case 'MUNIC':
         this.list = this.global.MUNIC.value;
         break;
+      case 'SEGMENT_STATUS':
+        this.list = this.global.SEGMENT_STATUS.value;
+        break;
       default:
         break;
     }
@@ -55,6 +61,9 @@ export class LayersComponent implements OnInit {
         break;
       case 'MUNIC':
         this.global.set_MUNIC(this.MUNIC)
+        break;
+      case 'SEGMENT_STATUS':
+        this.global.set_SEGMENT_STATUS(this.SEGMENT_STATUS)
         break;
       default:
         break;

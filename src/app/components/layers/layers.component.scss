@@ -1,0 +1,34 @@
+.not-assessed{
+    border: 10px solid #4B0082;
+    border-radius: 2px;
+}
+
+.very-good{
+    border: 10px solid var(--ion-color-primary);
+    border-radius: 2px;
+}
+
+.good{
+    border: 10px solid var(--ion-color-success);
+    border-radius: 2px;
+}
+
+.average{
+    border: 10px solid var(--ion-color-warning);
+    border-radius: 2px;
+}
+
+.bad{
+    border: 10px solid var(--ion-color-secondary);
+    border-radius: 2px;
+}
+
+.very-bad{
+    border: 10px solid var(--ion-color-danger);
+    border-radius: 2px;
+}
+
+.indigo{
+    border: 10px solid #4B0082;
+    border-radius: 2px;
+}

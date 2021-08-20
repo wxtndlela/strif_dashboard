@@ -1,17 +1,35 @@
 <ion-row>
 
   <ion-col>
-      <ion-list>
-        <ion-list-header>
-          <strong>{{event}}:</strong>
-        </ion-list-header>
-        <ion-item *ngFor="let item of list" lines="none">
+    <ion-list>
+      <ion-list-header>
+        <strong>{{event}}:</strong>
+      </ion-list-header>
+      <ion-item *ngFor="let item of list;let i = index;" lines="none">
 
-          <ion-label style="font-size: small;">
-            {{item.name}}
-          </ion-label>
-          <ion-checkbox (click)="check_item_clicked(item)" [(ngModel)]="item.isChecked"></ion-checkbox>
-        </ion-item>
-      </ion-list>
+        <ion-label style="font-size: small;" slot="start">
+          {{item.name}}
+          <div *ngIf="event == 'MUNIC'"> ({{MUNIC_COUNT[i].count}})</div>
+          <div *ngIf="event == 'SURF_TYPE'"> ({{SURF_TYPE_COUNT[i].count}})</div>
+          <div *ngIf="event == 'SEGMENT_STATUS'"> ({{SEGMENT_STATUS_COUNT[i].count}})</div>
+        </ion-label>
+
+        <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 0" class="not-assessed">
+        </div>
+        <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 1" class="very-good">
+        </div>
+        <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 2" class="good">
+        </div>
+        <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 3" class="average">
+        </div>
+        <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 4" class="bad">
+        </div>
+        <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 5" class="very-bad">
+        </div>
+     
+
+        <ion-checkbox (click)="check_item_clicked(item)" [(ngModel)]="item.isChecked" slot="end"></ion-checkbox>
+      </ion-item>
+    </ion-list>
   </ion-col>
 </ion-row>
