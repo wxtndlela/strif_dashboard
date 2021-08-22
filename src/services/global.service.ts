@@ -406,17 +406,17 @@ export class GlobalSettings {
                     color: "#4B0082",
                     isChecked: true,
                 }, {
-                    name: 'Average',
+                    name: 'Moderate',
                     level: 3,
                     color: "#4B0082",
                     isChecked: true,
                 }, {
-                    name: 'Bad',
+                    name: 'Poor',
                     level: 4,
                     color: "#4B0082",
                     isChecked: true,
                 }, {
-                    name: 'Very Bad',
+                    name: 'Very poor',
                     level: 5,
                     color: "#4B0082",
                     isChecked: true,
@@ -443,17 +443,17 @@ export class GlobalSettings {
                     count: 0,
 
                 }, {
-                    name: 'Average',
+                    name: 'Moderate',
                     level: 3,
                     count: 0,
 
                 }, {
-                    name: 'Bad',
+                    name: 'Poor',
                     level: 4,
                     count: 0,
 
                 }, {
-                    name: 'Very Bad',
+                    name: 'Very poor',
                     level: 5,
                     count: 0,
 
