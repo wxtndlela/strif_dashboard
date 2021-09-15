@@ -58,7 +58,7 @@ export class FilterComponent implements OnInit {
     }
   ];
 
-  public assesFilter = ['Segments', 'Traffic', 'Structures', 'Furniture'];
+  public assesFilter = ['Assements', 'Segments', 'Traffic', 'Structures', 'Furniture'];
   public assesReport = ['NV2021-03', 'description', 'model', 'make'];
   public MunicipalCoords = [
     { lat: -26.453575, lng: 29.196015 },

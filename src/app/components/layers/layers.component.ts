@@ -18,20 +18,19 @@ export class LayersComponent implements OnInit {
   public MUNIC: any = this.global.MUNIC.value;
   public SURF_TYPE: any = this.global.SURF_TYPE.value;
   public SEGMENT_STATUS: any = this.global.SEGMENT_STATUS.value;
+  public ASSESMENT_STATUS: any = this.global.ASSESMENT_STATUS.value;
   public SURF_TYPE_COUNT: any = this.global.SURF_TYPE_COUNT.value;
   public MUNIC_COUNT: any = this.global.MUNIC_COUNT.value;
   public SEGMENT_STATUS_COUNT: any = this.global.SEGMENT_STATUS_COUNT.value;
+  public ASSESMENT_STATUS_COUNT: any = this.global.ASSESMENT_STATUS_COUNT.value;
 
   constructor(
     public global: GlobalSettings,
     private fb: FormBuilder,
-
   ) {
     this.LayersForm = this.fb.group({
       isChecked: ['', [Validators.required]],
     });
-
-
 
   }
 
@@ -46,6 +45,9 @@ export class LayersComponent implements OnInit {
         break;
       case 'SEGMENT_STATUS':
         this.list = this.global.SEGMENT_STATUS.value;
+        break;
+      case 'ASSESMENT_STATUS':
+        this.list = this.global.ASSESMENT_STATUS.value;
         break;
       default:
         break;
@@ -64,6 +66,9 @@ export class LayersComponent implements OnInit {
         break;
       case 'SEGMENT_STATUS':
         this.global.set_SEGMENT_STATUS(this.SEGMENT_STATUS)
+        break;
+      case 'ASSESMENT_STATUS':
+        this.global.set_ASSESMENT_STATUS(this.ASSESMENT_STATUS)
         break;
       default:
         break;

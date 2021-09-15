@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, OnInit, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ApiService } from '../services/api.service';
 import { GlobalSettings } from '../services/global.service';
@@ -20,7 +20,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   styleUrls: ['app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   public appPages = [
     { title: 'Assessment', url: '/assesments', icon: 'map' },
@@ -31,6 +31,8 @@ export class AppComponent {
   ];
 
   public selected_appPage = 'Assessment';
+  @ViewChild('pieChart') pieChart: ElementRef;
+
 
   public userPages = [
     { title: 'Profile', url: '/profile', icon: 'id-card' },
@@ -259,6 +261,22 @@ export class AppComponent {
     )
   }
 
+  ngOnInit() {
+    let chart_data = [
+      ['Task', 'Hours per Day'],
+      ['Work', 11],
+      ['Eat', 2],
+      ['Commute', 2],
+      ['Watch TV', 2],
+      ['Sleep', 7]
+    ]
+
+    this.global.get_ASSESMENT_STATUS_COUNT().subscribe(
+      value => { console.log('ASSESMENT_STATUS_COUNT:', value)},
+      complete => { console.log('complete') }
+    )
+  }
+
   /**
    * forgot_pass
    */
@@ -321,6 +339,21 @@ export class AppComponent {
 
   }
 
+  drawChart = (chart_data) => {
+
+    const data = google.visualization.arrayToDataTable(chart_data)
+
+    const options: any = {
+      title: "Summary",
+      legend: { position: 'top' }
+    };
+
+    const chart = new google.visualization.PieChart(
+      this.pieChart.nativeElement
+    );
+
+    chart.draw(data, options);
+  };
 
 
 }

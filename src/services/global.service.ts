@@ -424,6 +424,40 @@ export class GlobalSettings {
             ]
         );
 
+        this.ASSESMENT_STATUS = new BehaviorSubject<Object>(
+            [
+                {
+                    name: 'Not Assesed',
+                    level: 0,
+                    color: "#4B0082",
+                    isChecked: true,
+                },
+                {
+                    name: 'Assesed',
+                    level: 1,
+                    color: "#4B0082",
+                    isChecked: true,
+                },
+               
+            ]
+        );
+
+        this.ASSESMENT_STATUS_COUNT = new BehaviorSubject<Object>(
+            [
+                {
+                    name: 'Not Assesed',
+                    level: 0,
+                    count: 0,
+                },
+                {
+                    name: 'Assesed',
+                    level: 1,
+                    count: 0,
+                },
+               
+            ]
+        );
+
         this.SEGMENT_STATUS_COUNT = new BehaviorSubject<Object>(
             [
                 {
@@ -518,12 +552,28 @@ export class GlobalSettings {
         return this.isDrawing.asObservable();
     }
 
+    public ASSESMENT_STATUS_COUNT: BehaviorSubject<Object>;
+    set_ASSESMENT_STATUS_COUNT(newValue): void {
+        this.ASSESMENT_STATUS_COUNT.next(newValue);
+    }
+    get_ASSESMENT_STATUS_COUNT(): Observable<Object> {
+        return this.ASSESMENT_STATUS_COUNT.asObservable();
+    }
+
     public MUNIC_COUNT: BehaviorSubject<Object>;
     set_MUNIC_COUNT(newValue): void {
         this.MUNIC_COUNT.next(newValue);
     }
     get_MUNIC_COUNT(): Observable<Object> {
         return this.MUNIC_COUNT.asObservable();
+    }
+
+    public ASSESMENT_STATUS: BehaviorSubject<Object>;
+    set_ASSESMENT_STATUS(newValue): void {
+        this.ASSESMENT_STATUS.next(newValue);
+    }
+    get_ASSESMENT_STATUS(): Observable<Object> {
+        return this.ASSESMENT_STATUS.asObservable();
     }
 
     public SURF_TYPE_COUNT: BehaviorSubject<Object>;

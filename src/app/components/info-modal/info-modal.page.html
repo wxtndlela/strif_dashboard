@@ -129,6 +129,39 @@
 
       <!-- assesment info -->
       <ion-list>
+        <ion-list-header lines="insert" style="font-size: large;">
+          <strong>Condition</strong>
+        </ion-list-header>
+
+        <ion-item lines="full">
+          <ion-label slot="start" style="font-size: small;">
+            Visual Condition
+          </ion-label>
+          <ion-label></ion-label>
+          <ion-label *ngIf="Segment[0].SEGMENT_STATUS == 0" style="text-align: right;font-size: small;" slot="end">
+            Not Assesed
+          </ion-label>
+          <ion-label *ngIf="Segment[0].SEGMENT_STATUS == 1" style="text-align: right;font-size: small;" slot="end">
+            Very Good
+          </ion-label>
+          <ion-label *ngIf="Segment[0].SEGMENT_STATUS == 2" style="text-align: right;font-size: small;" slot="end">
+            Good
+          </ion-label>
+          <ion-label *ngIf="Segment[0].SEGMENT_STATUS == 3" style="text-align: right;font-size: small;" slot="end">
+            Moderate
+          </ion-label>
+          <ion-label *ngIf="Segment[0].SEGMENT_STATUS == 4" style="text-align: right;font-size: small;" slot="end">
+            Poor
+          </ion-label>
+          <ion-label *ngIf="Segment[0].SEGMENT_STATUS == 5" style="text-align: right;font-size: small;" slot="end">
+            Very poor
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+      <!-- assesment info -->
+      <ion-list>
 
         <ion-list-header lines="insert" style="font-size: large;">
           <strong>Defects</strong>
@@ -318,12 +351,9 @@
     <ion-col>
       <ion-list>
 
-        
-
         <ion-item lines="full">
           <div #pieChart style="width: 50vw; height: 40vh;"></div>
         </ion-item>
-
 
       </ion-list>
     </ion-col>
@@ -548,11 +578,9 @@
           <img src="{{Furniture.photo_url}}" />
         </ion-item>
 
-
       </ion-list>
 
     </ion-col>
-
 
   </ion-grid>
 </ion-content>
@@ -563,7 +591,7 @@
     <ion-row>
       <!-- segment -->
       <ion-col *ngIf="segment_id">
-        <ion-button fill='outline' expand="block" color='danger' (click)="delete_segment();">Remove</ion-button>
+        <ion-button [disabled]="true" fill='outline' expand="block" color='danger' (click)="delete_segment();">Remove</ion-button>
       </ion-col>
       <ion-col *ngIf="segment_id">
         <ion-button fill='outline' expand="block" color='primary' (click)="start_new_analysis();">Analyse</ion-button>
@@ -572,12 +600,14 @@
 
       <!-- traffic -->
       <ion-col *ngIf="traffic_station_id">
-        <ion-button fill='outline' expand="block" color='danger' (click)="delete_station();">Remove</ion-button>
+        <ion-button fill='outline' [disabled]="true" expand="block" color='danger' (click)="delete_station();">Remove</ion-button>
       </ion-col>
 
       <!-- all -->
       <ion-col *ngIf="segment_id">
-        <ion-button fill='outline' expand="block" color='primary' href="https://strif-backend.herokuapp.com/generate_ndot_excel/.vcf/{{segment_id}}" target="_blank">Export</ion-button>
+        <ion-button fill='outline' expand="block" color='primary'
+          href="https://strif-backend.herokuapp.com/generate_ndot_excel/.vcf/{{segment_id}}" target="_blank">Export
+        </ion-button>
       </ion-col>
       <ion-col *ngIf="traffic_station_id">
         <ion-button fill='outline' expand="block" color='primary'

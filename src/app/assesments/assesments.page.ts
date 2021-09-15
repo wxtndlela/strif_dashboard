@@ -33,9 +33,11 @@ export class AssesmentsPage implements OnInit {
   public SURF_TYPE: any;
   public MUNIC: any;
   public SEGMENT_STATUS: any = this.global.SEGMENT_STATUS.value;
+  public ASSESMENT_STATUS: any = this.global.ASSESMENT_STATUS.value;
   public SURF_TYPE_COUNT: any = this.global.SURF_TYPE_COUNT.value;
   public MUNIC_COUNT: any = this.global.MUNIC_COUNT.value;
   public SEGMENT_STATUS_COUNT: any = this.global.SEGMENT_STATUS_COUNT.value;
+  public ASSESMENT_STATUS_COUNT: any = this.global.ASSESMENT_STATUS_COUNT.value;
   public current_place = '';
   private distance = 0;
   public segments_length = 0;
@@ -109,6 +111,13 @@ export class AssesmentsPage implements OnInit {
       }
     })
 
+    this.global.get_ASSESMENT_STATUS().subscribe(value => {
+      this.ASSESMENT_STATUS = value;
+      if (this.Segments) {
+        this.Filter_assesments();
+      }
+    })
+
     this.global.get_asses_filter().subscribe(async (value) => {
       this.filterBy = value;
       switch (value) {
@@ -130,6 +139,11 @@ export class AssesmentsPage implements OnInit {
         case 'Furniture':
           this.get_furniture();
           console.log('Furniture');
+          break;
+
+        case 'Assements':
+          this.get_assesments();
+          console.log('Assements');
           break;
 
         default:
@@ -935,6 +949,133 @@ export class AssesmentsPage implements OnInit {
   }
 
   /**
+   * Filter_assesments
+   */
+  public async Filter_assesments() {
+    let munic_data: any[] = [];
+    let surface_data: any[] = [];
+    let segment_data: any[] = [];
+    this.segments_length = 0;
+
+    //reset counters
+    for (let index = 0; index < this.MUNIC_COUNT.length; index++) {
+      this.global.MUNIC_COUNT.value[index].count = 0;
+    }
+    for (let index = 0; index < this.SURF_TYPE_COUNT.length; index++) {
+      this.global.SURF_TYPE_COUNT.value[index].count = 0;
+    }
+    for (let index = 0; index < this.SEGMENT_STATUS_COUNT.length; index++) {
+      this.global.SEGMENT_STATUS_COUNT.value[index].count = 0;
+    }
+    for (let index = 0; index < this.ASSESMENT_STATUS_COUNT.length; index++) {
+      this.global.ASSESMENT_STATUS_COUNT.value[index].count = 0;
+    }
+
+
+
+
+    const loading = await this.loadingCtrl.create({
+      message: 'filtering ...'
+    })
+
+    await loading.present()
+
+    //filter by surface type
+    for (let index = 0; index < this.Segments.length; index++) {
+      for (let x = 0; x < this.SURF_TYPE.length; x++) {
+        const SURF_TYPE = this.SURF_TYPE[x];
+        if (SURF_TYPE.name == this.Segments[index].SURF_TYPE && SURF_TYPE.isChecked) {
+          surface_data.push(await this.Segments[index])
+        }
+      }
+
+      //count per surface type
+      for (let i = 0; i < this.SURF_TYPE_COUNT.length; i++) {
+        if (this.SURF_TYPE_COUNT[i].code == this.Segments[index].SURF_TYPE) {
+          this.global.SURF_TYPE_COUNT.value[i].count++;
+        }
+      }
+
+      //count per municipality
+      for (let i = 0; i < this.MUNIC_COUNT.length; i++) {
+        if (this.MUNIC_COUNT[i].code == this.Segments[index].MUNIC) {
+          this.global.MUNIC_COUNT.value[i].count++;
+        }
+      }
+    }
+
+    //filter by municipality
+    for (let index = 0; index < surface_data.length; index++) {
+      for (let x = 0; x < this.MUNIC.length; x++) {
+        const MUNIC = this.MUNIC[x];
+        if (MUNIC.code == surface_data[index].MUNIC && MUNIC.isChecked) {
+          munic_data.push(await surface_data[index])
+        }
+      }
+    }
+
+    //filter by ASSESMENT_STATUS
+    for (let index = 0; index < munic_data.length; index++) {
+      //count per segment_status
+      if (0 === munic_data[index].SEGMENT_STATUS) {
+        this.global.ASSESMENT_STATUS_COUNT.value[0].count++;
+      } else {
+        this.global.ASSESMENT_STATUS_COUNT.value[1].count++;
+      }
+
+
+      if (0 === munic_data[index].SEGMENT_STATUS && this.ASSESMENT_STATUS[0].isChecked) {
+        segment_data.push(await munic_data[index]);
+      }
+
+      if (0 != munic_data[index].SEGMENT_STATUS && this.ASSESMENT_STATUS[1].isChecked) {
+        segment_data.push(await munic_data[index]);
+
+      }
+
+    }
+
+
+    //finally plot
+    this.clear_map();
+    this.results_count = segment_data.length;
+
+    for (let index = 0; index < segment_data.length; index++) {
+      var points = segment_data[index].snap_points;
+
+      var start_latitude = Number(segment_data[index].START_LATITUDE);
+      var start_longitude = Number(segment_data[index].START_LONGITUDE);
+      var end_latitude = Number(segment_data[index].END_LATITUDE);
+      var end_longitude = Number(segment_data[index].END_LONGITUDE);
+
+      var path = [
+        { lat: start_latitude, lng: start_longitude },
+        { lat: end_latitude, lng: end_longitude }
+      ]
+
+      var id: any = segment_data[index].SEG_ID;
+      // this.segments_length += (Number(segment_data[index].END_KM)) - Number(segment_data[index].START_KM);
+      this.segments_length += segment_data[index].length_km;
+
+      //set accrodingly 0 = not asssed, 1 = assesed
+      let SEGMENT_STATUS = segment_data[index].SEGMENT_STATUS;
+      switch (SEGMENT_STATUS) {
+        case 0:
+          SEGMENT_STATUS = 0;
+          break;
+
+        default:
+          SEGMENT_STATUS = 1;
+          break;
+      }
+
+      this.draw_polyline(points, id, SEGMENT_STATUS);
+    }
+
+    await loading.dismiss();
+  }
+
+  /**
    * get_traffic_station
    */
   public async get_traffic_station() {
@@ -1159,6 +1300,20 @@ export class AssesmentsPage implements OnInit {
       await modal.present();
     });
 
+    var infoWindow = new google.maps.InfoWindow();
+
+    // Open the InfoWindow on mouseover:
+    google.maps.event.addListener(polyline, 'mouseover', function (e) {
+      infoWindow.setPosition(e.latLng);
+      infoWindow.setContent(id);
+      infoWindow.open(this.map);
+    });
+
+    // Close the InfoWindow on mouseout:
+    google.maps.event.addListener(polyline, 'mouseout', function () {
+      infoWindow.close();
+    });
+
     polyline.setMap(this.map);
   }
 
@@ -1377,5 +1532,25 @@ export class AssesmentsPage implements OnInit {
         this.addMarker(lat_lng, data.data[index].id, 'structure', 0);
       }
     })
+  }
+
+  /**
+   * get_assesments
+   */
+  public async get_assesments() {
+    // const loading = await this.loadingCtrl.create({
+    //   message: 'Loading segments ....'
+    // })
+
+    // loading.present();
+
+    // this.api.get_all_segments('', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
+    //   console.log('Segment data:', data.data);
+    //   this.Segments = data.data;
+    //   this.results_count = data.data.length;
+    //   loading.dismiss();
+
+    this.Filter_assesments();
+    // })
   }
 }

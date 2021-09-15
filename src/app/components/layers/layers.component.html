@@ -12,8 +12,10 @@
           <div *ngIf="event == 'MUNIC'"> ({{MUNIC_COUNT[i].count}})</div>
           <div *ngIf="event == 'SURF_TYPE'"> ({{SURF_TYPE_COUNT[i].count}})</div>
           <div *ngIf="event == 'SEGMENT_STATUS'"> ({{SEGMENT_STATUS_COUNT[i].count}})</div>
+          <div *ngIf="event == 'ASSESMENT_STATUS'"> ({{ASSESMENT_STATUS_COUNT[i].count}})</div>
         </ion-label>
 
+        <!-- SEGMENT_STATUS colors -->
         <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 0" class="not-assessed">
         </div>
         <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 1" class="very-good">
@@ -26,7 +28,12 @@
         </div>
         <div *ngIf="event == 'SEGMENT_STATUS' && item.level === 5" class="very-bad">
         </div>
-     
+
+        <!-- ASSESMENT_STATUS colors -->
+        <div *ngIf="event == 'ASSESMENT_STATUS' && item.level === 0" class="not-assessed">
+        </div>
+        <div *ngIf="event == 'ASSESMENT_STATUS' && item.level === 1" class="very-good">
+        </div>
 
         <ion-checkbox (click)="check_item_clicked(item)" [(ngModel)]="item.isChecked" slot="end"></ion-checkbox>
       </ion-item>

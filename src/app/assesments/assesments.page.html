@@ -67,7 +67,7 @@
   <ion-toolbar>
     <ion-row>
       <ion-col>
-        <ion-item *ngIf="filterBy == 'Segments'" class="searchItem" lines="none">
+        <ion-item *ngIf="filterBy == 'Segments' ||filterBy == 'Assements'" class="searchItem" lines="none">
           <ion-icon slot="start" name="analytics-outline"></ion-icon>
           <ion-label>
             Length:{{segments_length}} km
@@ -76,22 +76,30 @@
       </ion-col>
 
       <ion-col>
-        <ion-item *ngIf="filterBy == 'Segments'" class="combo-box" (click)="presentLayersPopover($event, 'SURF_TYPE')">
+        <ion-item *ngIf="filterBy == 'Segments' ||filterBy == 'Assements'" class="combo-box"
+          (click)="presentLayersPopover($event, 'SURF_TYPE')">
           <ion-label>SURF_TYPE</ion-label>
           <ion-icon name="chevron-down"></ion-icon>
         </ion-item>
       </ion-col>
 
       <ion-col>
-        <ion-item *ngIf="filterBy == 'Segments'" class="combo-box" (click)="presentLayersPopover($event, 'MUNIC')">
+        <ion-item *ngIf="filterBy == 'Segments' ||filterBy == 'Assements'" class="combo-box"
+          (click)="presentLayersPopover($event, 'MUNIC')">
           <ion-label>MUNIC</ion-label>
           <ion-icon name="chevron-down"></ion-icon>
         </ion-item>
       </ion-col>
 
       <ion-col>
-        <ion-item *ngIf="filterBy == 'Segments'" class="combo-box" (click)="presentLayersPopover($event, 'SEGMENT_STATUS')">
+        <ion-item *ngIf="filterBy == 'Segments'" class="combo-box"
+          (click)="presentLayersPopover($event, 'SEGMENT_STATUS')">
           <ion-label>SEGMENT_STATUS</ion-label>
+          <ion-icon name="chevron-down"></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="filterBy == 'Assements'" class="combo-box"
+          (click)="presentLayersPopover($event, 'ASSESMENT_STATUS')">
+          <ion-label>ASSESMENT_STATUS</ion-label>
           <ion-icon name="chevron-down"></ion-icon>
         </ion-item>
       </ion-col>
