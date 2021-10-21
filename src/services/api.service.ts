@@ -21,7 +21,9 @@ export class ApiService {
   // _Url = "http://127.0.0.1:3000";
 
   //api server URL1
-  _Url = "https://strif-backend.herokuapp.com";
+  // _Url = "https://strif-backend.herokuapp.com";
+  _Url = "https://novo-rams-backend.onrender.com";
+
   public _Url1 = "https://lmcapi.onrender.com";
   key = "AIzaSyDpdp4k5ZfK03StYzYWLwnan7oex-s7Org";
 
@@ -29,7 +31,7 @@ export class ApiService {
   get_reverse_geocode(latlng) {
     return this.http.post<any>(`${this._Url1}/get_reverse_geocode`, { latlng });
   }
-  
+
 
   //ADD
   /*
