@@ -297,8 +297,11 @@
       </ion-list>
 
       <ion-slides pager="true" [options]="slideOpts">
-        <ion-slide *ngFor="let artifact of Artifact">
+        <!-- <ion-slide *ngFor="let artifact of Artifact">
           <ion-img src="{{artifact.photo_url}}"></ion-img>
+        </ion-slide> -->
+        <ion-slide>
+          <ion-img src="{{Assesment.photo_url}}"></ion-img>
         </ion-slide>
       </ion-slides>
 
