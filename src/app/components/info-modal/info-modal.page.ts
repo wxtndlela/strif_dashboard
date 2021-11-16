@@ -5,6 +5,7 @@ import { ToasterService } from '../../../services/toaster.service';
 import { PopoverController, ModalController, ToastController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { GlobalSettings } from '../../../services/global.service';
 import { FileService } from '../../../services/file.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 @Component({
   selector: 'app-info-modal',
@@ -240,6 +241,7 @@ export class InfoModalPage implements OnInit {
     this.api.get_artifacts_by_segment(this.segment_id).subscribe(response => {
       console.log('artifacts:', response);
       this.Artifact = response.data;
+      console.log('photourl:', this.Artifact[0].photo_url)
     })
   }
 

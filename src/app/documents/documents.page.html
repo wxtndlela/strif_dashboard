@@ -76,7 +76,7 @@
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.adt" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.adt" target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
@@ -92,7 +92,7 @@
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.lan" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.lan" target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
@@ -108,7 +108,7 @@
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.net" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.net" target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
@@ -124,7 +124,7 @@
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.rcl" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.rcl" target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
@@ -140,7 +140,7 @@
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.vcb" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.vcb" target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
@@ -156,7 +156,7 @@
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.vcf" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.vcf" target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
@@ -172,7 +172,7 @@
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.vcu" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.vcu" target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
@@ -182,13 +182,21 @@
             <tr>
               <td>THM19.structures.xlsx</td>
               <td>THM19 Road Structures Summary</td>
-              <td>NOW</td>
+              <td>
+                <ion-item lines="none">
+                  <ion-label>
+                    {{selected_minDate.substr( 0, 4)}} - {{selected_maxDate.substr( 0, 4)}}
+                  </ion-label>
+                  <ion-icon (click)="showPicker();" slot="end" name="calendar-outline" color='primary'></ion-icon>
+                </ion-item>
+              </td>
               <td>0 KB</td>
 
               <td>
                 <ion-item lines="none" class="ion-no-padding">
                   <ion-button color="primary" shape="outline"
-                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.structures" target="_blank">Download
+                    href="https://novo-rams-backend.onrender.com/generate_ndot_excel?thm_type=.structures&min_date={{selected_minDate}}&max_date={{selected_maxDate}}"
+                    target="_blank">Download
                   </ion-button>
                 </ion-item>
               </td>
