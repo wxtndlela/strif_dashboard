@@ -309,10 +309,18 @@
           <ion-img src="{{Artifact[Artifact.length-1].photo_url}}"></ion-img>
         </ion-slide>
 
-        <!-- <ion-slide>
-          <ion-img src="{{Assesment.photo_url}}"></ion-img>
-        </ion-slide> -->
       </ion-slides>
+
+      <ion-list *ngIf="Assesment.video_url">
+        <ion-list-header lines="insert" style="font-size: large;">
+        </ion-list-header>
+
+        <video width="100%" controls>
+          <source src="{{Assesment.video_url}}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+
+      </ion-list>
 
     </ion-col>
 
@@ -666,12 +674,14 @@
       <!-- all -->
       <ion-col *ngIf="segment_id">
         <ion-button fill='outline' expand="block" color='primary'
-          href="https://novo-rams-backend.onrender.com/generate_report_pdf/?seg_id={{segment_id}}" target="_blank">Export
+          href="https://novo-rams-backend.onrender.com/generate_report_pdf/?seg_id={{segment_id}}" target="_blank">
+          Export
         </ion-button>
       </ion-col>
       <ion-col *ngIf="traffic_station_id">
         <ion-button fill='outline' expand="block" color='primary'
-          href="https://novo-rams-backend.onrender.com/generate_ndot_excel/.adt" target="_blank">Export</ion-button>
+          href="https://novo-rams-backend.onrender.com/generate_ndot_excel/?thm_type=.adt" target="_blank">Export
+        </ion-button>
       </ion-col>
       <ion-col>
         <ion-button fill='outline' expand="block" color='primary' (click)="dismiss();">Dismiss</ion-button>
