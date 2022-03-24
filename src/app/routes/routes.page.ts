@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps'
 import { ApiService } from '../../services/api.service';
 import { AlertService } from '../../services/alert.service';
@@ -8,13 +8,14 @@ import { GlobalSettings } from '../../services/global.service';
 import { InfoModalPage } from '../components/info-modal/info-modal.page';
 import { PopoverController, ModalController, ToastController, AlertController } from '@ionic/angular';
 import { FileService } from '../../services/file.service';
+import { MapModalPage } from '../map-modal/map-modal.page'
 
 @Component({
   selector: 'app-routes',
   templateUrl: './routes.page.html',
   styleUrls: ['./routes.page.scss'],
 })
-export class RoutesPage implements OnInit {
+export class RoutesPage implements OnInit, AfterViewInit {
 
   constructor(
     private googleMap: GoogleMapsModule,
@@ -29,6 +30,22 @@ export class RoutesPage implements OnInit {
 
   ) { }
 
+  ngAfterViewInit() {
+    // this.global.get_Segments().subscribe(val => {
+    //   this.Segments = val;
+    // })
+
+    this.get_segments()
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      }
+      console.log(position);
+    })
+  }
+
   ngOnInit() {
     // this.global.get_parcel_filter_by().subscribe(async (value) => {
     //   this.filterBy = await value;
@@ -37,16 +54,9 @@ export class RoutesPage implements OnInit {
     //   this.SortBy = await value;
     // });
 
-    this.get_segments();
+    // this.get_segments();
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
 
-      }
-      console.log(position);
-    })
   }
 
   zoom;
@@ -94,11 +104,12 @@ export class RoutesPage implements OnInit {
   /**
    * open_segment
    */
-  public async open_segment(id) {
+  public async open_segment(item) {
     const modal = await this.modalCtrl.create({
-      component: InfoModalPage,
+      component: MapModalPage,
       componentProps: {
-        'segment_id': id
+        segment_id: item.id,
+        snap_points: item.snap_points
       },
       cssClass: 'infoModalClass'
     })
@@ -106,11 +117,11 @@ export class RoutesPage implements OnInit {
     await modal.present();
   }
 
-  
+
   /**
   * export_as
   */
-   public async export_as() {
+  public async export_as() {
     // this.file.exportAsCsvFile(response.data, 'Segment - ' + this.segment_id)
     const alert = await this.alertCtrl.create({
       header: 'Export',
@@ -121,14 +132,14 @@ export class RoutesPage implements OnInit {
           role: 'danger',
           handler: () => {
             let data = this.Segments;
-            this.file.exportAsCsvFile(data, 'Segments - ' );
+            this.file.exportAsCsvFile(data, 'Segments - ');
           }
         },
         {
           text: 'EXCEL',
           role: 'danger',
           handler: () => {
-            this.file.exportAsExcelFile(this.Segments, 'Segments - ' );
+            this.file.exportAsExcelFile(this.Segments, 'Segments - ');
           }
         }
       ]

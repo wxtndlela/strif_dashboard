@@ -1,14 +1,17 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from '../services/api.service';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 
 @Injectable()
 export class GlobalSettings {
+    segments: any[] = [];
 
     constructor(
         private api: ApiService,
         private navCtrl: NavController,
+        private loadingCtrl: LoadingController
+
     ) {
 
         this.user_filter_by = new BehaviorSubject<String>('names');
@@ -32,6 +35,9 @@ export class GlobalSettings {
         this.munic_Borderline = new BehaviorSubject<String>('!4m5!3m4!1s0x1eeb8d69cec5c3e7:0x6f0a14c21c7465bd!8m2!3d-26.5470697!4d29.9740534');
 
         this.isMobile = new BehaviorSubject<Boolean>(false);
+
+        this.Segments = new BehaviorSubject<Object[]>([]);
+
 
         this.Road_furniture = new BehaviorSubject<Object>(
             [
@@ -135,10 +141,8 @@ export class GlobalSettings {
                 }, {
                     name: 'Other',
                     type: [
-
                     ]
                 },
-
             ]
         );
 
@@ -438,7 +442,7 @@ export class GlobalSettings {
                     color: "#4B0082",
                     isChecked: true,
                 },
-               
+
             ]
         );
 
@@ -454,7 +458,7 @@ export class GlobalSettings {
                     level: 1,
                     count: 0,
                 },
-               
+
             ]
         );
 
@@ -574,6 +578,14 @@ export class GlobalSettings {
     }
     get_ASSESMENT_STATUS(): Observable<Object> {
         return this.ASSESMENT_STATUS.asObservable();
+    }
+
+    public Segments: BehaviorSubject<Object>;
+    set_Segments(newValue): void {
+        this.Segments.next(newValue);
+    }
+    get_Segments(): Observable<Object> {
+        return this.Segments.asObservable();
     }
 
     public SURF_TYPE_COUNT: BehaviorSubject<Object>;
@@ -838,9 +850,24 @@ export class GlobalSettings {
                     this.set_user_avater(res.data[0].photourl);
                 }
             })
+            // this.get_segment();
         }
     }
 
+    public async get_segment() {
+        const loading = await this.loadingCtrl.create({
+            message: 'Loading segments ....'
+        })
+
+        loading.present();
+
+        this.api.get_all_segments('', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
+            console.log('Segment data:', data.data);
+            this.segments = data.data;
+            this.set_Segments(this.segments)
+            loading.dismiss();
+        })
+    }
 
 
 

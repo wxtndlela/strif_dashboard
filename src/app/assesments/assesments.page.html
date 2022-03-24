@@ -35,9 +35,14 @@
             </ion-label>
           </ion-item>
 
+          <ion-item slot="end" class="searchItem" lines="none">
+            <ion-input class="input" [(ngModel)]="searchText"  type="text"></ion-input>
+            &nbsp;
+            &nbsp;
+            <ion-icon name="search" (click)="search_segments()"></ion-icon>
+          </ion-item>
 
         </ion-item>
-
 
       </ion-card-content>
     </ion-card>

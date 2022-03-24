@@ -17,7 +17,7 @@ import { AddOptionsComponent } from '../components/add-options/add-options.compo
   styleUrls: ['./assesments.page.scss'],
 })
 
-export class AssesmentsPage implements OnInit {
+export class AssesmentsPage implements OnInit, AfterViewInit {
 
   Traffic_station: any;
   public Parcels: any = [];
@@ -64,6 +64,7 @@ export class AssesmentsPage implements OnInit {
   newSegment_destination: string;
   drawingManager: google.maps.drawing.DrawingManager;
   shape: any;
+  isMapReady: Boolean = false;
 
 
   constructor(
@@ -81,14 +82,25 @@ export class AssesmentsPage implements OnInit {
 
   ngOnInit() {
 
-    this.global.get_asses_municipality().subscribe(async (value) => {
-      this.assesMunicipality = value;
-    });
-
     this.global.get_asses_MunicipalCoords().subscribe(async (value) => {
       this.decode_path(this.global.munic_Borderline.value);
       this.move_camera(value);
     });
+
+    this.global.get_asses_municipality().subscribe(async (value) => {
+      this.assesMunicipality = value;
+    });
+
+    this.global.get_asses_filter().subscribe(async (value) => {
+      this.filterBy = value;
+      this.set_filter(value)
+    });
+
+    // this.global.get_Segments().subscribe(val => {
+    //   this.Segments = val;
+    //   console.log('get_Segments', val)
+    //   this.set_filter(this.filterBy);
+    // })
 
     this.global.get_MUNIC().subscribe(value => {
       this.MUNIC = value;
@@ -114,43 +126,9 @@ export class AssesmentsPage implements OnInit {
     this.global.get_ASSESMENT_STATUS().subscribe(value => {
       this.ASSESMENT_STATUS = value;
       if (this.Segments) {
-        this.Filter_assesments();
+        this.Filter_segments();
       }
     })
-
-    this.global.get_asses_filter().subscribe(async (value) => {
-      this.filterBy = value;
-      switch (value) {
-        case 'Segments':
-          this.get_segments();
-          console.log('Segments');
-          break;
-
-        case 'Traffic':
-          this.get_traffic_station();
-          console.log('Traffic')
-          break;
-
-        case 'Structures':
-          this.get_structure();
-          console.log('Structures');
-          break;
-
-        case 'Furniture':
-          this.get_furniture();
-          console.log('Furniture');
-          break;
-
-        case 'Assements':
-          this.get_assesments();
-          console.log('Assements');
-          break;
-
-        default:
-          break;
-      }
-
-    });
 
     this.global.get_isDrawing().subscribe(value => {
       switch (value) {
@@ -166,7 +144,12 @@ export class AssesmentsPage implements OnInit {
       }
     })
 
+
     this.load_map();
+  }
+
+  ngAfterViewInit() {
+
   }
 
 
@@ -714,8 +697,6 @@ export class AssesmentsPage implements OnInit {
       { name: "Map" }
     );
 
-
-
     this.map = new google.maps.Map(document.getElementById('map_canvas'), {
       center: this.center,
       zoom: 9,
@@ -744,6 +725,10 @@ export class AssesmentsPage implements OnInit {
       this.reverse_geocode(latlang);
     }
 
+    var set_isMapReady = (val) => {
+      this.isMapReady = val;
+    }
+
 
     google.maps.event.addListener(this.map, "idle", function () {
       var center = this.getCenter();
@@ -752,7 +737,10 @@ export class AssesmentsPage implements OnInit {
       console.log("current latitude is: " + latitude);
       console.log("current longitude is: " + longitude);
       reverse_geocode(latitude + ',' + longitude);
+      set_isMapReady(true);
     });
+
+    this.get_segments();
     // this.start_drawing();
   }
 
@@ -839,21 +827,7 @@ export class AssesmentsPage implements OnInit {
   */
   public async Filter_segments() {
 
-    let munic_data: any[] = [];
-    let surface_data: any[] = [];
-    let segment_data: any[] = [];
-    this.segments_length = 0;
 
-    //reset counters
-    for (let index = 0; index < this.MUNIC_COUNT.length; index++) {
-      this.global.MUNIC_COUNT.value[index].count = 0;
-    }
-    for (let index = 0; index < this.SURF_TYPE_COUNT.length; index++) {
-      this.global.SURF_TYPE_COUNT.value[index].count = 0;
-    }
-    for (let index = 0; index < this.SEGMENT_STATUS_COUNT.length; index++) {
-      this.global.SEGMENT_STATUS_COUNT.value[index].count = 0;
-    }
 
     const loading = await this.loadingCtrl.create({
       message: 'filtering ...'
@@ -861,88 +835,196 @@ export class AssesmentsPage implements OnInit {
 
     await loading.present()
 
-    //filter by surface type
-    for (let index = 0; index < this.Segments.length; index++) {
-      for (let x = 0; x < this.SURF_TYPE.length; x++) {
-        const SURF_TYPE = this.SURF_TYPE[x];
-        if (SURF_TYPE.name == this.Segments[index].SURF_TYPE && SURF_TYPE.isChecked) {
-          surface_data.push(await this.Segments[index])
-        }
-      }
 
-      //count per surface type
-      for (let i = 0; i < this.SURF_TYPE_COUNT.length; i++) {
-        if (this.SURF_TYPE_COUNT[i].code == this.Segments[index].SURF_TYPE) {
-          this.global.SURF_TYPE_COUNT.value[i].count++;
-        }
-      }
 
-      //count per municipality
-      for (let i = 0; i < this.MUNIC_COUNT.length; i++) {
-        if (this.MUNIC_COUNT[i].code == this.Segments[index].MUNIC) {
-          this.global.MUNIC_COUNT.value[i].count++;
-        }
-      }
+    if (this.Segments.length > 0) {
 
-      //count per segment_status
-      for (let i = 0; i < this.SEGMENT_STATUS_COUNT.length; i++) {
-        if (this.SEGMENT_STATUS_COUNT[i].level == this.Segments[index].SEGMENT_STATUS) {
-          this.global.SEGMENT_STATUS_COUNT.value[i].count++;
+      //reset counters
+      for (let index = 0; index < this.MUNIC_COUNT.length; index++) {
+        this.global.MUNIC_COUNT.value[index].count = 0;
+      }
+      for (let index = 0; index < this.SURF_TYPE_COUNT.length; index++) {
+        this.global.SURF_TYPE_COUNT.value[index].count = 0;
+      }
+      for (let index = 0; index < this.SEGMENT_STATUS_COUNT.length; index++) {
+        this.global.SEGMENT_STATUS_COUNT.value[index].count = 0;
+      }
+      this.clear_map();
+      this.results_count = 0;
+      this.segments_length = 0;
+
+      for (let index = 0; index < this.Segments.length; index++) {
+
+        var isSurf_type = false;
+        var isMunic = false;
+        var isAsses_Status = false;
+
+        //SEGMENT_STATUS
+        for (let x = 0; x < this.SEGMENT_STATUS.length; x++) {
+          const SEGMENT_STATUS = this.SEGMENT_STATUS[x];
+          if (SEGMENT_STATUS.level == this.Segments[index].SEGMENT_STATUS && SEGMENT_STATUS.isChecked) {
+            isAsses_Status = true;
+          }
+        }
+
+        //MUNIC
+        for (let x = 0; x < this.MUNIC.length; x++) {
+          const MUNIC = this.MUNIC[x];
+          if (MUNIC.code == this.Segments[index].MUNIC && MUNIC.isChecked) {
+            isMunic = true;
+          }
+        }
+
+        //SURF_TYPE
+        for (let x = 0; x < this.SURF_TYPE.length; x++) {
+          const SURF_TYPE = this.SURF_TYPE[x];
+          if (SURF_TYPE.name == this.Segments[index].SURF_TYPE && SURF_TYPE.isChecked) {
+            isSurf_type = true;
+          }
+        }
+
+        //Counts
+        //count per assesment
+        for (let i = 0; i < this.SEGMENT_STATUS_COUNT.length; i++) {
+          if (this.SEGMENT_STATUS_COUNT[i].level == this.Segments[index].SEGMENT_STATUS) {
+            this.global.SEGMENT_STATUS_COUNT.value[i].count++;
+          }
+        }
+
+        //count per surface type
+        for (let i = 0; i < this.SURF_TYPE_COUNT.length; i++) {
+          if (this.SURF_TYPE_COUNT[i].code == this.Segments[index].SURF_TYPE) {
+            this.global.SURF_TYPE_COUNT.value[i].count++;
+          }
+        }
+
+        //count per municipality
+        for (let i = 0; i < this.MUNIC_COUNT.length; i++) {
+          if (this.MUNIC_COUNT[i].code == this.Segments[index].MUNIC) {
+            this.global.MUNIC_COUNT.value[i].count++;
+          }
+        }
+
+        if (isSurf_type && isMunic && isAsses_Status) {
+
+          this.results_count++
+          var points = this.Segments[index].snap_points;
+
+          var id: any = this.Segments[index].SEG_ID;
+          this.segments_length += this.Segments[index].length_km;
+          this.draw_polyline(points, id, this.Segments[index].SEGMENT_STATUS, false)
+
         }
       }
     }
 
-    //filter by municipality
-    for (let index = 0; index < surface_data.length; index++) {
-      for (let x = 0; x < this.MUNIC.length; x++) {
-        const MUNIC = this.MUNIC[x];
-        if (MUNIC.code == surface_data[index].MUNIC && MUNIC.isChecked) {
-          munic_data.push(await surface_data[index])
+
+
+    await loading.dismiss();
+
+  }
+
+  /**
+* search_segments
+*/
+  public async search_segments() {
+
+
+
+    const loading = await this.loadingCtrl.create({
+      message: 'searching ...'
+    })
+
+    await loading.present()
+
+
+
+    if (this.Segments.length > 0) {
+
+      //reset counters
+      for (let index = 0; index < this.MUNIC_COUNT.length; index++) {
+        this.global.MUNIC_COUNT.value[index].count = 0;
+      }
+      for (let index = 0; index < this.SURF_TYPE_COUNT.length; index++) {
+        this.global.SURF_TYPE_COUNT.value[index].count = 0;
+      }
+      for (let index = 0; index < this.SEGMENT_STATUS_COUNT.length; index++) {
+        this.global.SEGMENT_STATUS_COUNT.value[index].count = 0;
+      }
+      this.clear_map();
+      this.results_count = 0;
+      this.segments_length = 0;
+
+      console.log('searchText:', this.searchText)
+
+      for (let index = 0; index < this.Segments.length; index++) {
+
+        var isSurf_type = false;
+        var isMunic = false;
+        var isAsses_Status = false;
+
+        //SEGMENT_STATUS
+        for (let x = 0; x < this.SEGMENT_STATUS.length; x++) {
+          const SEGMENT_STATUS = this.SEGMENT_STATUS[x];
+          if (SEGMENT_STATUS.level == this.Segments[index].SEGMENT_STATUS && SEGMENT_STATUS.isChecked) {
+            isAsses_Status = true;
+          }
+        }
+
+        //MUNIC
+        for (let x = 0; x < this.MUNIC.length; x++) {
+          const MUNIC = this.MUNIC[x];
+          if (MUNIC.code == this.Segments[index].MUNIC && MUNIC.isChecked) {
+            isMunic = true;
+          }
+        }
+
+        //SURF_TYPE
+        for (let x = 0; x < this.SURF_TYPE.length; x++) {
+          const SURF_TYPE = this.SURF_TYPE[x];
+          if (SURF_TYPE.name == this.Segments[index].SURF_TYPE && SURF_TYPE.isChecked) {
+            isSurf_type = true;
+          }
+        }
+
+        //Counts
+        //count per assesment
+        for (let i = 0; i < this.SEGMENT_STATUS_COUNT.length; i++) {
+          if (this.SEGMENT_STATUS_COUNT[i].level == this.Segments[index].SEGMENT_STATUS) {
+            this.global.SEGMENT_STATUS_COUNT.value[i].count++;
+          }
+        }
+
+        //count per surface type
+        for (let i = 0; i < this.SURF_TYPE_COUNT.length; i++) {
+          if (this.SURF_TYPE_COUNT[i].code == this.Segments[index].SURF_TYPE) {
+            this.global.SURF_TYPE_COUNT.value[i].count++;
+          }
+        }
+
+        //count per municipality
+        for (let i = 0; i < this.MUNIC_COUNT.length; i++) {
+          if (this.MUNIC_COUNT[i].code == this.Segments[index].MUNIC) {
+            this.global.MUNIC_COUNT.value[i].count++;
+          }
+        }
+
+        let compString = String(this.Segments[index].SEG_ID).toLowerCase()
+
+        if (compString.substring(0, this.searchText.length) == this.searchText.toLowerCase()) {
+
+          this.results_count++
+          var points = this.Segments[index].snap_points;
+
+          var id: any = this.Segments[index].SEG_ID;
+          this.segments_length += this.Segments[index].length_km;
+          this.draw_polyline(points, id, this.Segments[index].SEGMENT_STATUS, true)
+
         }
       }
     }
 
-    //filter by Segement_status
-    for (let index = 0; index < munic_data.length; index++) {
-      for (let x = 0; x < this.SEGMENT_STATUS.length; x++) {
-        const SEGMENT_STATUS = this.SEGMENT_STATUS[x];
-        if (SEGMENT_STATUS.level == munic_data[index].SEGMENT_STATUS && SEGMENT_STATUS.isChecked) {
-          segment_data.push(await munic_data[index])
-        }
-      }
-    }
 
-
-    //finally plot
-    this.clear_map();
-    this.results_count = segment_data.length;
-
-    for (let index = 0; index < segment_data.length; index++) {
-      var points = segment_data[index].snap_points;
-
-      var start_latitude = Number(segment_data[index].START_LATITUDE);
-      var start_longitude = Number(segment_data[index].START_LONGITUDE);
-      var end_latitude = Number(segment_data[index].END_LATITUDE);
-      var end_longitude = Number(segment_data[index].END_LONGITUDE);
-
-      var path = [
-        { lat: start_latitude, lng: start_longitude },
-        { lat: end_latitude, lng: end_longitude }
-      ]
-
-      var id: any = segment_data[index].SEG_ID;
-      // this.segments_length += (Number(segment_data[index].END_KM)) - Number(segment_data[index].START_KM);
-      this.segments_length += segment_data[index].length_km;
-
-      this.draw_polyline(points, id, segment_data[index].SEGMENT_STATUS)
-
-      // if (points) {
-      //   for (let i = 0; i < points.length; i++) {
-      //     path.push(points[i])
-      //     this.draw_polyline(path, id, munic_data[index].SEGMENT_STATUS)
-      //   }
-      // }
-    }
 
     await loading.dismiss();
 
@@ -1069,7 +1151,7 @@ export class AssesmentsPage implements OnInit {
           break;
       }
 
-      this.draw_polyline(points, id, SEGMENT_STATUS);
+      this.draw_polyline(points, id, SEGMENT_STATUS, false);
     }
 
     await loading.dismiss();
@@ -1240,7 +1322,7 @@ export class AssesmentsPage implements OnInit {
         this.newSegment_origin = path[0].location.latitude + ',' + path[0].location.longitude;
         this.newSegment_destination = path[path.length - 1].location.latitude + ',' + path[path.length - 1].location.longitude
         this.get_distance(this.newSegment_origin, this.newSegment_destination);
-        this.draw_polyline(encodedPath, '', '');
+        this.draw_polyline(encodedPath, '', '', false);
 
       }
 
@@ -1249,7 +1331,7 @@ export class AssesmentsPage implements OnInit {
     })
   }
 
-  public async draw_polyline(path, id, status) {
+  public async draw_polyline(path, id, status, is_search) {
     var color;
     switch (status) {
       case 0:
@@ -1275,7 +1357,6 @@ export class AssesmentsPage implements OnInit {
         color = '#4B0082';
         break;
     }
-
 
     let polyline = new google.maps.Polyline({
       path: google.maps.geometry.encoding.decodePath(path),
@@ -1315,6 +1396,17 @@ export class AssesmentsPage implements OnInit {
     });
 
     polyline.setMap(this.map);
+
+    if (is_search) {
+      var bounds = new google.maps.LatLngBounds();
+      var coordinates = google.maps.geometry.encoding.decodePath(path)
+      for (var i = 0; i < coordinates.length; i++) {
+        bounds.extend(coordinates[i]);
+      }
+      this.map.fitBounds(bounds);
+    }
+
+
   }
 
   /**
@@ -1552,5 +1644,44 @@ export class AssesmentsPage implements OnInit {
 
     this.Filter_assesments();
     // })
+  }
+
+  set_filter(filterBy) {
+
+    if (this.isMapReady == false) {
+      return;
+    }
+
+    switch (filterBy) {
+      case 'Segments':
+        this.get_segments();
+
+        // this.Filter_segments();
+        console.log('Segments');
+        break;
+
+      case 'Traffic':
+        this.get_traffic_station();
+        console.log('Traffic')
+        break;
+
+      case 'Structures':
+        this.get_structure();
+        console.log('Structures');
+        break;
+
+      case 'Furniture':
+        this.get_furniture();
+        console.log('Furniture');
+        break;
+
+      case 'Assements':
+        this.get_assesments();
+        console.log('Assements');
+        break;
+
+      default:
+        break;
+    }
   }
 }

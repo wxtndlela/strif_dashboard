@@ -23,7 +23,6 @@ export class ApiService {
   //api server URL
   
   _Url = "https://novo-rams-backend.onrender.com";
-  // _Url = "https://strif-backend.herokuapp.com";
 
   public _Url1 = "https://lmcapi.onrender.com";
   key = "AIzaSyDpdp4k5ZfK03StYzYWLwnan7oex-s7Org";

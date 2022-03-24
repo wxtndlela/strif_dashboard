@@ -74,6 +74,10 @@ const routes: Routes = [
   {
     path: 'add-structure',
     loadChildren: () => import('./add-structure/add-structure.module').then( m => m.AddStructurePageModule)
+  },
+  {
+    path: 'map-modal',
+    loadChildren: () => import('./map-modal/map-modal.module').then( m => m.MapModalPageModule)
   }
 
 

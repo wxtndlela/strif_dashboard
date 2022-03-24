@@ -77,7 +77,8 @@
         <ion-col>
           <ion-item class="input-valid">
             <ion-label style="text-align: left;">Province:</ion-label>
-            <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss" formControlName="province">
+            <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss"
+              formControlName="province">
               <ion-select-option *ngFor="let item of Province" value="{{item.name}}">{{item.name}}</ion-select-option>
             </ion-select>
           </ion-item>
@@ -88,7 +89,7 @@
       </ion-row>
 
       <ion-row>
-        <ion-col >
+        <ion-col>
           <ion-item class="input-valid">
             <ion-label style="text-align: left;">District Municipality:</ion-label>
             <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss"
@@ -105,7 +106,7 @@
       </ion-row>
 
       <ion-row>
-        <ion-col >
+        <ion-col>
           <ion-item class="input-valid">
             <ion-label style="text-align: left;">Local municipality:</ion-label>
             <ion-select [disabled]="!this.uuid" value="select" okText="Okay" cancelText="Dismiss"
@@ -125,43 +126,43 @@
 
       <ion-row>
         <ion-col *ngIf="!this.uuid">
-          
+
           <br>
           <ion-item lines="full" (click)="updateProfile()">
             <ion-label color="primary" style="text-align: center;">
               Update Profile
             </ion-label>
           </ion-item>
-  
+
           <br>
-  
+
           <ion-item lines="full" (click)="openChangePass()">
             <ion-label color="primary" style="text-align: center;">
               Change password
             </ion-label>
           </ion-item>
-  
+
           <br>
-  
+
           <ion-item lines="full" (click)="openChangePass()">
             <ion-label color="danger" style="text-align: center;">
               Logout
             </ion-label>
           </ion-item>
-  
+
           <!-- <br>
           <ion-item  lines="full" (click)="delete_user()">
             <ion-label color="danger" style="text-align: center;">
               Delete account
             </ion-label>
           </ion-item> -->
-  
-  
-  
+
+
+
         </ion-col>
       </ion-row>
 
-    
+
 
     </form>
   </ion-grid>

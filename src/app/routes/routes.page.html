@@ -63,9 +63,9 @@
               <th>Start date</th>
               <th></th>
             </tr>
-            <tr (click)="open_segment(segment.id)" *ngFor="let segment of Segments;">
+            <tr (click)="open_segment(segment)" *ngFor="let segment of Segments;">
               <td>{{segment.id}}</td>
-              <td>{{segment.DISTRICT}} KM</td>
+              <td>{{segment.DISTRICT}} </td>
               <td>{{segment.MUNIC}}</td>
               <td>{{segment.END_KM}}</td>
               <td>{{segment.START_DATE}}</td>
