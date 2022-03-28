@@ -17,6 +17,7 @@ import { FirebaseService } from '../services/firebase.service';
 import { GlobalSettings } from '../services/global.service';
 import { FileService } from '../services/file.service';
 import { GoogleChartsModule } from 'angular-google-charts';
+import { MapService } from '../services/map.service';
 
 // Firebase
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -69,6 +70,7 @@ import { File } from '@ionic-native/file/ngx';
     ApiService,
     AlertService,
     ToasterService,
+    MapService,
     StatusBar,
     File,
     FileService

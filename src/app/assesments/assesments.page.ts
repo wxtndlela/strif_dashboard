@@ -10,7 +10,11 @@ import { AddSegmentPage } from '../add-segment/add-segment.page';
 import { InfoModalPage } from '../components/info-modal/info-modal.page';
 import { LayersComponent } from '../components/layers/layers.component';
 import { AddOptionsComponent } from '../components/add-options/add-options.component';
-
+import { poly2geo } from '../../assets/js/map.service';
+import tokml from "geojson-to-kml";
+import polyline from '@mapbox/polyline';
+import * as shpwrite from 'shp-write';
+import { FileService } from '../../services/file.service';
 @Component({
   selector: 'app-assesments',
   templateUrl: './assesments.page.html',
@@ -75,7 +79,8 @@ export class AssesmentsPage implements OnInit, AfterViewInit {
     private global: GlobalSettings,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private file: FileService
   ) {
     this.list = this.SURF_TYPE;
   }
@@ -811,11 +816,16 @@ export class AssesmentsPage implements OnInit, AfterViewInit {
 
     loading.present();
 
-    this.api.get_all_segments('', 'SortBy', 'filterBy', 'funnelBy').subscribe(data => {
+    this.api.get_all_segments('', 'SortBy', 'filterBy', 'funnelBy').subscribe(async data => {
       console.log('Segment data:', data.data);
+
       this.Segments = data.data;
       this.results_count = data.data.length;
       loading.dismiss();
+
+
+      // this.mapService.polyline_to_geojson(this.Segments[0].snap_points)
+
 
       this.Filter_segments();
     })
@@ -928,7 +938,6 @@ export class AssesmentsPage implements OnInit, AfterViewInit {
 * search_segments
 */
   public async search_segments() {
-
 
 
     const loading = await this.loadingCtrl.create({
@@ -1358,6 +1367,8 @@ export class AssesmentsPage implements OnInit, AfterViewInit {
         break;
     }
 
+
+
     let polyline = new google.maps.Polyline({
       path: google.maps.geometry.encoding.decodePath(path),
       geodesic: true,
@@ -1683,5 +1694,91 @@ export class AssesmentsPage implements OnInit, AfterViewInit {
       default:
         break;
     }
+  }
+
+  async convert_to_shap(geojson) {
+    shpwrite.download(geojson, {
+    })
+  }
+
+  async convert_to_kml() {
+
+    const loading = await this.loadingCtrl.create({
+      message: 'generating kml file ....'
+    })
+
+    await loading.present();
+
+
+    //start
+    let kml = `<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document>`
+
+    for (let x = 0; x < this.Segments.length; x++) {
+
+      const segment = this.Segments[x];
+      let poly = segment.snap_points;
+      const geo = await polyline.toGeoJSON(poly);
+      let type = geo.type;
+      var color;
+      switch (segment.SEGMENT_STATUS) {
+        case 0:
+          color = '4b0082ff';
+          break;
+        case 1:
+          color = '0583f2ff';
+          break;
+        case 2:
+          color = '2dd36fff';
+          break;
+        case 3:
+          color = 'f2c849ff';
+          break;
+        case 4:
+          color = 'f27405ff';
+          break;
+        case 5:
+          color = 'eb445aff';
+          break;
+        default:
+          color = '4b0082ff';
+          break;
+      }
+
+      let coordinates = '';
+      for (let y = 0; y < geo.coordinates.length; y++) {
+        const c = geo.coordinates[y];
+        coordinates += `${c[0]},${c[1]} `;
+      }
+      kml += `<Placemark id="${segment.SEG_ID}"><description><![CDATA[<table border=1><tr><td>SEG_ID</td><td>${segment.SEG_ID}</td></tr><tr><td>DISTRICT:  </td><td>${segment.DISTRICT}</td></tr><tr><td>MUNIC:  </td><td>${segment.MUNIC}</td></tr><tr><td>START_KM</td><td>${segment.START_KM}</td></tr><tr><td>END_KM</td><td>${segment.END_KM}</td></tr><tr><td>SURF_TYPE</td><td>${segment.SURF_TYPE}</td></tr></table>]]></description><Style><LineStyle><color>${color}</color><width>8</width></LineStyle></Style><ExtendedData></ExtendedData><${type}><coordinates>${coordinates}</coordinates></${type}></Placemark>`
+    }
+
+    //end
+    kml += `</Document></kml>`;
+
+    this.file.exportAsKmlFile(kml, 'GSDM segments');
+    await loading.dismiss();
+    // this.convert_to_shap(geojson[0]);
+
+    // console.log('polyline_to_geojson', geojson)
+    // console.log('kml:', kml)
+  }
+
+  async get_kml(geojson) {
+    let kml = await tokml(geojson, {
+      name: 'name',
+      description: 'description'
+    });
+    return kml;
+  }
+
+  async get_geojson() {
+    let geojson: object[] = [];
+    for (let index = 0; index < this.Segments.length; index++) {
+      const segment = this.Segments[index];
+      let p = segment.snap_points;
+      //pushing p
+      geojson.push(polyline.toGeoJSON(p));
+    }
+    return geojson;
   }
 }

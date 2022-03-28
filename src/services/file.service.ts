@@ -6,6 +6,8 @@ import { File } from '@ionic-native/file/ngx';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 const CSV_EXTENSION = '.csv';
+const KML_EXTENSION = '.kml';
+
 
 @Injectable()
 export class FileService {
@@ -45,16 +47,23 @@ export class FileService {
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + CSV_EXTENSION);
   }
 
-  public async readFile (path,fileName){
-    var file ;
-    this.file.readAsDataURL(path,fileName).then(value =>{
+  public exportAsKmlFile(kml: any, fileName: string) {
+    const data: Blob = new Blob([kml], {
+      type: 'text'
+    });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + KML_EXTENSION);
+  }
+
+  public async readFile(path, fileName) {
+    var file;
+    this.file.readAsDataURL(path, fileName).then(value => {
       console.log(value)
     })
 
     return file;
   }
 
-  public download_file(_url : any, fileName){
+  public download_file(_url: any, fileName) {
 
     const link = document.createElement('a');
     link.href = _url;
